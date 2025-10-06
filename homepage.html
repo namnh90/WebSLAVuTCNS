@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WEB THỐNG KÊ SLA</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --nav: #f4ebdd;
+            --text: #222;
+            --card: #ffffff;
+            --muted: #555;
+            --accent: #a87d48;
+            --accent-2: #d27d2d;
+            --radius: 12px;
+            --shadow: 0 4px 18px rgba(0, 0, 0, .08);
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .navbar {
+            background: linear-gradient(180deg, var(--nav) 0%, #ffffff 100%);
+            color: var(--text);
+            height: 70px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .logo img {
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .navbar h1 {
+            margin: 0 20px;
+            font-size: 20px;
+            flex: 1;
+        }
+
+        .new-actions {
+            position: relative;
+        }
+
+        .btn-new {
+            background: var(--accent);
+            color: #fff;
+            border: 0;
+            padding: 8px 14px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-new:hover {
+            opacity: 0.9;
+        }
+
+        .new-menu {
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            min-width: 900px;
+            z-index: 100;
+        }
+
+        .new-menu a {
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .new-menu a:hover {
+            background: #f9f6f0;
+            color: var(--accent-2);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        .sidebar {
+            width: 260px;
+            background: #f9f6f0;
+            border-right: 1px solid #ddd;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 12px;
+        }
+
+        .sidebar li {
+            margin: 6px 0;
+            cursor: pointer;
+        }
+
+        .sidebar li.disabled {
+            color: #bbb;
+            cursor: not-allowed;
+        }
+
+        .sidebar li:hover:not(.disabled) {
+            color: var(--accent-2);
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 28px;
+            color: var(--accent);
+        }
+
+        .card p {
+            margin: 6px 0 0;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: flex-end;
+            /* đẩy sang phải */
+            margin: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background: var(--card);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            border: 1px solid #eee;
+            padding: 10px;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        th {
+            background: #f9f6f0;
+            color: var(--text);
+        }
+
+        .btn-orange {
+            background: #ff9800;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-blue {
+            background: #2196f3;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-green {
+            background: green;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .tree {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tree li {
+            margin: 6px 0;
+        }
+
+        .tree .dept-item {
+            cursor: pointer;
+            display: block;
+            font-weight: 500;
+        }
+
+        .tree .dept-item:hover {
+            color: var(--accent-2);
+        }
+
+        .tree .sub {
+            list-style: none;
+            padding-left: 18px;
+            margin-top: 4px;
+        }
+
+        .tree .sub li {
+            margin: 4px 0;
+            cursor: pointer;
+        }
+
+        .tree .sub li:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo"><img src="photo/logo-nhnnvn-3-1129x800.webp" alt="Logo"></div>
+        <h1>WEB THỐNG KÊ SLA</h1>
+        <div class="new-actions" style="display: none;" >
+            <button class="btn-green">➕ Tạo mới</button>
+            <div class="new-menu hidden" id="newMenu">
+                <a href="#" onclick="openProcessNew('test.html')">Kế hoạch tuyển dụng công chức loại D tại các NHNN chi
+                    nhánh Khu vực</a>
+                <a href="#" onclick="openProcessNew('test1.html')">Cử cán bộ đi công tác nước ngoài</a>
+                <a href="#" onclick="openProcessNew('test2.html')">Tổ chức đón nhận các danh hiệu thi đua, hình thức
+                    khen thưởng cấp Nhà Nước, cấp Ngành</a>
+                <a href="#" onclick="openProcessNew('test3.html')">Triển khai quy hoạch Lãnh Đạo cấp Phòng tại NHTW</a>
+                <a href="#" onclick="openProcessNew('test4.html')">Phê Duyệt Đối Với Nâng Lương Thường Xuyên, Phụ Cấp
+                    Thâm Niên Vượt Khung
+                    Thuộc Thẩm Quyền Vụ TCCB Duyệt Ký</a>
+                <a href="#" onclick="openProcessNew('test5.html')">Xây dựng báo cáo định kỳ/đột xuất/tham gia ý kiến/trả
+                    lời kiến nghị gửi các
+                    đơn vị thuộc NHNN do lãnh đạo Vụ TCCB duyệt ký</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout">
+        <div class="sidebar">
+            <h3>🏢 Danh sách văn bản đến</h3>
+            <ul id="deptMenu" class="tree">
+                <li><span class="dept-item" onclick="filterDept('ALL')"><b>Tất cả</b></span></li>
+                <li><span class="dept-item" onclick="toggleSub('sub-dept-1','ĐÀO TẠO VÀ PHÁT TRIỂN NGUỒN NHÂN LỰC')">📂
+                        Văn bản chưa xử lý</span>
+                    <ul id="sub-dept-1" class="sub hidden"></ul>
+                </li>
+                <li><span class="dept-item" onclick="toggleSub('sub-dept-2','THI ĐUA KHEN THƯỞNG')">📂 Văn bản đang xử lý</span>
+                    <ul id="sub-dept-2" class="sub hidden"></ul>
+                </li>
+                <li><span class="dept-item" onclick="toggleSub('sub-dept-3','CÁN BỘ ĐỊA PHƯƠNG')">📂 Văn bản đã xử lý</span>
+                    <ul id="sub-dept-3" class="sub hidden"></ul>
+                </li>
+                
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="stats">
+                <div class="card">
+                    <h2 id="total">0</h2>
+                    <p>Tổng số tờ trình</p>
+                </div>
+                <div class="card">
+                    <h2 id="completed">0</h2>
+                    <p>Đã hoàn thành</p>
+                </div>
+                <div class="card">
+                    <h2 id="pending">0</h2>
+                    <p>Đang pending</p>
+                </div>
+                <div class="card">
+                    <h2 id="avgTime">0 ngày</h2>
+                    <p>Thời gian xử lý TB</p>
+                </div>
+                <div class="card">
+                    <h2 id="sumStraight">0</h2>
+                    <p>Tổng còn lại (chạy thẳng)</p>
+                </div>
+                <div class="card">
+                    <h2 id="sumConflict">0</h2>
+                    <p>Tổng còn lại (tất cả trường hợp dự kiến)</p>
+                </div>
+
+
+            </div>
+            <div class="action-bar">
+                <button class="btn-blue" onclick="refreshDataHybrid()">🔄 Refresh</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>REF</th>
+                        <th>Phòng ban</th>
+                        <th>Quy trình</th>
+                        <th>Bước hiện tại</th>
+                        <th>Thời gian đã trôi qua</th>
+                        <th>Ước tính thời gian cần thiết (Chạy thẳng)</th>
+                        <th>Ước tính thời gian cần thiết (Có phát sinh vấn đề)</th>
+                        <th>Nhân sự pending</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="refTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // ✅ Demo data (chuẩn hóa từ Sheet4 – chia riêng ykienData và luanchuyenData)
+        const rawData = [{
+    chitietData: {
+      soVanBan: "1512/TCKT5",
+      stt: "12933",
+      ngayGuiDen: "03/10/2025",
+      ngayVanBan: "03/10/2025",
+      coQuanGui: "Vụ Tài chính - Kế toán",
+      loaiVanBan: "Công văn",
+      doMat: "Thường",
+      doKhan: "Thường",
+      trichYeu: "V/v Lộ trình triển khai giá dịch vụ sự nghiệp công",
+      ghiChu: "",
+      trangThaiND: "Chưa xử lý",
+      trangThaiVB: "Đang xử lý",
+      fileDinhKem: "1512-TCKT5-03102025.pdf"
+    },
+                ykienData: [
+                    {
+                        "Người bút phê": "Lê Anh Hảo",
+                        "Thời gian": "30/09/2025 09:45 AM",
+                        "Nội dung": "K/c Quang xly, b/c c.Thảo PTP (TL mật đính kèm ngày 30/9 mới nhận được)",
+                        "Phòng ban đầu mối": "",
+                        "Phòng ban phối hợp": "",
+                        "Hạn xử lý": "",
+                        "col7": "",
+                        "col8": "",
+                        "col9": "",
+                        "ref": 12933
+                    },
+                    {
+                        "Người bút phê": "Lê Thị Kim Oanh",
+                        "Thời gian": "24/09/2025 08:04 AM",
+                        "Nội dung": "Báo cáo Trưởng phòng, đến hết ngày 23/9/2025, tài liệu mật đính kèm chưa gửi đến Vụ TCCB",
+                        "Phòng ban đầu mối": "",
+                        "Phòng ban phối hợp": "",
+                        "Hạn xử lý": "",
+                        "col7": "",
+                        "col8": "",
+                        "col9": "",
+                        "ref": 12933
+                    },
+                    {
+                        "Người bút phê": "Lê Anh Hảo",
+                        "Thời gian": "23/09/2025 20:06 PM",
+                        "Nội dung": "K/c Oanh rà soát vb mật đã đến Vụ chưa",
+                        "Phòng ban đầu mối": "",
+                        "Phòng ban phối hợp": "",
+                        "Hạn xử lý": "",
+                        "col7": "",
+                        "col8": "",
+                        "col9": "",
+                        "ref": 12933
+                    },
+                    {
+                        "Người bút phê": "Nguyễn Anh Tuấn",
+                        "Thời gian": "23/09/2025 13:24 PM",
+                        "Nội dung": "K/ch Phòng TCTL đầu mối nghiên cứu, tham gia ý kiến.",
+                        "Phòng ban đầu mối": "Phòng Tổ chức tiền lương",
+                        "Phòng ban phối hợp": "",
+                        "Hạn xử lý": "",
+                        "col7": "",
+                        "col8": "",
+                        "col9": "",
+                        "ref": 12933
+                    },
+                    {
+                        "Người bút phê": "Nguyễn Quỳnh Anh",
+                        "Thời gian": "23/09/2025 11:42 AM",
+                        "Nội dung": "Kính trình: Phó Vụ Trưởng Nguyễn Anh Tuấn",
+                        "Phòng ban đầu mối": "Phòng Tổ chức tiền lương",
+                        "Phòng ban phối hợp": "",
+                        "Hạn xử lý": "",
+                        "col7": "",
+                        "col8": "",
+                        "col9": "",
+                        "ref": 12933
+                    }
+                ],
+                luanchuyenData: [{ "Người gửi": "0", "Đơn vị nhận": "Lê Anh Hảo", "Người nhận": "", "Thời gian gửi": "Trương Hồng Quang - Đầu mối", "Thời gian nhận": "30/09/2025 09:45 AM", "Môi trường": "30/09/2025 10:02 AM", "Trạng thái": "Hệ thống", "Lý do": "Đã nhận", "col9": "", "col10": "", "col11": "", "ref": 12933 }, { "Người gửi": "0", "Đơn vị nhận": "Lê Anh Hảo", "Người nhận": "", "Thời gian gửi": "Nguyễn Thị Bích Thảo  - Đầu mối", "Thời gian nhận": "30/09/2025 09:45 AM", "Môi trường": "30/09/2025 10:05 AM", "Trạng thái": "Hệ thống", "Lý do": "Đã nhận", "col9": "", "col10": "", "col11": "", "ref": 12933 }, { "Người gửi": "0", "Đơn vị nhận": "Lê Thị Kim Oanh", "Người nhận": "", "Thời gian gửi": "Lê Anh Hảo  - Đầu mối", "Thời gian nhận": "24/09/2025 08:04 AM", "Môi trường": "26/09/2025 01:29 PM", "Trạng thái": "Hệ thống", "Lý do": "Đã nhận", "col9": "", "col10": "", "col11": "", "ref": 12933 }, { "Người gửi": "0", "Đơn vị nhận": "Lê Anh Hảo", "Người nhận": "", "Thời gian gửi": "Lê Thị Kim Oanh  - Đầu mối", "Thời gian nhận": "23/09/2025 08:06 PM", "Môi trường": "24/09/2025 08:02 AM", "Trạng thái": "Hệ thống", "Lý do": "Đã nhận", "col9": "", "col10": "", "col11": "", "ref": 12933 }, { "Người gửi": "10113", "Đơn vị nhận": "Phong To chuc - Tien luong (TCCB)", "Người nhận": "Vụ Tổ chức cán bộ NHNN", "Thời gian gửi": "Lê Anh Hảo", "Thời gian nhận": "23/09/2025 01:36 PM", "Môi trường": "23/09/2025 08:05 PM", "Trạng thái": "Hệ thống", "Lý do": "Đã nhận", "col9": "", "col10": "", "col11": "", "ref": 12933 }, { "Người gửi": "10113", "Đơn vị nhận": "Nguyễn Quỳnh Anh", "Người nhận": "Vụ Tổ chức cán bộ NHNN", "Thời gian gửi": "Nguyễn Anh Tuấn", "Thời gian nhận": "23/09/2025 11:42 AM", "Môi trường": "23/09/2025 01:24 PM", "Trạng thái": "Hệ thống", "Lý do": "Đã nhận", "col9": "", "col10": "", "col11": "", "ref": 12933 }, { "Người gửi": "10113", "Đơn vị nhận": "CucAnToanHTTCTD VanThu", "Người nhận": "Vụ Tổ chức cán bộ NHNN", "Thời gian gửi": "Lê Thị Kim Oanh", "Thời gian nhận": "23/09/2025 11:09 AM", "Môi trường": "24/09/2025 08:02 AM", "Trạng thái": "Hệ thống", "Lý do": "Đã nhận", "col9": "", "col10": "", "col11": "", "ref": 12933 }, { "Người gửi": "10408", "Đơn vị nhận": "Nguyễn Anh Tuấn", "Người nhận": "Phòng Tổ chức tiền lương", "Thời gian gửi": "Phong To chuc - Tien luong (TCCB) - Đầu mối", "Thời gian nhận": "23/09/2025 01:24 PM", "Môi trường": "23/09/2025 01:36 PM", "Trạng thái": "Hệ thống", "Lý do": "Đã nhận", "col9": "", "col10": "", "col11": "", "ref": 12933 }, { "Người gửi": "10408", "Đơn vị nhận": "Nguyễn Quỳnh Anh", "Người nhận": "Phòng Tổ chức tiền lương", "Thời gian gửi": "Phong To chuc - Tien luong (TCCB)  - Đầu mối", "Thời gian nhận": "23/09/2025 11:42 AM", "Môi trường": "23/09/2025 01:36 PM", "Trạng thái": "Hệ thống", "Lý do": "Đã nhận", "col9": "", "col10": "", "col11": "", "ref": 12933 }].map(normalizeRow)
+            },
+            {
+    chitietData: {
+      soVanBan: "1512/TCKT5",
+      stt: "11215",
+      ngayGuiDen: "03/10/2025",
+      ngayVanBan: "03/10/2025",
+      coQuanGui: "Vụ Tài chính - Kế toán",
+      loaiVanBan: "Công văn",
+      doMat: "Thường",
+      doKhan: "Thường",
+      trichYeu: "V/v Lộ trình triển khai giá dịch vụ sự nghiệp công",
+      ghiChu: "",
+      trangThaiND: "Chưa xử lý",
+      trangThaiVB: "Đang xử lý",
+      fileDinhKem: "1512-TCKT5-03102025.pdf"
+    },
+                ykienData: [
+                    {
+                        "Người bút phê": "Nguyễn Anh Tuấn",
+                        "Thời gian": "16/08/2025 14:23 PM",
+                        "Nội dung": "K/ch Phòng TCTL đầu mối phối hợp các phòng liên quan, nghiên cứu, tham gia ý kiến.",
+                        "Phòng ban đầu mối": "Phòng Tổ chức tiền lương",
+                        "ref": 11215
+                    },
+                    {
+                        "Người bút phê": "Lê Anh Hảo",
+                        "Thời gian": "15/08/2025 14:09 PM",
+                        "Nội dung": "K/c Quang xly, b/c c.thảo - PTP",
+                        "ref": 11215
+                    },
+                    {
+                        "Người bút phê": "Nguyễn Quỳnh Anh",
+                        "Thời gian": "15/08/2025 13:44 PM",
+                        "Nội dung": "Kính trình: Phó Vụ Trưởng Nguyễn Anh Tuấn",
+                        "Phòng ban đầu mối": "Phòng Tổ chức tiền lương",
+                        "ref": 11215
+                    }
+                ],
+                luanchuyenData: [{"Người gửi":"0","Đơn vị nhận":"Lê Anh Hảo","Người nhận":"","Thời gian gửi":"Nguyễn Minh Anh - Phối hợp","Thời gian nhận":"15/08/2025 02:09 PM","Môi trường":"15/08/2025 02:12 PM","Trạng thái":"Hệ thống","Lý do":"Đã nhận","col9":"","col10":"","col11":"","ref":11215},{"Người gửi":"0","Đơn vị nhận":"Lê Anh Hảo","Người nhận":"","Thời gian gửi":"Trương Hồng Quang  \n                - Phối hợp","Thời gian nhận":"15/08/2025 02:09 PM","Môi trường":"15/08/2025 02:28 PM","Trạng thái":"Hệ thống","Lý do":"Đã nhận","col9":"","col10":"","col11":"","ref":11215},{"Người gửi":"0","Đơn vị nhận":"Lê Anh Hảo","Người nhận":"","Thời gian gửi":"Nguyễn Thị Bích Thảo  \n                - Phối hợp","Thời gian nhận":"15/08/2025 02:09 PM","Môi trường":"15/08/2025 03:03 PM","Trạng thái":"Hệ thống","Lý do":"Đã nhận","col9":"","col10":"","col11":"","ref":11215},{"Người gửi":"10113","Đơn vị nhận":"Phong To chuc - Tien luong (TCCB)","Người nhận":"Vụ Tổ chức cán bộ NHNN","Thời gian gửi":"Lê Anh Hảo","Thời gian nhận":"15/08/2025 02:08 PM","Môi trường":"15/08/2025 02:08 PM","Trạng thái":"Hệ thống","Lý do":"Đã nhận","col9":"","col10":"","col11":"","ref":11215},{"Người gửi":"10113","Đơn vị nhận":"Nguyễn Quỳnh Anh","Người nhận":"Vụ Tổ chức cán bộ NHNN","Thời gian gửi":"Nguyễn Anh Tuấn","Thời gian nhận":"15/08/2025 01:44 PM","Môi trường":"16/08/2025 02:22 PM","Trạng thái":"Hệ thống","Lý do":"Đã nhận","col9":"","col10":"","col11":"","ref":11215},{"Người gửi":"10113","Đơn vị nhận":"CucAnToanHTTCTD VanThu","Người nhận":"Vụ Tổ chức cán bộ NHNN","Thời gian gửi":"Lê Thị Kim Oanh","Thời gian nhận":"15/08/2025 11:20 AM","Môi trường":"","Trạng thái":"Hệ thống","Lý do":"Đã gửi","col9":"","col10":"","col11":"","ref":11215},{"Người gửi":"10408","Đơn vị nhận":"Nguyễn Anh Tuấn","Người nhận":"Phòng Tổ chức tiền lương","Thời gian gửi":"Phong To chuc - Tien luong (TCCB) - Đầu mối","Thời gian nhận":"16/08/2025 02:23 PM","Môi trường":"18/08/2025 08:06 AM","Trạng thái":"Hệ thống","Lý do":"Đã nhận","col9":"","col10":"","col11":"","ref":11215},{"Người gửi":"10408","Đơn vị nhận":"Nguyễn Quỳnh Anh","Người nhận":"Phòng Tổ chức tiền lương","Thời gian gửi":"Phong To chuc - Tien luong (TCCB)  - Đầu mối","Thời gian nhận":"15/08/2025 01:44 PM","Môi trường":"15/08/2025 02:08 PM","Trạng thái":"Hệ thống","Lý do":"Đã nhận","col9":"","col10":"","col11":"","ref":11215}].map(normalizeRow)
+            }
+        ];
+
+
+
+
+
+
+        window.tokenKey = sessionStorage.getItem("tokenKey") || "";
+        let currentUser = null;
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const stored = sessionStorage.getItem("currentUser");
+            if (!stored) {
+                alert("⚠️ Bạn chưa đăng nhập!");
+                window.location.href = "loginpage.html";
+                return;
+            }
+            currentUser = JSON.parse(stored);
+            console.log("Đang đăng nhập:", currentUser);  // sẽ thấy dept
+
+            // Lọc sidebar nếu user không thuộc ALL
+            //if (currentUser.dept && currentUser.dept !== "ALL") {
+                //limitSidebarToDept(currentUser.dept);
+            //}
+
+            // ✅ Gọi refreshData để hiển thị dữ liệu bảng ngay sau login
+            refreshDataHybrid();
+        });
+
+        function importToken(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (evt) {
+                window.tokenKey = evt.target.result.trim().replace(/^"|"$/g, "");
+                alert("✅ Đã nạp TOKEN_KEY thành công!");
+            };
+            reader.readAsText(file, "utf-8");
+        }
+
+        function decodeData(encoded) {
+            if (!window.tokenKey || window.tokenKey.trim() === "") return null;
+            try {
+                const combined = decodeURIComponent(escape(atob(encoded)));
+                const [base64, token] = combined.split("::");
+                if (token.trim() !== window.tokenKey.trim()) return null;
+                return JSON.parse(decodeURIComponent(escape(atob(base64))));
+            } catch { return null; }
+        }
+
+        function parseVNDate(str) {
+            if (!str) return null;
+            const [date, time] = str.split(" ");
+            if (!date || !time) return null;
+            const [d, m, y] = date.split("/").map(Number);
+            const [hh, mm, ss] = time.split(":").map(Number);
+            return new Date(y, m - 1, d, hh, mm, ss);
+        }
+
+        function fmt(sec) {
+            const d = Math.floor(sec / 86400); sec %= 86400;
+            const h = Math.floor(sec / 3600); sec %= 3600;
+            const m = Math.floor(sec / 60);
+            return `${d} ngày ${h} giờ ${m} phút`;
+        }
+
+        function parseDuration(str) {
+            if (!str) return 0;
+            str = str.replace(",", ".");
+            let total = 0;
+            const parts = str.split(" ");
+            for (let i = 0; i < parts.length; i++) {
+                const val = parseFloat(parts[i]);
+                if (isNaN(val)) continue;
+                if (parts[i + 1]?.includes("ngày")) total += val * 86400;
+                if (parts[i + 1]?.includes("giờ")) total += val * 3600;
+                if (parts[i + 1]?.includes("phút")) total += val * 60;
+            }
+            return total;
+        }
+
+        function calcElapsed(decoded) {
+            if (!decoded[0]?.time) return "0 ngày 0 giờ 0 phút";
+            const start = parseVNDate(decoded[0].time);
+            if (!start) return "0 ngày 0 giờ 0 phút";
+            const now = new Date();
+            const diff = (now - start) / 1000;
+            return fmt(diff);
+        }
+
+/** 🧩 Lấy dữ liệu SharePoint (lọc từ Flow hoặc client nếu cần) */
+
+async function refreshDataHybrid() {
+  if (!window.tokenKey) {
+    alert("⚠️ Import TOKEN_KEY trước!");
+    return;
+  }
+
+  try {
+    const userDept = currentUser?.dept || "ALL";
+    console.log("👤 userDept gửi sang Flow =", userDept);
+
+    const urlRaw =
+      "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ebcb4285fccf4518b684ddf6cbb181d7/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=03tXAPGH1SbNYPpRgthOuhn8MYs5fNPHR2eYk8nPK54";
+
+    const urlProcess =
+      "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/6cefafdd3f6f4eb199b1645f78282acc/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MTDVG89mus9HQtlNA-4ye2ZgzAg6B-9X5XoZJfHzDTk";
+
+    console.log("🚀 Gọi song song 2 Flow (Raw + Process)");
+
+    const [resRaw, resProcess] = await Promise.all([
+      fetch(urlRaw, { method: "POST", headers: { "Content-Type": "application/json" } }),
+      fetch(urlProcess, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dept: userDept })
+      })
+    ]);
+
+    const listRaw = await resRaw.json();
+    const listProcess = await resProcess.json();
+
+    console.log("📦 RawData từ SharePoint:", listRaw);
+    console.log("📦 ProcessTable:", listProcess);
+
+    /** 🧩 Hàm parse an toàn (tự nhận biết JSON lồng) */
+    function safeParse(data) {
+      try {
+        if (typeof data === "string") {
+          const once = JSON.parse(data);
+          if (typeof once === "string") return JSON.parse(once);
+          return once;
+        }
+        return data;
+      } catch {
+        return [];
+      }
+    }
+
+    /** 🧱 Chuẩn hóa từ rawData (SharePoint) */
+    const rawFormatted = (listRaw || []).map((item, idx) => {
+const chitiet = safeParse(item.CHITIET || "[]")[0] || {};
+const ykien = safeParse(item.YKIEN || "[]");
+const luanchuyen = safeParse(item.LUANCHUYEN || "[]");
+console.log("🧩 item keys:", Object.keys(item));
+
+      console.groupCollapsed(`🧾 RAW ITEM [${idx}] REF=${chitiet?.stt || "?"}`);
+      console.log("📂 chitiet:", chitiet);
+      console.log("🗣️ ykien:", ykien);
+      console.log("🔁 luanchuyen:", luanchuyen);
+      console.groupEnd();
+
+      // 🔍 Tìm phòng ban trong luanchuyen (bất kỳ field nào có từ 'phòng' + '- đầu mối')
+ // 🧩 Xác định phòng đầu mối (chuẩn hóa từ luanchuyen)
+let dept = extractPhongDauMoi(luanchuyen);
+
+      return {
+        ref: chitiet?.stt || item.ref || "",
+        dept,
+        quytrinh: chitiet?.trichYeu || "",
+        buoc: "",
+        trong: "",
+        conlaiStraight: "",
+        conlaiConflict: "",
+        nguoi: "",
+        status: "pending",
+        straightSec: 0,
+        conflictSec: 0,
+        chitietData: chitiet,
+        ykienData: ykien,
+        luanchuyenData: luanchuyen
+      };
+    });
+
+    /** 🧠 Chuẩn hóa Process Table */
+    const processTable = (listProcess || []).map(item => ({
+      REF: item.REF,
+      DEPT: item.DEPT,
+      QUYTRINH: item.QUYTRINH,
+      DATA: item.DATA
+    }));
+
+    console.log("🧱 Dữ liệu sau khi chuẩn hóa raw:", rawFormatted);
+    console.log("⚙️ ProcessTable:", processTable);
+
+    /** 🔗 Merge 2 nguồn dữ liệu */
+    const merged = rawFormatted.map(r => {
+      const match = processTable.find(p => p.REF == r.ref);
+if (match) {
+  const decoded = safeParse(match.DATA || "[]");
+  const stats = analyzeProcess(decoded);
+
+  return {
+    ...r,
+    dept: match.DEPT || r.dept,
+    quytrinh: match.QUYTRINH || r.quytrinh,
+    decoded,
+    buoc: stats.currentStep,
+    trong: stats.elapsed,
+    conlaiStraight: stats.conlaiStraight,
+    conlaiConflict: stats.conlaiConflict,
+    nguoi: stats.pendingNguoi,
+    straightSec: stats.straightSec,
+    conflictSec: stats.conflictSec,
+    status: stats.currentStep === "Hoàn thành" ? "done" : "pending"
+  };
+}
+      return r;
+    });
+
+    console.log("🧩 Dữ liệu sau khi merge & fill:", merged);
+    window.allRows = merged;
+    renderTable(merged);
+    updateStats(merged);
+  } catch (err) {
+    console.error("❌ Lỗi refreshDataHybrid:", err);
+    
+  }
+}
+
+
+
+
+
+/** 🔍 Lọc bảng theo phòng ban trong sidebar */
+function filterDept(deptName) {
+  console.log("🟡 filterDept được gọi, nhưng Flow đã lọc sẵn — bỏ qua.");
+  if (!window.allRows) return;
+  renderTable(window.allRows);
+  updateStats(window.allRows);
+}
+
+
+/** 🏢 Chuẩn hóa tên phòng người login sang format có dấu (như SharePoint) */
+function normalizeToSharePointDept(raw = "") {
+  if (!raw) return "";
+
+  const txt = raw
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // bỏ dấu, chỉ để so khớp
+    .replace(/[()\-–_]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (txt.includes("to chuc tien luong") || txt.includes("tien luong tccb"))
+    return "Phòng Tổ chức tiền lương";
+  if (txt.includes("thi dua") || txt.includes("khen thuong"))
+    return "Phòng Thi đua - Khen thưởng";
+  if (txt.includes("can bo dia phuong") || txt.includes("dia phuong"))
+    return "Phòng Cán bộ địa phương";
+  if (txt.includes("dao tao") || txt.includes("nguon nhan luc") || txt.includes("phat trien"))
+    return "Phòng Đào tạo và Phát triển nguồn nhân lực";
+  if (txt.includes("to chuc can bo") || txt.includes("tccb"))
+    return "Vụ Tổ chức cán bộ";
+
+  return raw.trim();
+}
+
+
+/* 🧠 Chuẩn hóa tên phòng ban */
+function normalizeDept(rawDept = "") {
+  if (!rawDept) return "";
+  return rawDept
+    .toString()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // bỏ dấu
+    .normalize("NFC")
+    .toLowerCase()
+    .replace(/phong/g, "phong")
+    .replace(/vu/g, "vu")
+    .replace(/[()\-–_]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/* 🧩 So khớp lõi nghĩa phòng ban */
+function isSameDept(a, b) {
+  if (!a || !b) return false;
+  if (a === b) return true;
+
+  const coreA = extractCore(a);
+  const coreB = extractCore(b);
+  if (coreA === coreB) return true;
+
+  // Nếu chứa toàn bộ từ lõi nhau thì cũng coi là khớp
+  const wordsA = coreA.split(" ");
+  return wordsA.every(w => coreB.includes(w));
+}
+
+/* 🔍 Lấy lõi nghĩa của tên phòng */
+function extractCore(s) {
+  return s
+    .replace(/(phong|vu|tccb|bo phan|ban)/g, "")
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+
+        function renderTable(list) {
+            const tbody = document.getElementById("refTable");
+            tbody.innerHTML = list.map(r => {
+                // ánh xạ tên quy trình → file html
+                const mapping = {
+                    "Phê duyệt/có ý kiến về Kế hoạch tuyển dụng công chức loại D tại các NHNN chi nhánh Khu vực": "test.html",
+                    "Cử cán bộ đi công tác nước ngoài": "test1.html",
+                    "Đón nhận danh hiệu thi đua": "test2.html",
+                    "Triển khai quy hoạch lãnh đạo cấp phòng": "test3.html",
+                    "Nâng lương thường xuyên": "test4.html"
+                };
+                const file = mapping[r.quytrinh] || "test.html"; // fallback nếu không khớp
+
+                return `
+      <tr>
+        <td>${r.ref}</td>
+        <td>${r.dept}</td>
+        <td>${r.quytrinh}</td>
+        <td>${r.buoc}</td>
+        <td>${r.trong}</td>
+        <td>${r.conlaiStraight}</td>
+        <td>${r.conlaiConflict}</td>
+        <td>${r.nguoi}</td>
+        <td>
+          <button class="btn-new" onclick="openProcessWithRef('${file}', '${r.ref}')">✏️ Edit</button>
+        </td>
+      </tr>`;
+            }).join("");
+            console.log("📊 Rendered rows:", list);   // ✅ debug
+            updateStats(list);
+
+        }
+        function normalizeRow(raw) {
+            return {
+                nguoi_gui: raw["Đơn vị nhận"] || "",
+                don_vi_nhan: raw["Người nhận"] || "",
+                nguoi_nhan: raw["Thời gian gửi"] || "",
+                thoi_gian_gui: raw["Thời gian nhận"] || "",
+                thoi_gian_nhan: raw["Môi trường"] || "",
+                trang_thai: raw["Lý do"] || "",
+                ref: raw.ref ?? null
+            };
+        }
+
+        function openProcessWithRef(file, ref) {
+  const item = window.allRows.find(r => r.ref == ref);
+  if (item) {
+    // lưu thông tin chung
+    sessionStorage.setItem("selectedRow", JSON.stringify(item));
+    sessionStorage.setItem("mode", "edit");
+
+    // lưu riêng data chi tiết, ý kiến và luân chuyển
+    if (item.chitietData) {
+      sessionStorage.setItem("chitietData", JSON.stringify(item.chitietData));
+    }
+    if (item.ykienData) {
+      sessionStorage.setItem("ykienData", JSON.stringify(item.ykienData));
+    }
+    if (item.luanchuyenData) {
+      sessionStorage.setItem("luanchuyenData", JSON.stringify(item.luanchuyenData));
+    }
+
+    console.log("🔄 Gửi sang", file);
+    console.log("selectedRow:", item);
+    console.log("chitietData:", item.chitietData);
+    console.log("ykienData:", item.ykienData);
+    console.log("luanchuyenData:", item.luanchuyenData);
+  } else {
+    console.warn("❌ Không tìm thấy item với ref =", ref);
+  }
+
+  if (window.tokenKey) sessionStorage.setItem("tokenKey", window.tokenKey);
+  window.open(`${file}?ref=${encodeURIComponent(ref)}`, "_blank");
+}
+
+
+        function updateStats(list) {
+            document.getElementById("total").textContent = list.length;
+            document.getElementById("completed").textContent = list.filter(r => r.status === "done").length;
+            document.getElementById("pending").textContent = list.filter(r => r.status === "pending").length;
+
+            let sumStraight = list.reduce((a, b) => a + (b.straightSec || 0), 0);
+            let sumConflict = list.reduce((a, b) => a + (b.conflictSec || 0), 0);
+
+            document.getElementById("sumStraight").textContent = fmt(sumStraight);
+            document.getElementById("sumConflict").textContent = fmt(sumConflict);
+
+            document.getElementById("avgTime").textContent = list.length ? fmt(sumStraight / list.length) : "0 ngày 0 giờ 0 phút";
+        }
+
+        // Toggle menu khi bấm nút
+        document.querySelector(".btn-green").addEventListener("click", () => {
+            document.getElementById("newMenu").classList.toggle("hidden");
+        });
+
+        // Ẩn menu khi click ra ngoài
+        document.addEventListener("click", e => {
+            if (!e.target.closest(".new-actions")) {
+                document.getElementById("newMenu").classList.add("hidden");
+            }
+        });
+
+        // Hàm mở tab mới KHÔNG kèm ref
+        function openProcess(file) {
+            // giữ tokenKey trong sessionStorage
+            if (window.tokenKey) {
+                sessionStorage.setItem("tokenKey", window.tokenKey);
+            }
+
+            // mở tab mới
+            window.open(file, "_blank");
+        }
+
+/** 🧮 Phân tích chi tiết quy trình (tính toán thời gian, bước hiện tại, pending, v.v.) */
+function analyzeProcess(decoded) {
+  if (!decoded || decoded.length === 0)
+    return {
+      currentStep: "Hoàn thành",
+      elapsed: "0 ngày 0 giờ 0 phút",
+      conlaiStraight: "0 ngày 0 giờ 0 phút",
+      conlaiConflict: "0 ngày 0 giờ 0 phút",
+      straightSec: 0,
+      conflictSec: 0,
+      pendingNguoi: ""
+    };
+
+  // 🔍 tìm bước cuối đã hoàn thành
+  let lastDoneIdx = -1;
+  for (let i = decoded.length - 1; i >= 0; i--) {
+    if (decoded[i].time && decoded[i].time !== "") {
+      lastDoneIdx = i;
+      break;
+    }
+  }
+
+  // 🕓 thời điểm bắt đầu (bước 0)
+  const firstStepTime = parseVNDate(decoded[0].time);
+  if (!firstStepTime) {
+    return {
+      currentStep: "Không xác định",
+      elapsed: "0 ngày 0 giờ 0 phút",
+      conlaiStraight: "0 ngày 0 giờ 0 phút",
+      conlaiConflict: "0 ngày 0 giờ 0 phút",
+      straightSec: 0,
+      conflictSec: 0,
+      pendingNguoi: ""
+    };
+  }
+
+  // ✅ Nếu toàn bộ đã xong
+  if (lastDoneIdx === decoded.length - 1) {
+    const lastTime = parseVNDate(decoded[lastDoneIdx].time);
+    return {
+      currentStep: "Hoàn thành",
+      elapsed: fmt((lastTime - firstStepTime) / 1000),
+      conlaiStraight: "0 ngày 0 giờ 0 phút",
+      conlaiConflict: "0 ngày 0 giờ 0 phút",
+      straightSec: 0,
+      conflictSec: 0,
+      pendingNguoi: ""
+    };
+  }
+
+  // ⏳ Nếu vẫn đang pending
+  const now = new Date();
+  let straightSec = 0, conflictSec = 0;
+  for (let j = lastDoneIdx + 1; j < decoded.length; j++) {
+    const xuLy = parseDuration(decoded[j].xuly);
+    const cho = parseDuration(decoded[j].cho);
+    const extra = parseDuration(decoded[j].extra);
+    straightSec += xuLy + cho;
+    conflictSec += xuLy + cho + extra;
+  }
+
+  return {
+    currentStep: decoded[lastDoneIdx + 1]?.step || "Đang xử lý",
+    elapsed: fmt((now - firstStepTime) / 1000),
+    conlaiStraight: fmt(straightSec),
+    conlaiConflict: fmt(conflictSec),
+    straightSec,
+    conflictSec,
+    pendingNguoi: decoded[lastDoneIdx + 1]?.nguoi || ""
+  };
+}
+
+function extractPhongDauMoi(luanchuyen = []) {
+  for (const row of luanchuyen) {
+    for (const val of Object.values(row || {})) {
+      const text = String(val || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // bỏ dấu
+        .toLowerCase();
+      if (text.includes("phong") && text.includes("dau moi")) {
+        // Chuẩn hóa lại
+        return val
+          .replace(/\s*-\s*đầu mối.*/i, "")
+          .replace(/-/g, " ")
+          .replace(/\(tccb\)/gi, "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .replace(/phong/gi, "Phòng")
+          .replace(/to chuc/gi, "Tổ chức")
+          .replace(/tien luong/gi, "Tiền lương");
+      }
+    }
+  }
+  return "";
+}
+
+
+
+
+    </script>
+</body>
+
+</html>

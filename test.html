@@ -1,0 +1,3245 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CHI TIẾT QUY TRÌNH XỬ LÝ</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --nav: #f4ebdd;
+      --text: #222;
+      --card: #ffffff;
+      --muted: #555;
+      --accent: #a87d48;
+      --accent-2: #d27d2d;
+      --radius: 12px;
+      --shadow: 0 4px 18px rgba(0, 0, 0, .08);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .navbar {
+      background: linear-gradient(180deg, var(--nav) 0%, #ffffff 100%);
+      color: var(--text);
+      height: 80px;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .logo img {
+      height: 80px;
+      object-fit: contain;
+    }
+
+    .dept {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      margin: 20px 0;
+      font-size: 22px;
+    }
+
+    select {
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 20px;
+      table-layout: fixed;
+    }
+
+    /* ================== Bảng quy trình 12 cột ================== */
+    #processTable th,
+    #processTable td {
+      border: 1px solid #eee;
+      padding: 8px;
+      font-size: 14px;
+      vertical-align: top;
+      word-wrap: break-word;
+      text-align: left;
+    }
+
+    #processTable th {
+      background: #f9f6f0;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Cột 1: Nội dung thực hiện */
+    #processTable th:nth-child(1),
+    #processTable td:nth-child(1) {
+      width: 16%;
+    }
+
+    /* Cột 2: Người thực hiện/Phê duyệt */
+    #processTable th:nth-child(2),
+    #processTable td:nth-child(2) {
+      width: 10%;
+    }
+
+    /* Cột 3: Ngày gửi */
+    #processTable th:nth-child(3),
+    #processTable td:nth-child(3) {
+      width: 10%;
+    }
+
+    /* Cột 4: Người gửi */
+    #processTable th:nth-child(4),
+    #processTable td:nth-child(4) {
+      width: 10%;
+    }
+
+    /* Cột 5: Người nhận */
+    #processTable th:nth-child(5),
+    #processTable td:nth-child(5) {
+      width: 10%;
+    }
+
+    /* Cột 6: Đơn vị nhận */
+    #processTable th:nth-child(6),
+    #processTable td:nth-child(6) {
+      width: 10%;
+    }
+
+    /* Cột 7: Thời gian xử lý */
+    #processTable th:nth-child(7),
+    #processTable td:nth-child(7) {
+      width: 7%;
+      text-align: center;
+    }
+
+    /* Cột 8: Thời gian chờ */
+    #processTable th:nth-child(8),
+    #processTable td:nth-child(8) {
+      width: 7%;
+      text-align: center;
+    }
+
+    /* Cột 9: Văn bản dự thảo */
+    #processTable th:nth-child(9),
+    #processTable td:nth-child(9) {
+      width: 8%;
+    }
+
+    /* Cột 10: Kết quả */
+    #processTable th:nth-child(10),
+    #processTable td:nth-child(10) {
+      width: 12%;
+    }
+
+    /* Cột 11: Ngày hoàn thành */
+    #processTable th:nth-child(11),
+    #processTable td:nth-child(11) {
+      width: 12%;
+    }
+
+    /* Cột 12: Quyết định */
+    #processTable th:nth-child(12),
+    #processTable td:nth-child(12) {
+      width: 8%;
+      text-align: center;
+    }
+
+    textarea.result-input {
+      width: 100%;
+      min-height: 80px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 6px;
+      resize: vertical;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    .btn {
+      margin-top: 6px;
+      padding: 6px 12px;
+      border: 0;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .btn-next {
+      background: var(--accent);
+    }
+
+    .btn-edit {
+      background: var(--accent-2);
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    tr.hidden {
+      display: none;
+    }
+
+    /* Hàng tiêu đề bước */
+    .step-title td {
+      background: #f2eee7;
+      font-weight: 700;
+      text-align: center !important;
+      /* ép căn giữa */
+      font-size: 15px;
+      padding: 10px;
+      color: #222;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .actions {
+      margin: 20px 0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .actions button {
+      background: #2196f3;
+      color: #fff;
+      border: 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .actions button:hover {
+      opacity: 0.9;
+    }
+
+    #summaryTable {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 100%;
+      background: #fafafa;
+    }
+
+    #summaryTable th,
+    #summaryTable td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    #summaryTable th {
+      background: #eee;
+    }
+
+    input[type="datetime-local"] {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 14px;
+      background: #fff;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="datetime-local"]:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 3px var(--accent);
+    }
+
+    .time-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .time-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+      /* ẩn khỏi user click trực tiếp */
+    }
+
+    .time-icon {
+      cursor: pointer;
+      font-size: 18px;
+      color: goldenrod;
+      /* vàng */
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .time-icon:hover {
+      opacity: 0.8;
+    }
+
+    #processTable td span {
+      display: block;
+      font-size: 13px;
+      color: #555;
+      margin-top: 2px;
+    }
+
+    .actions {
+      margin: 20px 0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .actions button,
+    .actions label.icon-btn {
+      background: #2196f3;
+      color: #fff;
+      border: 0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 18px;
+      /* icon to rõ */
+      line-height: 1;
+      text-align: center;
+    }
+
+    .actions button:hover,
+    .actions label.icon-btn:hover {
+      opacity: 0.85;
+    }
+
+    /* ================== EDOC BLOCK ================== */
+    .edoc-block {
+      margin-top: 20px;
+      border: 1px solid #eee;
+      background: #fff;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 14px;
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .edoc-block .edoc-title {
+      padding: 10px 14px;
+      border-bottom: 1px solid #eee;
+      background: #f9f6f0;
+      /* đồng bộ với processTable header */
+      font-weight: 600;
+      font-size: 15px;
+      color: #222;
+    }
+
+    .edoc-block table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    .edoc-block th,
+    .edoc-block td {
+      border: 1px solid #eee;
+      padding: 8px 10px;
+      vertical-align: middle;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .edoc-block th {
+      background: #f9f6f0;
+      /* giống header processTable */
+      font-weight: 600;
+      color: #222;
+    }
+
+    .edoc-block tbody tr:nth-of-type(odd) {
+      background: #fcfcfc;
+    }
+
+    .edoc-block tbody tr:hover {
+      background: #f5f5f5;
+    }
+
+    .edoc-label {
+      display: inline-block;
+      padding: 3px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      color: #fff;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    /* Trạng thái */
+    .edoc-label.warning {
+      background-color: #f0ad4e;
+    }
+
+    .edoc-label.danger {
+      background-color: #d9534f;
+    }
+
+    .edoc-label.success {
+      background-color: #5cb85c;
+    }
+
+    /* Căn giữa cột Trạng thái */
+    .edoc-block td:nth-child(7) {
+      text-align: center;
+    }
+
+    .edoc-block th:nth-child(6),
+    .edoc-block td:nth-child(6) {
+      display: center;
+    }
+    /* ========= TONE & COLORS ========= */
+:root{
+  --line-strong:#D0D5DD;      /* viền bảng */
+  --line-strong-2:#98A2B3;    /* hover/outline */
+  --fill-strong-1:#F2F4F7;    /* header th */
+  --row-zebra:#FAFAFB;        /* hàng chẵn */
+  --ink-strong:#101828;       /* chữ đậm */
+}
+
+/* ========= CARD / SECTION ========= */
+.card{
+  background:#fff;
+  border:1px solid var(--line-strong);
+  border-radius:12px;
+  box-shadow:0 4px 14px rgba(16,24,40,.06);
+}
+
+/* ========= TABLE ========= */
+.table{
+  width:100%;
+  border-collapse:separate;   /* để bo góc đẹp */
+  border-spacing:0;
+  border:1.25px solid var(--line-strong);
+  border-radius:10px;
+  overflow:hidden;            /* bo góc cho header */
+  font-size:14.5px;
+  color:var(--ink-strong);
+}
+
+.table th,
+.table td{
+  padding:10px 12px;
+  border-right:1.25px solid var(--line-strong);
+  border-bottom:1.25px solid var(--line-strong);
+  vertical-align:top;
+}
+
+.table th{
+  background:var(--fill-strong-1);
+  font-weight:600;
+}
+
+.table tr:nth-child(even) td{
+  background:var(--row-zebra);
+}
+
+/* bỏ viền phải ô cuối & viền dưới hàng cuối */
+.table tr > *:last-child{ border-right:none; }
+.table tr:last-child > *{ border-bottom:none; }
+
+/* hover hàng (tùy thích) */
+.table tbody tr:hover td{
+  background:#EEF2F6;
+}
+
+/* ========= BADGE / STATUS ========= */
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12.5px;
+  font-weight:600;
+  border:1px solid transparent;
+}
+
+.badge--info{    background:#E0EAFF; color:#1E40AF; border-color:#BFD5FF; }
+.badge--warn{    background:#FEF0C7; color:#92400E; border-color:#FDE68A; }
+.badge--success{ background:#D1FADF; color:#05603A; border-color:#A6F4C5; }
+.badge--danger{  background:#FEE4E2; color:#912018; border-color:#FECDCA; }
+
+/* ========= LABEL (cột tiêu đề bên trái) ========= */
+.kv-label{
+  font-weight:600;
+  color:#0F172A;
+}
+
+/* ========= BUTTON SAVE (nhìn sắc nét hơn) ========= */
+.btn-primary{
+  background:#1D4ED8; color:#fff;
+  border:1px solid #1E40AF;
+  padding:8px 14px; border-radius:10px;
+  box-shadow:0 2px 8px rgba(29,78,216,.25);
+}
+.btn-primary:hover{ background:#1B46C2; } 
+.select-donvi {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #111827;
+  outline: none;
+}
+
+.select-donvi:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.25);
+}
+  </style>
+  
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="logo"><img src="photo/logo-nhnnvn-3-1129x800.webp" alt="Logo"></div>
+    <div class="dept" id="deptName">Phòng: CÁN BỘ ĐỊA PHƯƠNG</div>
+    <div class="dept" id="refDisplay"></div>
+  </div>
+
+  <div class="container">
+    <h1>Phê duyệt/có ý kiến về Kế hoạch tuyển dụng công chức loại D tại các NHNN chi nhánh Khu vực</h1>
+
+    <!-- Dropdown chọn trang -->
+    <div id="processSelectWrapper" class="hidden">
+      <label for="processSelect"><b>Chọn quy trình:</b></label>
+      <select id="processSelect">
+        <option value="test.html" selected>Kế hoạch tuyển dụng công chức loại D tại các NHNN chi nhánh Khu vực</option>
+        <option value="test1.html">Cử cán bộ đi công tác nước ngoài</option>
+        <option value="test2.html">Tổ chức đón nhận các danh hiệu thi đua, hình thức khen thưởng cấp Nhà Nước, cấp Ngành
+        </option>
+        <option value="test3.html">Triển khai quy hoạch Lãnh Đạo cấp Phòng tại NHTW</option>
+        <option value="test4.html">Quy Trình Phê Duyệt Đối Với Nâng Lương Thường Xuyên, Phụ Cấp Thâm Niên Vượt Khung
+          Thuộc Thẩm Quyền Vụ TCCB Duyệt Ký</option>
+        <option value="test5.html">Quy trình xây dựng báo cáo định kỳ/đột xuất/tham gia ý kiến/trả lời kiến nghị gửi các
+          đơn vị thuộc NHNN do lãnh đạo Vụ TCCB duyệt ký</option>
+      </select>
+    </div>
+
+    <!-- Export / Import CSV -->
+    <div class="actions">
+      <button onclick="exportRawJson()" style="display: none;">📥 Export Local File</button>
+      <button onclick="sendToSharePoint()">☁️ Save Dữ Liệu</button>
+      <button onclick="importFromCloud()" style="display: none;">☁️ Import Cloud</button>
+      <button onclick="exportExcelSharePointFormat()" style="display: none;">⬇️ Export Excel</button>
+      <!-- Import Token Key -->
+      <label for="importToken" title="Import Token Key" class="icon-btn" style="display: none;">🔑 Import Token Key
+        File</label>
+      <input type="file" id="importToken" accept=".csv,.txt" onchange="importToken(event)" hidden>
+
+      <!-- Import Encoded TXT -->
+      <label for="importEncoded" title="Import Encoded TXT" class="icon-btn" style="display: none;">📂 Import Data Local
+        File</label>
+      <input type="file" id="importEncoded" accept=".txt" onchange="importEncoded(event)" hidden>
+    </div>
+    <div id="chitiet-container"></div>
+    <div id="ykien-container"></div>
+    <div id="luanchuyen-container"></div>
+    <div id="detailWrapper"></div>
+    <div class="edoc-block" style="margin-top: 30px;">
+      <div class="edoc-title">CHI TIẾT KẾ HOẠCH CỦA CÁN BỘ ĐẦU MỐI</div>
+      <div id="processTable">
+        <table class="process-table-inner">
+          <thead>
+            <tr>
+              <th>Nội dung thực hiện</th>
+              <th>Người thực hiện/Phê duyệt</th>
+              <th>Ngày gửi</th>
+              <th>Đơn vị nhận</th>
+              <th>Thời gian xử lý</th>
+              <th>Thời gian chờ</th>
+              <th>Kết quả</th>
+              <th>Ngày hoàn thành</th>
+              <th>Quyết định</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="summary"></div>
+
+  </div>
+
+  <script>
+  function getDropdownHTML(selectedValue = "") {
+    let html = `<select class="select-donvi"><option value="">-- Chọn đơn vị nhận --</option>`;
+    donViNhanData.forEach(group => {
+      html += `<optgroup label="${group.group}">`;
+      group.items.forEach(item => {
+        const sel = item === selectedValue ? "selected" : "";
+        html += `<option value="${item}" ${sel}>${item}</option>`;
+      });
+      html += `</optgroup>`;
+    });
+    html += `</select>`;
+    return html;
+  }
+
+const donViNhanData = [
+  {
+    group: "Ngân hàng Nhà nước Trung ương",
+    items: [
+      "Vụ Chính sách tiền tệ",
+      "Vụ Thanh toán",
+      "Vụ Tín dụng các ngành kinh tế",
+      "Vụ Dự báo, thống kê – Ổn định tiền tệ, tài chính",
+      "Vụ Hợp tác quốc tế",
+      "Vụ Pháp chế",
+      "Vụ Tài chính – Kế toán",
+      "Vụ Tổ chức cán bộ",
+      "Văn phòng",
+      "Thanh tra Ngân hàng Nhà nước",
+      "Sở Giao dịch",
+      "Cục Công nghệ thông tin",
+      "Cục Phát hành và Kho quỹ",
+      "Cục Quản lý ngoại hối",
+      "Cục Phòng, chống rửa tiền",
+      "Cục Quản lý, giám sát tổ chức tín dụng",
+      "Cục An toàn hệ thống các tổ chức tín dụng",
+      "Ngân hàng Nhà nước chi nhánh tại các khu vực",
+      "Trung tâm Thông tin tín dụng Quốc gia Việt Nam",
+      "Tạp chí Ngân hàng"
+    ]
+  },
+  {
+    group: "Bộ, Cơ quan ngang Bộ Trung ương",
+    items: [
+      "Bộ Quốc phòng",
+      "Bộ Công an",
+      "Bộ Ngoại giao",
+      "Bộ Nội vụ",
+      "Bộ Tư pháp",
+      "Bộ Kế hoạch và Đầu tư",
+      "Bộ Tài chính",
+      "Bộ Công Thương",
+      "Bộ Nông nghiệp và Phát triển nông thôn",
+      "Bộ Giao thông vận tải",
+      "Bộ Xây dựng",
+      "Bộ Tài nguyên và Môi trường",
+      "Bộ Thông tin và Truyền thông",
+      "Bộ Lao động - Thương binh và Xã hội",
+      "Bộ Văn hóa, Thể thao và Du lịch",
+      "Bộ Khoa học và Công nghệ",
+      "Bộ Giáo dục và Đào tạo",
+      "Bộ Y tế",
+      "Ủy ban Dân tộc",
+      "Ngân hàng Nhà nước Việt Nam",
+      "Thanh tra Chính phủ",
+      "Văn phòng Chính phủ"
+    ]
+  },
+  {
+    group: "Ngân hàng Nhà nước khu vực",
+    items: Array.from({ length: 15 }, (_, i) => `Ngân hàng Nhà nước khu vực ${i + 1}`)
+  }
+];
+
+    let edocData = [];
+    try {
+      const stored = sessionStorage.getItem("edocData");
+      if (stored) {
+        edocData = JSON.parse(stored);
+        console.log("✅ Nhận từ homepage:", edocData);
+      } else {
+        console.warn("⚠️ Không có dữ liệu edocData trong sessionStorage");
+      }
+    } catch (e) {
+      console.error("❌ Lỗi parse edocData:", e);
+    };
+    // 🔧 Endpoint Power Automate Flow (lấy từ SharePoint)
+    const FLOW_URL =
+      "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/e92a5c03c0524754a5957ec23d945b77/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ytc79DxIlkb3uRhF93uLhGp8DuWxVMETGyFkZDtfQ-Y";
+
+// ✅ Lấy danh sách quy trình từ Flow SharePoint và fill vào dropdown
+// ✅ Lấy danh sách quy trình từ Flow SharePoint và fill vào dropdown
+// ✅ Lấy danh sách quy trình từ Flow SharePoint và fill vào dropdown
+async function loadProcessList() {
+  const container = document.getElementById("chitiet-container");
+  if (container) container.innerHTML = "<p>⏳ Đang tải danh sách quy trình...</p>";
+
+  try {
+    console.log("🔄 [loadProcessList] Gọi Flow để lấy danh sách quy trình...");
+    const res = await fetch(FLOW_URL, { method: "POST" });
+    if (!res.ok) throw new Error(`Lỗi tải danh mục (${res.status})`);
+
+    const text = await res.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = JSON.parse(JSON.parse(text)); // fallback nếu JSON lồng
+    }
+
+    const list = Array.isArray(data) ? data : [data];
+
+    // 🔹 Chuẩn hóa format dữ liệu từ SharePoint
+    const normalized = list.map(item => ({
+      maSo: item["MÃ SỐ"] || item["MASO"] || "",
+      ten: (item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || item["QUYTRINH_NAME"] || "").trim(),
+      QUYTRINH_NAME: (item["QUYTRINH_NAME"] || item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || "").trim(),
+      steps: (() => {
+        let raw = item["STEP QUY TRÌNH"] || item["CAYQUYTRINH"] || "[]";
+        try {
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : JSON.parse(parsed);
+        } catch (e) {
+          console.warn("⚠️ STEP parse lỗi:", e);
+          return [];
+        }
+      })()
+    }));
+
+    // 🔹 Cache danh sách để tái sử dụng
+    sessionStorage.setItem("processListChiTiet", JSON.stringify(normalized));
+    console.log("✅ Đã nhận", normalized.length, "quy trình từ SharePoint");
+
+    // --- Render dropdown ---
+    const select = document.getElementById("processSelectChiTiet");
+    const title = document.getElementById("pageTitle");
+    if (!select) {
+      console.error("❌ Không tìm thấy dropdown #processSelectChiTiet");
+      if (container) container.innerHTML = "<p>⚠️ Không có dropdown quy trình để hiển thị.</p>";
+      return;
+    }
+
+    select.innerHTML = `<option value="">-- Chọn quy trình --</option>`;
+    normalized.forEach(q => {
+      const opt = document.createElement("option");
+      opt.value = q.maSo;
+      opt.textContent = q.QUYTRINH_NAME || q.ten || q.maSo;
+      select.appendChild(opt);
+    });
+
+    // --- Khi người dùng chọn ---
+select.onchange = e => {
+  const maSo = e.target.value;
+  const found = normalized.find(x => x.maSo === maSo);
+  if (!found) return;
+
+  console.log("🟢 [Đã chọn thủ công]", found.QUYTRINH_NAME);
+
+  const title = document.getElementById("pageTitle") || document.querySelector("h1");
+  if (title) {
+    title.textContent = found.QUYTRINH_NAME || found.ten || found.maSo;
+    title.style.display = "block";
+  }
+
+  // ✅ Gán data & render full inner UI
+  window.processData = found.steps;
+  if (typeof renderSteps === "function") {
+    renderSteps(window.processData); // ⚡ Gọi hàm gốc có icon, textarea, nút
+  } else {
+    console.warn("⚠️ Chưa có renderSteps() — fallback về renderProcessFromJson()");
+    renderProcessFromJson();
+  }
+};
+
+    if (container) container.innerHTML = ""; // clear loading
+
+    // ✅ Đợi dropdown render đầy đủ rồi mới auto-select
+    await new Promise(resolve => {
+      let tries = 0;
+      const timer = setInterval(() => {
+        if (select.options.length > 1 || tries++ > 30) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 100);
+    });
+
+    // ✅ Nếu có record đang edit → tự động chọn quy trình đúng tên hoặc mã
+    const selectedRow = sessionStorage.getItem("selectedRow");
+    if (selectedRow) {
+      try {
+        const row = JSON.parse(selectedRow);
+        if (row.QUYTRINH_NAME || row.MASO) {
+          console.log("📌 [Auto-select] Tìm quy trình:", row.QUYTRINH_NAME || row.MASO);
+
+          const found = normalized.find(x =>
+            x.maSo.trim().toLowerCase() === (row.MASO || "").trim().toLowerCase() ||
+            x.QUYTRINH_NAME.trim().toLowerCase() === (row.QUYTRINH_NAME || "").trim().toLowerCase()
+          );
+
+          if (found) {
+            // ✅ Gán selected đúng
+            select.value = found.maSo;
+            const opt = [...select.options].find(o => o.value === found.maSo);
+            if (opt) opt.setAttribute("selected", "selected");
+
+            // ✅ Cập nhật tiêu đề
+            if (title) {
+              title.textContent = found.QUYTRINH_NAME || found.ten || found.maSo;
+              title.style.display = "block";
+            }
+
+            console.log("✅ [Auto-select] Chọn thành công:", found.QUYTRINH_NAME);
+
+            // ✅ Gán dữ liệu & render
+            window.processData = found.steps;
+            await new Promise(r => setTimeout(r, 100)); // đợi DOM update
+            renderProcessFromJson();
+          } else {
+            console.warn("⚠️ [Auto-select] Không tìm thấy quy trình khớp:", row.QUYTRINH_NAME);
+          }
+        }
+      } catch (err) {
+        console.warn("⚠️ Lỗi parse selectedRow khi auto-select:", err);
+      }
+    }
+
+  } catch (err) {
+    console.error("❌ loadProcessList lỗi:", err);
+    if (container)
+      container.innerHTML = `<p>❌ Lỗi tải danh sách: ${err.message}</p>`;
+  }
+}
+
+    // ✅ Render step xuống bảng chi tiết (processTable)
+    // ✅ Icon trạng thái
+    function renderStatus(status) {
+      if (!status) return "";
+      const s = status.toLowerCase();
+      if (s.includes("đã")) return "✅";
+      if (s.includes("đang")) return "⏳";
+      return "❌";
+    }
+
+    // 🚀 Khởi tạo khi trang load
+    window.addEventListener("DOMContentLoaded", () => {
+      console.log("🌐 DOM ready → loadProcessList()");
+      loadProcessList();
+    });
+    // =============== RENDER CHI TIẾT ===================
+    function renderChiTiet(chitiet) {
+      if (!chitiet) return "";
+      return `
+    <div class="edoc-block">
+  <div class="edoc-title">QUY TRÌNH XỬ LÝ</div>
+  <div style="padding:10px;">
+    <label for="processSelectChiTiet"><b>Chọn quy trình:</b></label>
+    <select id="processSelectChiTiet" style="margin-left:8px; padding:6px 8px; min-width:400px;"></select>
+  </div>
+      <div class="edoc-title">CHI TIẾT VĂN BẢN ĐẾN</div>
+      <div class="edoc-body">
+        <table>
+          <tr>
+            <td><b>Số văn bản</b></td><td>${chitiet.soVanBan || ""}</td>
+            <td><b>STT</b></td><td>${chitiet.stt || ""}</td>
+          </tr>
+          <tr>
+            <td><b>Cơ quan/đơn vị gửi đến</b></td><td>${chitiet.coQuanGui || ""}</td>
+            <td><b>Số ký hiệu</b></td><td>${chitiet.soKyHieu || ""}</td>
+          </tr>
+          <tr>
+            <td><b>Ngày gửi đến</b></td><td>${chitiet.ngayGuiDen || ""}</td>
+            <td><b>Ngày văn bản</b></td><td>${chitiet.ngayVanBan || ""}</td>
+          </tr>
+          <tr>
+            <td><b>Độ khẩn</b></td><td>${chitiet.doKhan || ""}</td>
+            <td><b>Độ mật</b></td><td>${chitiet.doMat || ""}</td>
+          </tr>
+          <tr>
+            <td><b>Trích yếu</b></td><td colspan="3">${chitiet.trichYeu || ""}</td>
+          </tr>
+          <tr>
+            <td><b>Ghi chú</b></td><td colspan="3">${chitiet.ghiChu || ""}</td>
+          </tr>
+          <tr>
+            <td><b>Trạng thái người dùng</b></td>
+            <td><span class="edoc-label danger">${chitiet.trangThaiND || ""}</span></td>
+            <td><b>Trạng thái văn bản</b></td>
+            <td><span class="edoc-label warning">${chitiet.trangThaiVB || ""}</span></td>
+          </tr>
+          <tr>
+            <td><b>File văn bản</b></td>
+            <td colspan="3">${chitiet.fileDinhKem ? `<a href="#">${chitiet.fileDinhKem}</a>` : ""}</td>
+          </tr>
+        </table>
+      </div>
+    </div>`;
+    }
+
+    // =============== RENDER Ý KIẾN ===================
+    function renderYKienTable(data) {
+      if (!data || !data.length) return "";
+      let html = `
+    <div class="edoc-block">
+      <div class="edoc-title">Ý KIẾN XỬ LÝ VĂN BẢN</div>
+      <div class="edoc-body">
+        <table>
+          <thead>
+            <tr>
+              <th>Người bút phê</th>
+              <th>Thời gian</th>
+              <th>Nội dung</th>
+              <th>Phòng ban đầu mối</th>
+              <th>Phòng ban phối hợp</th>
+            </tr>
+          </thead>
+          <tbody>`;
+      data.forEach(r => {
+        html += `<tr>
+        <td>${r["Người bút phê"] || ""}</td>
+        <td>${r["Thời gian"] || ""}</td>
+        <td>${r["Nội dung"] || ""}</td>
+        <td>${r["Phòng ban đầu mối"] || ""}</td>
+        <td>${r["Phòng ban phối hợp"] || ""}</td>
+      </tr>`;
+      });
+      html += `</tbody></table></div></div>`;
+      return html;
+    }
+
+    // =============== RENDER LUÂN CHUYỂN ===================
+    function renderLuanChuyenTable(data) {
+      if (!data || !data.length) return "";
+      let html = `
+    <div class="edoc-block">
+      <div class="edoc-title">THÔNG TIN LUÂN CHUYỂN VĂN BẢN</div>
+      <div class="edoc-body">
+        <table>
+          <thead>
+            <tr>
+              <th>Người gửi</th>
+              <th>Đơn vị nhận</th>
+              <th>Người nhận</th>
+              <th>Thời gian gửi</th>
+              <th>Thời gian nhận</th>
+              <th style="text-align:center">Trạng thái</th>
+              <th>Lý do</th>
+            </tr>
+          </thead>
+          <tbody>`;
+      data.forEach(r => {
+        // mapping trạng thái -> class
+        let statusClass = "warning";
+        const status = (r.trang_thai || "").toLowerCase();
+
+        if (status.includes("đã nhận")) {
+          statusClass = "success";   // xanh
+        } else if (status.includes("đã gửi")) {
+          statusClass = "warning";   // cam
+        } else {
+          statusClass = "danger";    // đỏ cho lỗi/trạng thái khác
+        }
+
+        html += `<tr>
+        <td>${r.nguoi_gui || ""}</td>
+        <td>${r.don_vi_nhan || ""}</td>
+        <td>${r.nguoi_nhan || ""}</td>
+        <td>${r.thoi_gian_gui || ""}</td>
+        <td>${r.thoi_gian_nhan || ""}</td>
+        <td style="text-align:center">
+          ${r.trang_thai ? `<span class="edoc-label ${statusClass}">${r.trang_thai}</span>` : ""}
+        </td>
+        <td>${r.ly_do || ""}</td>
+      </tr>`;
+      });
+      html += `</tbody></table></div></div>`;
+      return html;
+    }
+    // === Danh sách nhân sự phòng Tổ chức - Tiền lương ===
+    const nhanSuPhong = [
+      {
+        "Hoten": "Lê Anh Hảo",
+        "Chucvu": "Trưởng phòng"
+      },
+      {
+        "Hoten": "Nguyễn Thị Bích Thảo",
+        "Chucvu": "Phó Trưởng phòng"
+      },
+      {
+        "Hoten": "Sầm Thị Kim Phương",
+        "Chucvu": "Phó Trưởng phòng"
+      },
+      {
+        "Hoten": "Trương Hoàng Nam",
+        "Chucvu": "Phó Trưởng phòng"
+      },
+      {
+        "Hoten": "Trương Hồng Quang",
+        "Chucvu": "Công chức phụ trách"
+      },
+      {
+        "Hoten": "Trịnh Thị Phương",
+        "Chucvu": "Công chức phụ trách"
+      },
+      {
+        "Hoten": "Nguyễn Thu Thủy",
+        "Chucvu": "Công chức phụ trách"
+      },
+      {
+        "Hoten": "Nguyễn Minh Anh",
+        "Chucvu": "Công chức phụ trách"
+      },
+      {
+        "Hoten": "Trần Thị Hải Yến",
+        "Chucvu": "Công chức phụ trách"
+      },
+      {
+        "Hoten": "Nguyễn Quỳnh Anh",
+        "Chucvu": "Văn thư"
+      },
+      {
+        "Hoten": "Phạm Thu Hoài",
+        "Chucvu": "Công chức phụ trách"
+      },
+      {
+        "Hoten": "Thân Hoàng Duy",
+        "Chucvu": "Công chức phụ trách"
+      },
+      {
+        "Hoten": "Hoàng Quỳnh Liên",
+        "Chucvu": "Công chức phụ trách"
+      },
+      {
+        "Hoten": "Lê Thị Kim Oanh",
+        "Chucvu": "Văn thư"
+      },
+      {
+        "Hoten": "Trần Thu Huyền",
+        "Chucvu": "Lãnh đạo Vụ"
+      },
+      {
+        "Hoten": "Lê Việt Hùng",
+        "Chucvu": "Lãnh đạo Vụ"
+      },
+      {
+        "Hoten": "Nguyễn Anh Tuấn",
+        "Chucvu": "Lãnh đạo Vụ"
+      }
+    ];
+    function guessRole(label, nhanSuList = []) {
+      const t = normalize(label || "");
+      if (t.includes("văn thư")) return "Văn thư";
+      if (t.includes("lãnh đạo vụ")) return "Lãnh đạo Vụ";
+      if (t.includes("lãnh đạo phòng")) return "Lãnh đạo Phòng";
+      if (t.includes("công chức phụ trách")) return "Công chức phụ trách";  // 👈 thêm dòng này
+
+      // nếu label là tên thật
+      const hit = (window.nhanSuList || nhanSuList || []).find(
+        n => t.includes(normalize(n.Hoten || ""))
+      );
+      return hit ? (hit.Chucvu || "Khác") : "Khác";
+    }
+    function normalize(str) {
+      return str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")   // bỏ dấu
+        .replace(/[đĐ]/g, "d")             // chuẩn hóa đ/Đ thành d
+        .replace(/[^A-Za-z0-9\s]/g, "")    // giữ lại chữ (hoa + thường), số, khoảng trắng
+        .trim()
+        .toLowerCase();
+    };
+    function toVNDateTime24s(str) {
+      if (!str) return "";
+      // Bắt dd/MM/yyyy HH:mm[,ss] [AM|PM] (HH có thể 1-2 chữ số)
+      const m = str.match(/(\d{2}\/\d{2}\/\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?/i);
+      if (!m) return str; // không khớp thì giữ nguyên
+
+      const date = m[1];
+      let hour = parseInt(m[2], 10);
+      const minute = m[3];
+      let second = m[4] ?? "00";           // nếu thiếu giây → "00"
+      const ampm = m[5] ? m[5].toUpperCase() : null;
+
+      if (ampm) {
+        if (ampm === "PM" && hour < 12) hour += 12;
+        if (ampm === "AM" && hour === 12) hour = 0;
+      }
+      return `${date} ${hour.toString().padStart(2, "0")}:${minute}:${second.padStart(2, "0")}`;
+    }
+    function cloneRowsFromArray(array, templateId, defaultRole, defaultTime) {
+      if (!array || array.length === 0) return;
+
+      const tbody = document.querySelector("#processTable tbody");
+      const templateRow = document.getElementById(templateId);
+
+      array.forEach((c, idx) => {
+        const rowId = `${templateId}r${idx}`;
+        const row = document.createElement("tr");
+        row.id = rowId;
+
+        row.innerHTML = `
+        <td>${c.noidung || "Xử lý Tờ trình"}</td>
+        <td>${c.chuc_vu || defaultRole}</td>
+        <td id="ngaygui-${rowId}">${c.thoi_gian || ""}</td>
+        <td id="nguoigui-${rowId}">${c.nguoi_gui || ""}</td>
+        <td id="nguoinhan-${rowId}">${c.nguoi_nhan || ""}</td>
+        <td id="donvinhan-${rowId}">${c.don_vi_nhan || ""}</td>
+        <td>${defaultTime || ""}</td>
+        <td></td>
+        <td></td>
+        <td><textarea class="result-input" id="res-${rowId}" readonly placeholder="Nhập kết quả"></textarea></td>
+        <td><span id="time-text-${rowId}">${c.thoi_gian || ""}</span></td>
+        <td id="decision-${rowId}"></td>
+      `;
+
+        tbody.insertBefore(row, templateRow.nextSibling);
+        row.classList.remove("hidden");   // ✅ thêm dòng này
+        lockEdocRow(rowId);
+      });
+
+      // Ẩn dòng template gốc
+      templateRow.classList.add("hidden");
+
+      // 👉 mở tiếp bước sau dựa trên timestamp mới nhất
+      const lastTime = array
+        .map(c => parseVNDate(c.thoi_gian))
+        .filter(Boolean)
+        .reduce((a, b) => a > b ? a : b, null);
+
+      if (lastTime) {
+        const lastRowId = `${templateId}r${array.length - 1}`;
+        const match = templateId.match(/s(\d+)r(\d+)/);
+        if (match) {
+          const s = parseInt(match[1]);
+          const r = parseInt(match[2]);
+          showNext(lastRowId, s, r);
+        }
+      }
+    }
+    // Chuẩn hoá tên người nhận (bỏ " - Phối hợp" / " - Đầu mối")
+    function cleanReceiverName(name) {
+      if (!name) return "";
+      return name.replace(/\s*-\s*(phối hợp|đầu mối)$/i, "").trim();
+    }
+
+    function fillStepsFromEdoc(edocData, nhanSuList = []) {
+      const steps = {
+        vanThu: null,
+        lanhDaoVu: [],
+        lanhDaoPhong: null,
+        congChuc: []
+      };
+
+      edocData.forEach((item, i) => {
+        const cleanNguoiNhan = cleanReceiverName(item.nguoi_nhan || "");
+        const nguoiNhan = normalize(cleanNguoiNhan);
+
+        // tìm cá nhân trong danh sách
+        const matched = nhanSuList.find(n => nguoiNhan.includes(normalize(n.Hoten || "")));
+
+        const record = {
+          noidung: item.noidung || "Tiếp nhận Tờ trình",
+          thoi_gian: toVNDateTime24s(item.thoi_gian_gui),
+          nguoi_gui: item.nguoi_gui || "",
+          nguoi_nhan: cleanNguoiNhan,
+          don_vi_nhan: item.don_vi_nhan || "",
+          chuc_vu: matched ? matched.Chucvu : ""
+        };
+
+        if (matched) {
+          const role = normalize(matched.Chucvu || "");
+          console.log(`role normalize: ${matched.Chucvu} => ${role}`);
+
+          if (role.includes("van thu")) {
+            if (!steps.vanThu) {
+              steps.vanThu = record;
+              console.log("✅ PUSH Văn thư:", record);
+            }
+            return;
+          }
+
+          if (role.includes("lanh dao vu") || role.includes("vu truong") || role.includes("pho vu truong")) {
+            const donvi = normalize(item.don_vi_nhan || "");
+            if (donvi.includes("ban lanh dao vu")) {
+              steps.lanhDaoVu.push(record);
+              console.log("✅ PUSH Lãnh đạo Vụ:", record)
+              console.log(donvi);
+              return;
+            }
+            console.log("⚠️ Bỏ qua Lãnh đạo Vụ vì đơn vị nhận không khớp:", record);
+            console.log(donvi);
+            return;
+          }
+
+          if (role.includes("lanh dao phong") || role.includes("truong phong") || role.includes("pho truong phong")) {
+            if (!steps.lanhDaoPhong) {
+              steps.lanhDaoPhong = record;
+              console.log("✅ PUSH Lãnh đạo Phòng:", record);
+            }
+            return;
+          }
+
+          if (role.includes("cong chuc phu trach") || role.includes("chuyen vien") || role.includes("chuyen vien chinh")) {
+            steps.congChuc.push(record);
+            console.log("✅ PUSH Công chức phụ trách:", record);
+            return;
+          }
+        }
+
+
+      });
+
+      // Sắp xếp theo thời gian
+      steps.lanhDaoVu.sort((a, b) => parseVNDate(a.thoi_gian) - parseVNDate(b.thoi_gian));
+      steps.congChuc.sort((a, b) => parseVNDate(a.thoi_gian) - parseVNDate(b.thoi_gian));
+
+      console.log(">>> Tổng Văn thư:", steps.vanThu);
+      console.log(">>> Tổng Lãnh đạo Vụ:", steps.lanhDaoVu);
+      console.log(">>> Tổng Lãnh đạo Phòng:", steps.lanhDaoPhong);
+      console.log(">>> Tổng Công chức phụ trách:", steps.congChuc);
+
+      return steps;
+    }
+    function exportExcelSharePointFormat() {
+      // Thu thập toàn bộ step/sub
+      const rows = [];
+      processData.forEach((step, s) => {
+        step.sub.forEach((row, r) => {
+          const rowId = `s${s}r${r}`;
+          rows.push({
+            step: step.title,
+            noidung: row.noidung,
+            nguoi: row.nguoi || "",
+            xuly: row.xuly || "",
+            cho: row.cho || "",
+            res: document.getElementById(`res-${rowId}`).value || "",
+            time: document.getElementById(`time-text-${rowId}`).textContent || "",
+            decision: document.getElementById(`decision-${rowId}`).textContent || ""
+          });
+        });
+      });
+
+      // Sinh REF
+      const now = new Date();
+      const pad = n => n.toString().padStart(2, "0");
+      const ref = `TCCB5.003_${pad(now.getDate())}${pad(now.getMonth() + 1)}${now.getFullYear()}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+
+      // Gói toàn bộ rows vào 1 JSON string
+      const jsonString = JSON.stringify(rows);
+
+      // Tạo duy nhất 1 dòng
+      const excelData = [{
+        REF: ref,
+        DATA: jsonString,
+        DEPT: document.getElementById("deptName")?.textContent.replace("Phòng: ", "").trim() || "",
+        QUYTRINH: document.querySelector("h1")?.textContent.trim() || ""
+      }];
+
+      // Xuất Excel
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet(excelData);
+      XLSX.utils.book_append_sheet(wb, ws, "QuyTrinh");
+      XLSX.writeFile(wb, "quytrinh.xlsx");
+    }
+    document.getElementById("processSelect")
+      .addEventListener("change", e => window.location.href = e.target.value);
+
+
+
+    // ✅ RENDER PROCESS TỪ JSON PHẲNG (thay cho renderProcess cũ)
+    function renderProcessFromJson() {
+      const processData = window.processData || [];  // ⚙️ lấy dữ liệu toàn cục
+      const tableContainer = document.getElementById("processTable");
+
+      if (!tableContainer) {
+        console.error("❌ Không tìm thấy phần tử #processTable trong DOM.");
+        return;
+      }
+
+      if (!Array.isArray(processData) || processData.length === 0) {
+        tableContainer.innerHTML = `<p>⚠️ Không có dữ liệu quy trình để hiển thị.</p>`;
+        return;
+      }
+
+      console.log("📋 [Render] Bắt đầu render", processData.length, "bước quy trình");
+
+      // 🧩 Bắt đầu dựng HTML bảng
+  let html = `
+  <table class="process-table-inner">
+    <thead>
+      <tr>
+        <th>Nội dung thực hiện</th>
+        <th>Người thực hiện/Phê duyệt</th>
+        <th>Ngày gửi</th>
+        <th>Đơn vị nhận</th>
+        <th>Thời gian xử lý</th>
+        <th>Thời gian chờ</th>
+        <th>Kết quả</th>
+        <th>Ngày hoàn thành</th>
+        <th>Quyết định</th>
+      </tr>
+    </thead>
+    <tbody>
+  `;
+
+  processData.forEach((step, s) => {
+    html += `<tr class="step-title"><td colspan="12"><b>${step.title || `Bước ${s + 1}`}</b></td></tr>`;
+    if (!step.sub || !Array.isArray(step.sub)) return;
+
+    step.sub.forEach((row, r) => {
+      const id = `s${s}r${r}`;
+      const dropdown = getDropdownHTML(row.donviNhan);
+
+      html += `
+      <tr class="${(s === 0 && r === 0) ? '' : 'hidden'}" id="${id}">
+        <td>${row.noidung || ''}</td>
+        <td>${row.nguoi || ''}</td>
+        <td id="ngaygui-${id}"></td>
+        <td>${dropdown}</td>
+        <td>${row.xuly || ''}</td>
+        <td>${row.cho || ''}</td>
+        <td>
+          <textarea class="result-input" id="res-${id}" placeholder="Nhập kết quả"></textarea>
+      `;
+
+      // ⚙️ Decision logic giữ nguyên
+      if (row.buttons && Array.isArray(row.buttons) && row.buttons.length >= 2) {
+        const [positiveLabel, negativeLabel] = row.buttons;
+        html += `
+          <div id="decision-choices-${id}">
+            <button class="btn btn-next" onclick="chooseDecision('${id}',${s},${r},true)">${positiveLabel}</button>
+            <button class="btn btn-next" onclick="chooseDecision('${id}',${s},${r},false)">${negativeLabel}</button>
+          </div>
+          <div id="decision-time-${id}" class="hidden">
+            <button class="btn btn-next" onclick="decisionStepNow('${id}',${s},${r})">⏱</button>
+            <button class="btn btn-next" onclick="decisionStepManual('${id}',${s},${r})">📅</button>
+          </div>
+        `;
+      } else {
+        html += `
+          <button class="btn btn-next" onclick="completeStepNow('${id}',${s},${r})">⏱</button>
+          <button class="btn btn-next" onclick="completeStepManual('${id}',${s},${r})">📅</button>
+        `;
+      }
+
+      html += `
+        </td>
+        <td>
+          <div class="time-wrapper">
+            <input type="datetime-local" id="time-${id}" class="time-input" onchange="applyManualTime('${id}')">
+            <span id="time-text-${id}"></span>
+            <span id="time-icon-${id}" class="time-icon hidden" onclick="openTimeInput('${id}')">🕒</span>
+          </div>
+        </td>
+        <td id="decision-${id}"></td>
+      </tr>
+      `;
+    });
+  });
+
+  html += `</tbody></table>`;
+  tableContainer.innerHTML = html;
+
+  console.log("✅ [Render] Hoàn tất render quy trình");
+}
+
+function chooseDecision(id, s, r, isPositive) {
+  console.groupCollapsed(`[chooseDecision] id=${id}, s=${s}, r=${r}, isPositive=${isPositive}`);
+
+  // 🧩 Lấy thông tin step hiện tại
+  const row = processData[s]?.sub?.[r] || {};
+  const stepType = row.type || "normal";
+
+  // 🧩 Ưu tiên lấy text từ buttons trong data (nếu có)
+  const buttons = row.buttons && Array.isArray(row.buttons) && row.buttons.length >= 2
+    ? row.buttons
+    : stepType === "decision3"
+      ? ["Thống nhất", "Chưa thống nhất"]
+      : ["Phù hợp", "Chưa phù hợp"];
+
+  // 🧠 Xác định text được chọn
+  const choiceText = isPositive ? buttons[0] : buttons[1];
+
+  // 🔹 Lưu trạng thái tạm thời
+  const decisionEl = document.getElementById(`decision-${id}`);
+  if (decisionEl) {
+    decisionEl.dataset.choice = choiceText;
+    decisionEl.textContent = choiceText;
+  }
+
+  // 🔹 Ẩn nhóm nút chọn
+  document.getElementById(`decision-choices-${id}`)?.classList.add("hidden");
+
+  // 🔹 Hiện cụm chọn thời gian (⏱📅)
+  document.getElementById(`decision-time-${id}`)?.classList.remove("hidden");
+
+  console.log(`🟢 [Decision] ${choiceText} → chờ chọn thời gian`);
+  console.groupEnd();
+}
+
+
+    // === Lấy REF từ URL ===
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+
+
+// === Import từ Cloud theo REF (Flow phải hỗ trợ query REF) ===
+async function importFromCloudByRef(ref) {
+  console.groupCollapsed(`🌐 [importFromCloudByRef] Bắt đầu import REF="${ref}"`);
+
+  if (!ref) {
+    
+    console.groupEnd();
+    return;
+  }
+
+  try {
+    // ⚙️ Gọi Flow kèm REF
+    const FLOW_URL_BASE =
+      "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/835980df6c0a4b5892289dcbc334ef50/triggers/manual/paths/invoke";
+    const FLOW_SIG =
+      "?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=YJ4F3Gm_-Z5fPBUfteIeNr5YK-Kg_6C3OyKIvqXfj1M";
+    const url = `${FLOW_URL_BASE}${FLOW_SIG}&ref=${encodeURIComponent(ref)}`;
+
+    console.log("🌐 Gọi Flow:", url);
+    const res = await fetch(url, { method: "GET" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+
+    const raw = (await res.text()).trim();
+    console.log("📦 Raw:", raw.slice(0, 300));
+
+    // ✅ Parse JSON (kể cả double encode)
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      data = JSON.parse(JSON.parse(raw));
+    }
+
+    if (!Array.isArray(data) || !data.length)
+      throw new Error("Flow không trả dữ liệu hợp lệ.");
+    const item = data[0];
+
+    const quytrinhName = item.QUYTRINH_NAME || item["TÊN QUY TRÌNH"] || "";
+    const dataRaw = item.DATA || "[]";
+
+    console.log("🔹 QUYTRINH_NAME:", quytrinhName);
+    console.log("🔹 DATA (raw):", dataRaw.slice(0, 200));
+
+    // ✅ 1. Đợi dropdown render đầy đủ
+    const select = document.getElementById("processSelectChiTiet");
+    if (!select) throw new Error("Không tìm thấy dropdown #processSelectChiTiet");
+
+    console.log("⏳ Đang chờ dropdown quy trình render...");
+    await new Promise(resolve => {
+      const maxWait = 8000;
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (select.options.length > 1) {
+          clearInterval(timer);
+          console.log("✅ Dropdown quy trình đã sẵn sàng.");
+          resolve();
+        } else if (Date.now() - start > maxWait) {
+          clearInterval(timer);
+          console.warn("⚠️ Dropdown chưa sẵn sau 8s, tiếp tục import...");
+          resolve();
+        }
+      }, 300);
+    });
+
+    // ✅ 2. Chọn option khớp tên
+    const match = Array.from(select.options).find(
+      o => o.textContent.trim().toLowerCase() === quytrinhName.trim().toLowerCase()
+    );
+
+    if (match) {
+      console.log("✅ [Auto-select] Khớp quy trình:", match.textContent);
+      select.value = match.value;
+      select.dispatchEvent(new Event("change"));
+    } else {
+      console.warn("⚠️ Không tìm thấy option khớp tên:", quytrinhName);
+    }
+
+    // ✅ 3. Cập nhật tiêu đề
+    const h1 = document.querySelector("h1");
+    if (h1) h1.textContent = quytrinhName || ref;
+
+    // ✅ 4. Đợi bảng render xong (inner table)
+    console.log("⏳ Đang chờ bảng #processTable render...");
+    await new Promise(resolve => {
+      const maxWait = 6000;
+      const start = Date.now();
+      const timer = setInterval(() => {
+        const tbl = document.getElementById("processTable");
+        if (tbl && tbl.querySelectorAll("tr").length > 1) {
+          clearInterval(timer);
+          console.log("✅ Bảng #processTable đã render xong!");
+          resolve();
+        } else if (Date.now() - start > maxWait) {
+          clearInterval(timer);
+          console.warn("⏰ Hết thời gian chờ render bảng.");
+          resolve();
+        }
+      }, 300);
+    });
+
+    // ✅ 5. Parse dữ liệu DATA từ SharePoint
+    let parsedData = [];
+    try {
+      parsedData = typeof dataRaw === "string" ? JSON.parse(dataRaw) : dataRaw;
+    } catch (err) {
+      console.warn("⚠️ DATA không parse được JSON:", err);
+    }
+
+    // ✅ 6. Gọi render và fill dữ liệu
+    if (Array.isArray(parsedData) && parsedData.length) {
+      console.log("📊 parseDecodedToTable(parsedData)", parsedData);
+
+      // 🟩 Đảm bảo bảng inner được render trước
+      if (typeof renderProcessFromJson === "function") {
+        renderProcessFromJson();
+      }
+
+      // 🟩 Sau đó fill dữ liệu từng dòng từ SharePoint
+      if (typeof hydrateFromSharePointData === "function") {
+        hydrateFromSharePointData(parsedData);
+      } else if (typeof parseDecodedToTable === "function") {
+        parseDecodedToTable(parsedData);
+      } else {
+        console.table(parsedData);
+        
+      }
+
+      // 🟢 NEW: Đồng bộ lại trạng thái vào processData để có thể PATCH ngược
+      if (window.processData) {
+        parsedData.forEach(item => {
+          const stepIndex = window.processData.findIndex(
+            s => (s.title || s.step || "").trim().toLowerCase() === (item.step || "").trim().toLowerCase()
+          );
+          if (stepIndex < 0) return;
+          const subIndex = window.processData[stepIndex].sub.findIndex(
+            sub => (sub.noidung || "").trim() === (item.noidung || "").trim()
+          );
+          if (subIndex < 0) return;
+
+          window.processData[stepIndex].sub[subIndex] = {
+            ...window.processData[stepIndex].sub[subIndex],
+            ...item
+          };
+        });
+
+        console.log("🔁 processData đã được sync với SharePoint");
+      }
+    } else {
+      console.warn("⚠️ Không có dữ liệu DATA hợp lệ trong SharePoint.");
+    }
+
+   
+  } catch (err) {
+    console.error("💥 Lỗi importFromCloudByRef:", err);
+    
+  } finally {
+    console.groupEnd();
+  }
+}
+
+
+
+
+
+
+
+    function formatDate(d) {
+      return d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" }) + " " +
+        d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    }
+
+    function lockStep(id, s, r) {
+      document.getElementById(`res-${id}`).readOnly = true;
+      document.querySelectorAll(`#${id} .btn-next`).forEach(btn => btn.classList.add("hidden"));
+
+      // ✅ Chỉ hiện nút chỉnh sửa nếu đã có dữ liệu
+      const res = document.getElementById(`res-${id}`).value.trim();
+      const time = document.getElementById(`time-text-${id}`).textContent.trim();
+      const decision = document.getElementById(`decision-${id}`).textContent.trim();
+
+
+    }
+
+    // ⚙️ Vì bạn render từ Bước 2, ta cộng offset để map đúng index
+
+
+    function showNext(id, s, r) {
+      console.groupCollapsed(`[showNext] id=${id}, s=${s}, r=${r}`);
+
+      const step = processData[s];
+      if (!step) {
+        console.warn("⚠️ Không tìm thấy step:", s);
+        console.groupEnd();
+        return;
+      }
+
+      // 👉 Kiểm tra nếu còn dòng kế trong cùng step
+      const nextRow = document.getElementById(`s${s}r${r + 1}`);
+      if (nextRow) {
+        console.log("➡️ Mở tiếp dòng cùng bước:", `s${s}r${r + 1}`);
+        nextRow.classList.remove("hidden");
+        updateSummary();
+        console.groupEnd();
+        return;
+      }
+
+      // 🧩 Nếu không có dòng kế → mở bước kế
+      const nextStepIndex = s + 1;
+      const nextStep = processData[nextStepIndex];
+      console.log("🟢 Thử mở bước kế tiếp:", nextStepIndex);
+
+      if (nextStep) {
+        const rid = `s${nextStepIndex}r0`;
+        const rowEl = document.getElementById(rid);
+        if (rowEl) {
+          rowEl.classList.remove("hidden");
+
+          document.getElementById(`decision-${rid}`).textContent = "";
+          document.getElementById(`time-text-${rid}`).textContent = "";
+
+          const stepType = nextStep.sub?.[0]?.type || "normal";
+          console.log("📌 nextStep.type:", stepType);
+
+          if (stepType === "decision2" || stepType === "decision3") {
+            document.getElementById(`decision-choices-${rid}`)?.classList.remove("hidden");
+            document.getElementById(`decision-time-${rid}`)?.classList.add("hidden");
+          } else {
+            rowEl.querySelectorAll(".btn-next").forEach(btn => {
+              btn.classList.remove("hidden");
+              btn.style.display = "inline-flex";
+            });
+          }
+        }
+      } else {
+        console.warn("⚠️ Không có bước tiếp theo (hết quy trình)");
+      }
+
+      updateSummary();
+      console.groupEnd();
+    }
+
+    // Giữ đồng bộ với showNext
+
+
+    function editStep(id, s, r, nguoi) {
+      console.groupCollapsed("[editStep] START");
+      console.log("▶️ id:", id, "| s:", s, "| r:", r, "| nguoi:", nguoi);
+
+      if (!confirm("⚠️ Sửa bước này? Các bước sau sẽ bị xóa.")) return;
+
+      const pass = prompt(`Nhập passcode (tên người: ${nguoi})`);
+      if (pass !== nguoi) {
+        alert("❌ Sai passcode");
+        console.groupEnd();
+        return;
+      }
+
+      // 1️⃣ Reset toàn bộ bước sau
+      for (let i = s; i < processData.length; i++) {
+        const step = processData[i];
+        if (!step?.sub) continue;
+
+        for (let j = (i === s ? r : 0); j < step.sub.length; j++) {
+          const rid = `s${i}r${j}`;
+          const row = document.getElementById(rid);
+          if (!row) continue;
+
+          // reset nội dung
+          const resEl = document.getElementById(`res-${rid}`);
+          if (resEl) {
+            resEl.removeAttribute("readonly");
+            resEl.value = "";
+          }
+          document.getElementById(`time-text-${rid}`).textContent = "";
+          document.getElementById(`decision-${rid}`).textContent = "";
+          document.getElementById(`time-${rid}`).value = "";
+
+          // ẩn cụm cha
+          document.getElementById(`decision-choices-${rid}`)?.classList.add("hidden");
+          document.getElementById(`decision-time-${rid}`)?.classList.add("hidden");
+
+          document.getElementById(`time-icon-${rid}`)?.classList.add("hidden");
+
+          // ẩn toàn dòng trừ dòng hiện tại
+          if (!(i === s && j === r)) row.classList.add("hidden");
+        }
+      }
+
+      // 2️⃣ Mở lại dòng hiện tại
+      const curRow = document.getElementById(id);
+      if (!curRow) return;
+
+      curRow.classList.remove("hidden");
+      document.getElementById(`res-${id}`)?.removeAttribute("readonly");
+
+      document.getElementById(`decision-${id}`).textContent = "";
+      document.getElementById(`time-text-${id}`).textContent = "";
+
+      // 3️⃣ Xác định loại bước hiện tại
+      const stepType = processData[s]?.sub?.[r]?.type || "normal";
+      console.log("📌 stepType:", stepType);
+
+      const choicesEl = document.getElementById(`decision-choices-${id}`);
+      const timeEl = document.getElementById(`decision-time-${id}`);
+
+      // 4️⃣ Hiện cụm tương ứng cho bước này
+      if (stepType === "decision2" || stepType === "decision3") {
+        console.log("🟡 Là bước decision → bật lại cụm chọn quyết định");
+        choicesEl?.classList.remove("hidden");
+        timeEl?.classList.add("hidden");
+
+        // Gắn lại onclick
+        const btns = choicesEl?.querySelectorAll("button") || [];
+        btns.forEach(btn => {
+          const isOk =
+            btn.textContent.includes("Phù hợp") ||
+            btn.textContent.includes("Thống nhất");
+          btn.onclick = () => chooseDecision(id, s, r, isOk);
+          btn.style.pointerEvents = "auto";
+        });
+      } else {
+        console.log("🟢 Là bước thường → bật lại cụm ⏱📅");
+        if (timeEl) {
+          timeEl.classList.remove("hidden");
+          const btns = timeEl.querySelectorAll(".btn-next");
+          btns.forEach(btn => {
+            btn.classList.remove("hidden");
+            btn.style.display = "inline-flex";
+            btn.style.pointerEvents = "auto";
+
+            // phục hồi onclick gốc
+            const oldOnClick = btn.getAttribute("onclick");
+            if (oldOnClick) {
+              btn.onclick = new Function(oldOnClick.replace(/^javascript:/, ""));
+            }
+          });
+        }
+      }
+
+      // 5️⃣ Xác định bước kế tiếp hợp lệ để mở (nếu có)
+      const nextStep = processData[s]?.sub?.[r + 1]
+        ? `s${s}r${r + 1}`
+        : processData[s + 1]
+          ? `s${s + 1}r0`
+          : null;
+
+      if (nextStep) {
+        const nextRow = document.getElementById(nextStep);
+        if (nextRow) {
+          nextRow.classList.remove("hidden");
+          console.log("➡️ Bật bước kế tiếp:", nextStep);
+        }
+      } else {
+        console.log("⚪ Không có bước kế tiếp");
+      }
+
+      console.log("✅ Hoàn tất khôi phục cụm nút cho dòng", id);
+      console.groupEnd();
+      updateSummary();
+    }
+
+
+
+    // ===== Parse dd/MM/yyyy HH:mm:ss =====
+    function parseVNDate(str) {
+      if (!str) return null;
+
+      // Match dd/MM/yyyy HH:mm[:ss] (cả 24h và 12h có AM/PM)
+      const m = str.match(
+        /(\d{2})\/(\d{2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?(?:\s*(AM|PM))?/i
+      );
+      if (!m) return null;
+
+      const d = parseInt(m[1], 10);
+      const mo = parseInt(m[2], 10) - 1;
+      const y = parseInt(m[3], 10);
+      let hh = parseInt(m[4], 10);
+      const mm = parseInt(m[5], 10);
+      const ss = m[6] ? parseInt(m[6], 10) : 0;
+      const ampm = m[7] ? m[7].toUpperCase() : null;
+
+      if (ampm) {
+        if (ampm === "PM" && hh < 12) hh += 12;
+        if (ampm === "AM" && hh === 12) hh = 0;
+      }
+
+      return new Date(y, mo, d, hh, mm, ss);
+    }
+
+    function fmt(sec) {
+      const d = Math.floor(sec / 86400); sec %= 86400;
+      const h = Math.floor(sec / 3600); sec %= 3600;
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${d} ngày ${h} giờ ${m} phút ${s} giây`;
+    }
+
+    // ===== Summary: tính theo người, lấy mốc mới nhất =====
+
+
+    // (tuỳ chọn) gộp tên chức vụ về dạng chuẩn để tránh lệch chính tả
+    function canonicalRole(role) {
+      const t = normalize(role || "");
+      if (t.includes("van thu")) return "Văn thư";
+      if (t.includes("lãnh đạo vụ") || t.includes("lanh dao vu")) return "Lãnh đạo Vụ";
+      if (t.includes("lãnh đạo phòng") || t.includes("lanh dao phong") || t.includes("truong phong") || t.includes("pho truong phong"))
+        return "Lãnh đạo Phòng";
+      if (t.includes("công chức") || t.includes("cong chuc")) return "Công chức phụ trách";
+      return role?.trim() || "";
+    }
+
+    // format gọn: bỏ bớt số 0 đầu
+    function fmtCompact(sec) {
+      sec = Math.max(0, Math.floor(sec));
+      const d = Math.floor(sec / 86400); sec %= 86400;
+      const h = Math.floor(sec / 3600); sec %= 3600;
+      const m = Math.floor(sec / 60); const s = sec % 60;
+      const parts = [];
+      if (d) parts.push(`${d} ngày`);
+      if (h || parts.length) parts.push(`${h} giờ`);
+      if (m || parts.length) parts.push(`${m} phút`);
+      if (s || parts.length === 0) parts.push(`${s} giây`);
+      return parts.join(" ");
+    }
+
+    function updateSummary() {
+      // 1) Thu timeline sự kiện đang hiển thị
+      const events = [];
+      document.querySelectorAll("#processTable tbody tr:not(.step-title)").forEach(tr => {
+        if (tr.classList.contains("hidden")) return;  // chỉ tính row đã mở
+        const cells = tr.querySelectorAll("td");
+        if (!cells.length) return;
+
+        const roleRaw = cells[1]?.textContent.trim(); // cột 2 = Chức vụ / Người thực hiện
+        const role = canonicalRole(roleRaw);
+        const timeStr = tr.querySelector("span[id^='time-text-']")?.textContent.trim();
+        if (!role || !timeStr) return;
+
+        const dt = parseVNDate(timeStr);              // dùng parseVNDate đã sửa nhận 24h & AM/PM
+        if (!dt) return;
+
+        events.push({ role, time: dt });
+      });
+
+      if (events.length < 2) { document.getElementById("summary").innerHTML = ""; return; }
+
+      // 2) Sắp theo thời gian tăng dần
+      events.sort((a, b) => a.time - b.time);
+
+      // 3) Cộng dồn thời lượng theo quy tắc: mỗi row ăn khoảng (row_i → row_{i+1})
+      const totals = new Map(); // role -> giây
+      const counts = new Map(); // role -> số đoạn đảm nhiệm
+      const order = [];         // thứ tự xuất hiện lần đầu (để render đẹp)
+
+      for (let i = 0; i < events.length - 1; i++) {
+        const cur = events[i];
+        const next = events[i + 1];
+        const diff = (next.time - cur.time) / 1000;
+        if (diff < 0) continue; // bỏ nếu dữ liệu lùi thời gian
+
+        if (!totals.has(cur.role)) { totals.set(cur.role, 0); order.push(cur.role); }
+        totals.set(cur.role, totals.get(cur.role) + diff);
+        counts.set(cur.role, (counts.get(cur.role) || 0) + 1);
+      }
+
+      // 4) Render bảng tổng hợp theo chức vụ
+      let html = `<h2>⏱ Tổng thời gian theo chức vụ (cộng dồn toàn trình)</h2>
+                <table id="summaryTable">
+                  <tr><th>Chức vụ</th><th>Tổng thời gian</th><th>Số đoạn đảm nhiệm</th></tr>`;
+
+      for (const role of order) {
+        if (!totals.has(role)) continue;
+        html += `<tr>
+                <td>${role}</td>
+                <td>${fmtCompact(totals.get(role))}</td>
+                <td>${counts.get(role) || 0}</td>
+              </tr>`;
+      }
+
+      const totalOverall = (events[events.length - 1].time - events[0].time) / 1000;
+      html += `<tr><th colspan="2">Tổng quy trình</th><th>${fmtCompact(totalOverall)}</th></tr>`;
+      html += `</table>`;
+
+      document.getElementById("summary").innerHTML = html;
+    }
+    // ===== Export CSV (chỉ export row đang hiển thị) =====
+
+
+
+    // Lấy thời gian cuối cùng đã có trước bước hiện tại
+    function getLastTimeBefore(s, r) {
+      for (let i = s; i >= 0; i--) {
+        const rows = processData[i].sub;
+        for (let j = (i === s ? r - 1 : rows.length - 1); j >= 0; j--) {
+          const txt = document.getElementById(`time-text-s${i}r${j}`);
+          if (txt && txt.textContent) {
+            return parseVNDate(txt.textContent);
+          }
+        }
+      }
+      return null;
+    }
+    function applyManualTime(id) {
+      const inp = document.getElementById(`time-${id}`);
+      const txt = document.getElementById(`time-text-${id}`);
+
+      if (inp.value) {
+        const dt = new Date(inp.value);
+
+        const match = id.match(/s(\d+)r(\d+)/);
+        const s = parseInt(match[1]), r = parseInt(match[2]);
+        const last = getLastTimeBefore(s, r);
+        if (last && dt <= last) {
+          alert("❌ Thời gian phải lớn hơn các bước trước!");
+          inp.value = "";
+          return;
+        }
+
+        txt.textContent = formatDate(dt);
+        document.getElementById(`time-icon-${id}`).classList.add("hidden");
+
+        // Ẩn các nút thao tác, chỉ còn nút chỉnh sửa
+        document.querySelectorAll(`#${id} .btn-next`).forEach(btn => btn.classList.add("hidden"));
+        document.getElementById(`res-${id}`).readOnly = true;
+
+
+        const choice = document.getElementById(`decision-${id}`).dataset.choice;
+        if (choice) {
+          const isPositive = (choice === "Phù hợp" || choice === "Thống nhất");
+          finishDecision(id, s, r, isPositive);
+        } else {  
+          showNext(id, s, r);
+          updateSummary();
+        }
+      } else {
+        txt.textContent = "";
+      }
+    }
+
+    function openTimeInput(id) {
+      const inp = document.getElementById(`time-${id}`);
+      if (inp.showPicker) {
+        inp.showPicker();   // Chrome
+      } else {
+        inp.click();        // fallback
+      }
+    }
+// 🧩 Tự động chọn quy trình khi record đang edit có QUYTRINH_NAME trùng SharePoint
+function autoSelectProcessChiTiet(row) {
+  let attempts = 0;
+
+  const timer = setInterval(() => {
+    const drop = document.getElementById("processSelectChiTiet");
+    const listStr = sessionStorage.getItem("processListChiTiet");
+    attempts++;
+
+    if (!drop || !listStr) {
+      console.log("⏳ [autoSelectProcessChiTiet] Đang chờ dropdown hoặc processListChiTiet...");
+      if (attempts > 10) {
+        clearInterval(timer);
+        console.warn("⛔ Hết thời gian chờ load processListChiTiet.");
+      }
+      return;
+    }
+
+    clearInterval(timer);
+
+    const list = JSON.parse(listStr);
+    const normalize = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
+    // 🔹 Tên quy trình từ record đang edit
+    const queryName = (row.QUYTRINH_NAME || row.quytrinh || "").trim();
+    if (!queryName) {
+      console.warn("⚠️ Không có QUYTRINH_NAME trong record → bỏ qua auto-select");
+      return;
+    }
+
+    const normQuery = normalize(queryName);
+
+    // 🔹 So khớp với QUYTRINH_NAME hoặc TEN QUY TRÌNH từ SharePoint
+    const found = list.find(x =>
+      normalize(x.QUYTRINH_NAME || x.ten || "") === normQuery ||
+      normalize(x.maSo || "") === normQuery
+    );
+
+    if (found) {
+      // ✅ Set dropdown
+      drop.value = found.maSo || "";
+
+      // ✅ Lấy text hiển thị từ dropdown (chính là h1)
+      const selectedText = drop.selectedOptions[0]?.textContent?.trim() || found.QUYTRINH_NAME || "";
+      const h1 = document.querySelector("h1");
+      if (h1) h1.textContent = selectedText;
+
+      // ✅ Render dữ liệu quy trình
+      window.processData = found.steps || [];
+      renderProcessFromJson();
+
+      console.log(`🟢 Auto chọn quy trình: [${found.maSo}] ${selectedText}`);
+    } else {
+      console.warn("⚠️ Không tìm thấy quy trình khớp tên:", queryName);
+    }
+  }, 500);
+}
+    function saveProcess(ref) {
+      const data = {
+        ref: ref,
+        steps: [],
+        summary: document.getElementById("summary").innerHTML
+      };
+
+      processData.forEach((step, s) => {
+        step.sub.forEach((row, r) => {
+          const id = `s${s}r${r}`;
+          const res = document.getElementById(`res-${id}`).value;
+          const time = document.getElementById(`time-text-${id}`).textContent;
+          const decision = document.getElementById(`decision-${id}`).textContent;
+          data.steps.push({
+            step: step.title,
+            noidung: row.noidung,
+            nguoi: row.nguoi,
+            xuly: row.xuly || "",
+            cho: row.cho || "",
+            res, time, decision
+          });
+        });
+      });
+
+      // 🔄 lưu vào sessionStorage thay vì localStorage
+      let store = JSON.parse(sessionStorage.getItem("processStore") || "[]");
+      store.push(data);
+      sessionStorage.setItem("processStore", JSON.stringify(store));
+
+      alert("✅ Đã lưu quy trình (phiên hiện tại) với REF: " + ref);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      console.groupCollapsed("🚀 DOMContentLoaded");
+
+      // 1️⃣ Lấy token key
+      const savedToken = sessionStorage.getItem("tokenKey");
+      if (savedToken) {
+        window.tokenKey = savedToken;
+        console.log("🔑 TokenKey đã khôi phục:", window.tokenKey.slice(0, 10) + "...");
+      } else {
+        console.warn("⚠️ Chưa có TOKEN_KEY trong sessionStorage");
+      }
+
+      // 2️⃣ Lấy mode + selectedRow + ref
+      const mode = sessionStorage.getItem("mode");
+      const dataStr = sessionStorage.getItem("selectedRow");
+      const refQuery = getQueryParam("ref");
+      console.log("💬 mode =", mode, "| selectedRow =", !!dataStr, "| refQuery =", refQuery);
+
+      // 3️⃣ Chế độ NEW
+      if (mode === "new") {
+        console.log("🆕 Chế độ NEW → hiển thị form chọn quy trình ban đầu");
+        document.getElementById("processSelectWrapper").classList.remove("hidden");
+        const first = document.getElementById("s0r0");
+        if (first) first.classList.remove("hidden");
+        console.groupEnd();
+        return;
+      }
+
+      // 4️⃣ Chế độ EDIT (được gọi từ homepage)
+      // 4️⃣ Chế độ EDIT (được gọi từ homepage)
+if (mode === "edit") {
+  console.log("✏️ Chế độ EDIT từ sessionStorage");
+  document.getElementById("processSelectWrapper").classList.add("hidden");
+
+  if (dataStr) {
+    const row = JSON.parse(dataStr);
+    console.log("📦 Đang load selectedRow từ session:", row);
+
+    // ===============================
+    // 🔹 Lấy dữ liệu phụ trong session
+    // ===============================
+    const chitiet = JSON.parse(sessionStorage.getItem("chitietData") || "{}");
+    const ykien = JSON.parse(sessionStorage.getItem("ykienData") || "[]");
+    const rawLuan = JSON.parse(sessionStorage.getItem("luanchuyenData") || "[]");
+    const edoc = JSON.parse(sessionStorage.getItem("edocData") || "[]");
+
+    // ===============================
+    // 🔹 Chuẩn hóa luanchuyenData
+    // ===============================
+    const luan = rawLuan.map(raw => ({
+      nguoi_gui:      raw["Đơn vị nhận"]      || "",
+      don_vi_nhan:    raw["Người nhận"]       || "",
+      nguoi_nhan:     raw["Thời gian gửi"]    || "",
+      thoi_gian_gui:  raw["Thời gian nhận"]   || "",
+      thoi_gian_nhan: raw["Môi trường"]       || "",
+      trang_thai:     raw["Lý do"]            || "",
+      ly_do:          "",
+      ref: raw.ref ?? ""
+    }));
+
+    console.log("💬 luanchuyenData (chuẩn hóa):", luan);
+    setTimeout(() => {
+  console.log("🔍 Gọi extractPhongDauMoi sau khi đã có luanchuyenData thật:", luan.length, "dòng");
+  const phong = extractPhongDauMoi(luan);
+  console.log("🏢 Kết quả extractPhongDauMoi =", phong);
+}, 200);
+    console.log("📊 chitiet =", chitiet);
+    console.log("💬 ykienData =", ykien.length, "| luanchuyenData =", luan.length, "| edocData =", edoc.length);
+
+    // ===============================
+// 🔍 Tìm phòng trong luanchuyenData dựa theo "Phòng" + "Đầu mối"
+let dept = "Không xác định";
+
+if (Array.isArray(luan) && luan.length > 0) {
+  const cleanText = s =>
+    (s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // bỏ dấu tiếng Việt
+      .replace(/\s+/g, " ") // gộp space, tab, xuống dòng
+      .replace(/\n/g, " ")
+      .trim()
+      .toLowerCase();
+
+  console.groupCollapsed("🔎 Kiểm tra từng dòng tìm 'Phòng ... - Đầu mối'");
+  let matched = null;
+
+  luan.forEach((item, i) => {
+    const val = cleanText(item.nguoi_nhan);
+    if (val.includes("phong") && val.includes("dau moi")) {
+      matched = item;
+      console.log(`✅ [${i}] Match:`, item.nguoi_nhan);
+    } else if (val.includes("phong")) {
+      console.log(`⚠️ [${i}] Có 'phong' nhưng thiếu 'dau moi':`, item.nguoi_nhan);
+    } else if (val.includes("dau moi")) {
+      console.log(`⚠️ [${i}] Có 'dau moi' nhưng thiếu 'phong':`, item.nguoi_nhan);
+    }
+  });
+  console.groupEnd();
+
+  if (matched) {
+    let raw = (matched.nguoi_nhan || "").replace(/\s+/g, " ").trim();
+
+    // Cắt ra phần "Phòng ..." nếu có
+    const found = raw.match(/(Phòng|Phong)[^-\n]+/i);
+    if (found) {
+      dept = found[0].replace(/Phong/i, "Phòng").trim();
+    } else {
+      dept = matched.don_vi_nhan?.trim() || "Không xác định";
+    }
+
+    console.log("🏢 Phòng xác định:", dept, "→ từ dòng:", matched);
+  } else {
+    console.warn("⚠️ Không tìm thấy dòng chứa 'phòng' và 'đầu mối'");
+  }
+} else {
+  console.warn("⚠️ luanchuyenData không hợp lệ:", luan);
+}
+
+// 🔹 Chuẩn hóa tên phòng qua normalizeDept()
+dept = normalizeDept(dept);
+
+// 🔹 Cập nhật giao diện
+document.getElementById("deptName").textContent = "Phòng: " + dept + " - Đầu mối";
+console.log("✅ Kết quả cuối cùng:", dept);
+
+    // ===============================
+    // 🔹 Render bảng chi tiết & dữ liệu phụ
+    // ===============================
+    document.getElementById("detailWrapper").innerHTML =
+      renderChiTiet(chitiet) +
+      renderYKienTable(ykien) +
+      renderLuanChuyenTable(luan);
+
+    // ===============================
+    // 🔹 Chọn lại quy trình chi tiết (dropdown)
+    // ===============================
+    setTimeout(() => {
+      const quytrinhName = row.quytrinh?.trim() || "";
+      if (!quytrinhName) {
+        console.warn("⚠️ Không có tên quy trình trong row.quytrinh");
+        return;
+      }
+
+      const drop = document.getElementById("processSelectChiTiet");
+      const listStr = sessionStorage.getItem("processListChiTiet");
+
+      if (!drop || !listStr) {
+        console.warn("⚠️ Chưa có dropdown hoặc danh sách quy trình trong sessionStorage");
+        return;
+      }
+
+      const list = JSON.parse(listStr);
+      const found = list.find(
+        x => x.ten.toLowerCase().trim() === quytrinhName.toLowerCase().trim()
+      );
+
+      if (found) {
+        drop.value = found.maSo;
+        console.log("🟢 Chọn sẵn quy trình:", found.ten);
+        document.querySelector("h1").textContent = found.ten;
+
+        window.processData = found.steps;
+        renderProcessFromJson();
+      } else {
+        console.warn("⚠️ Không tìm thấy quy trình khớp tên:", quytrinhName);
+      }
+    }, 800);
+
+    // ===============================
+    // 🔹 Render quy trình chính
+    // ===============================
+    renderProcessFromJson();
+
+    // Nếu chưa có edocData → import lại
+    if (!sessionStorage.getItem("edocData") || edoc.length === 0) {
+      console.warn("⚠️ Không có edocData trong sessionStorage → tự import từ Cloud theo REF:", row.ref);
+      importFromCloudByRef(row.ref);
+    } else {
+      console.log("✅ Có edocData trong sessionStorage, không cần import lại");
+    }
+
+    console.groupEnd();
+    return;
+  }
+
+  // ===============================
+  // 🔹 Fallback khi không có selectedRow
+  // ===============================
+  if (refQuery) {
+    console.log("🔍 Không có selectedRow → lấy theo refQuery:", refQuery);
+    document.getElementById("processSelectWrapper").classList.add("hidden");
+    document.getElementById("refDisplay").textContent = "REF: " + refQuery;
+    importFromCloudByRef(refQuery);
+  } else {
+    console.warn("⚠️ Không có selectedRow và không có refQuery → không thể load dữ liệu");
+  }
+
+  console.groupEnd();
+  return;
+}
+
+
+      // 5️⃣ Mặc định (auto load theo ref trên URL)
+      console.log("ℹ️ Không có mode → auto load theo ref trên URL nếu có");
+      document.getElementById("processSelectWrapper").classList.add("hidden");
+
+      if (refQuery) {
+        console.log("🔍 Auto import theo REF trên URL:", refQuery);
+        document.getElementById("refDisplay").textContent = "REF: " + refQuery;
+        importFromCloudByRef(refQuery);
+      } else {
+        console.warn("⚠️ Không có REF trong URL → trang đang ở trạng thái rỗng");
+      }
+
+      console.groupEnd();
+    });
+
+
+
+    // ================== TOKEN ==================
+    // Biến toàn cục lưu key
+    window.tokenKey = "";
+
+    // Import Token từ CSV hoặc TXT
+    function importToken(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        const text = evt.target.result.trim();
+
+        const lines = text.split(/\r?\n/);
+        const header = lines[0].split(",");
+
+        const idx = header.findIndex(h => h.toUpperCase().includes("TOKEN_KEY"));
+        if (idx >= 0 && lines.length > 1) {
+          // lấy token từ dòng 2
+          const cols = lines[1].split(",");
+          window.tokenKey = cols[idx].replace(/^"|"$/g, "").trim();
+        } else {
+          // file chỉ chứa token dạng txt
+          window.tokenKey = text.replace(/^"|"$/g, "").trim();
+        }
+
+        document.getElementById("currentToken").textContent = "🔑 Token hiện tại: " + window.tokenKey;
+        alert("✅ Đã nạp TOKEN_KEY: " + window.tokenKey);
+      };
+      reader.readAsText(file, "utf-8");
+    }
+
+    // Encode dữ liệu (xuất)
+    function encodeData(obj) {
+      if (!window.tokenKey || window.tokenKey.trim() === "") {
+        alert("⚠️ Chưa có TOKEN_KEY, vui lòng import trước");
+        return null;
+      }
+
+      try {
+        // 🔹 B1: Chuỗi JSON gốc
+        const jsonStr = JSON.stringify(obj);
+
+        // 🔹 B2: Ghép thêm TOKEN_KEY để xác thực
+        const combined = jsonStr + "::" + window.tokenKey.trim();
+
+        // 🔹 B3: Mã hoá Base64 (chỉ 1 lần)
+        return btoa(unescape(encodeURIComponent(combined)));
+      } catch (err) {
+        console.error("❌ Lỗi encodeData:", err);
+        alert("❌ Lỗi khi mã hoá dữ liệu!");
+        return null;
+      }
+    }
+
+
+    // Decode dữ liệu (nhập)
+    function decodeData(base64) {
+      try {
+        // Làm sạch chuỗi Base64
+        const clean = base64.replace(/[\r\n\s]/g, "").trim();
+
+        // Giải mã Base64 về mảng byte
+        const binary = atob(clean);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+
+        // Dùng TextDecoder để đọc UTF-8 chính xác
+        const decoder = new TextDecoder("utf-8");
+        const decodedStr = decoder.decode(bytes);
+
+        // Nếu chuỗi trông giống JSON → parse luôn
+        if (decodedStr.trim().startsWith("[") || decodedStr.trim().startsWith("{")) {
+          return JSON.parse(decodedStr);
+        }
+
+        console.warn("⚠️ Không phải JSON, trả về chuỗi thuần");
+        return decodedStr;
+      } catch (err) {
+        console.error("❌ Lỗi giải mã Base64:", err);
+        alert("⚠️ Lỗi giải mã Base64 (chuỗi không hợp lệ hoặc sai mã hóa).");
+        return null;
+      }
+    }
+
+    function decodeDataDouble(base64) {
+      const first = decodeData(base64);
+      if (typeof first === "string" && /^[A-Za-z0-9+/=]+$/.test(first)) {
+        return decodeData(first);
+      }
+      return first;
+    }
+
+
+
+    // ================== EXPORT ==================
+    function exportRawJson() {
+      // Thu thập toàn bộ step/sub (kể cả hidden)
+      const rows = [];
+      processData.forEach((step, s) => {
+        step.sub.forEach((row, r) => {
+          const rowId = `s${s}r${r}`;
+          rows.push({
+            step: step.title,
+            noidung: row.noidung,
+            nguoi: row.nguoi || "",
+            xuly: row.xuly || "",
+            cho: row.cho || "",
+            res: document.getElementById(`res-${rowId}`).value || "",
+            time: document.getElementById(`time-text-${rowId}`).textContent || "",
+            decision: document.getElementById(`decision-${rowId}`).textContent || ""
+          });
+        });
+      });
+
+      // Tạo ref dạng BB_ddMMyyyy_hhmmss
+      const now = new Date();
+      const pad = n => n.toString().padStart(2, "0");
+      const ref = `TCCB5.003_${pad(now.getDate())}${pad(now.getMonth() + 1)}${now.getFullYear()}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+
+      // Gói JSON {ref, rows}
+      const output = { ref: ref, rows: rows };
+
+      // Xuất file JSON
+      const blob = new Blob([JSON.stringify(output, null, 2)], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = ref + ".json";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+
+    // ================== IMPORT ENCODED ==================
+    function importEncoded(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        const encoded = evt.target.result.trim();
+        const data = decodeData(encoded);
+        if (!data) return;
+        parseDecodedToTable(data);
+      };
+      reader.readAsText(file, "utf-8");
+    }
+function hydrateFromSharePointData(data) {
+  console.groupCollapsed("📋 [hydrateFromSharePointData] Áp trạng thái từ SharePoint DATA");
+
+  let arr = typeof data === "string" ? JSON.parse(data) : data;
+  if (!Array.isArray(arr)) {
+    console.warn("⚠️ DATA không phải mảng hợp lệ");
+    return;
+  }
+
+  arr.forEach((item) => {
+    const step = item.step || "";
+    const sIndex = window.processData.findIndex(
+      s => (s.title || s.step || "").trim().toLowerCase() === step.trim().toLowerCase()
+    );
+    if (sIndex < 0) return;
+
+    const rIndex = window.processData[sIndex]?.sub?.findIndex(
+      sub => (sub.noidung || "").trim() === (item.noidung || "").trim()
+    );
+    if (rIndex < 0) return;
+
+    const id = `s${sIndex}r${rIndex}`;
+    const tr = document.getElementById(id);
+    if (!tr) return;
+
+    // ✅ Ẩn / hiện hàng
+    tr.classList.toggle("hidden", !!item.hidden);
+
+    // ✅ Điền dữ liệu
+    const res = document.getElementById(`res-${id}`);
+    const timeText = document.getElementById(`time-text-${id}`);
+    const decisionCell = document.getElementById(`decision-${id}`);
+
+    if (res) {
+      res.value = item.res || "";
+      res.readOnly = !!item.readonly || !!item.done;
+    }
+    if (timeText) timeText.textContent = item.time || "";
+    if (decisionCell) decisionCell.textContent = item.decision || "";
+
+    // ✅ Xử lý nhóm nút
+    const btns = tr.querySelectorAll("button");
+    const decGroup = document.getElementById(`decision-choices-${id}`);
+    const decTime = document.getElementById(`decision-time-${id}`);
+
+    if (item.done || item.readonly) {
+      // Ẩn tất cả nhóm nút
+      btns.forEach(b => b.classList.add("hidden"));
+      decGroup?.classList.add("hidden");
+      decTime?.classList.add("hidden");
+    } else {
+      // Bước decision: chỉ hiện nhóm lựa chọn
+      if (item.type === "decision2" || item.type === "decision3") {
+        decGroup?.classList.remove("hidden");
+        decTime?.classList.add("hidden");
+      } else {
+        // Bước thường
+        btns.forEach(b => b.classList.remove("hidden"));
+      }
+    }
+
+    // ✅ Hiển thị biểu tượng đồng hồ nếu có time
+   // ✅ Hiển thị biểu tượng đồng hồ nếu có time và bước chưa hoàn tất
+const timeIcon = document.getElementById(`time-icon-${id}`);
+if (timeIcon) {
+  if (item.time && !item.done && !item.readonly) {
+    timeIcon.classList.remove("hidden");
+  } else {
+    timeIcon.classList.add("hidden");
+  }
+}
+
+    // ✅ Mở bước kế tiếp nếu done
+    if (item.done && typeof showNext === "function") {
+      showNext(id, sIndex, rIndex);
+    }
+  });
+
+  console.log("✅ Hydrate hoàn tất theo trạng thái SharePoint");
+  console.groupEnd();
+}
+
+
+
+    // ================== APPLY DECODED DATA ==================
+// ✅ Hydrate lại bảng inner từ DATA (RES/TIME/DECISION) theo đúng step/sub
+function parseDecodedToTable(rows) {
+  console.groupCollapsed("📋 [parseDecodedToTable] Hydrate bảng inner");
+  try {
+    // 1) Chuẩn hóa input
+    let dataArr = rows;
+    if (typeof rows === "string") {
+      try { dataArr = JSON.parse(rows); } catch(e) {
+        console.error("❌ DATA không phải JSON hợp lệ:", e);
+        alert("⚠️ Dữ liệu không hợp lệ để render");
+        return;
+      }
+    }
+    if (!Array.isArray(dataArr)) {
+      console.warn("⚠️ DATA không phải mảng, bỏ qua");
+      return;
+    }
+
+    // 2) Bảng inner phải tồn tại rồi (renderProcessFromJson đã chạy)
+    const table = document.querySelector("#processTable tbody");
+    if (!table) {
+      console.warn("⚠️ Chưa có bảng inner (#processTable) → gọi renderProcessFromJson trước");
+      if (typeof renderProcessFromJson === "function") renderProcessFromJson();
+    }
+
+    // 3) Lập bucket id cho từng step theo processData (theo thứ tự)
+    const buckets = {}; // { stepKey: [{id,s,r}, ...] }
+    const pd = (window.processData || []);
+    const norm = (s) => (s || "").toString().trim().toLowerCase();
+
+    pd.forEach((step, s) => {
+      const key = norm(step.title || `Bước ${s + 1}`);
+      buckets[key] = (step.sub || []).map((_, r) => ({ id: `s${s}r${r}`, s, r }));
+    });
+
+    // 4) Hydrate từng dòng đã lưu
+    dataArr.forEach((rowSaved, i) => {
+      const stepKey = norm(rowSaved.step);
+      const bucket = buckets[stepKey] || [];
+      const item = bucket.shift();                // lấy đúng hàng theo thứ tự xuất
+      if (!item) {
+        console.warn("⚠️ Không match được id cho dòng:", rowSaved);
+        return;
+      }
+
+      const { id, s, r } = item;
+
+      // 👉 Mở hàng hiện tại
+      const tr = document.getElementById(id);
+      tr?.classList.remove("hidden");
+
+      // 👉 Điền KẾT QUẢ
+      const resEl = document.getElementById(`res-${id}`);
+      if (resEl && rowSaved.res != null && rowSaved.res !== "") {
+        resEl.value = rowSaved.res;
+        resEl.readOnly = true;
+      }
+
+      // 👉 Điền NGÀY HOÀN THÀNH (cột cuối cùng có span time-text-*)
+      const timeTxt = document.getElementById(`time-text-${id}`);
+      const timeInp = document.getElementById(`time-${id}`);
+      if (rowSaved.time) {
+        timeTxt && (timeTxt.textContent = rowSaved.time);
+        // Ẩn icon mở lịch nếu có
+        document.getElementById(`time-icon-${id}`)?.classList.add("hidden");
+      }
+
+      // 👉 Điền QUYẾT ĐỊNH (nếu có)
+      const decEl = document.getElementById(`decision-${id}`);
+      if (rowSaved.decision) {
+        decEl && (decEl.textContent = rowSaved.decision);
+        // Ẩn group chọn quyết định/time picker của bước decision
+        document.getElementById(`decision-choices-${id}`)?.classList.add("hidden");
+        document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
+      }
+
+      // 👉 Khóa thao tác của hàng hiện tại & mở hàng kế tiếp theo flow
+      if (typeof lockStep === "function") lockStep(id, s, r);
+      if (typeof showNext === "function")  showNext(id, s, r);
+    });
+
+    // 5) Cập nhật bảng tổng hợp
+    if (typeof updateSummary === "function") updateSummary();
+
+    console.log(`✅ Hydrate xong ${dataArr.length} dòng`);
+  } catch (err) {
+    console.error("💥 parseDecodedToTable lỗi:", err);
+  } finally {
+    console.groupEnd();
+  }
+}
+
+    //Send to SharePoint via Power Automate
+    // ================== EXPORT CLOUD ==================
+function normalizeDept(rawDept = "") {
+  if (!rawDept) return "";
+
+  let dept = rawDept
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // bỏ dấu tiếng Việt
+    .toLowerCase()
+    .replace(/[()\-–_]/g, " ") // bỏ ký tự đặc biệt
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (dept.includes("to chuc tien luong") || dept.includes("tien luong tccb"))
+    return "Phòng Tổ chức tiền lương";
+  if (dept.includes("thi dua") || dept.includes("khen thuong"))
+    return "Phòng Thi đua - Khen thưởng";
+  if (dept.includes("can bo dia phuong") || dept.includes("dia phuong"))
+    return "Phòng Cán bộ địa phương";
+  if (dept.includes("dao tao") || dept.includes("nguon nhan luc") || dept.includes("phat trien"))
+    return "Phòng Đào tạo và Phát triển nguồn nhân lực";
+  if (dept.includes("to chuc can bo") || dept.includes("tccb"))
+    return "Vụ Tổ chức cán bộ";
+
+  console.warn("⚠️ Dept chưa mapping:", rawDept);
+  return rawDept.trim();
+}
+
+
+// ✅ Hàm gửi dữ liệu sang SharePoint (có normalizeDept)
+async function sendToSharePoint() {
+  console.groupCollapsed("📤 [sendToSharePoint] Gửi dữ liệu sang SharePoint...");
+
+  try {
+    const rows = [];
+
+    processData.forEach((step, s) => {
+      step.sub.forEach((row, r) => {
+        const rowId = `s${s}r${r}`;
+        const rowEl = document.getElementById(rowId);
+        const resInput = document.getElementById(`res-${rowId}`);
+        const timeText = document.getElementById(`time-text-${rowId}`);
+        const decisionText = document.getElementById(`decision-${rowId}`);
+const donviSelect = document.getElementById(`donvinhan-${rowId}`);
+        const isHidden = rowEl?.classList.contains("hidden") || false;
+        const isDone = !!(timeText?.textContent || decisionText?.textContent);
+        const isReadOnly = resInput?.readOnly || false;
+
+        rows.push({
+          step: step.title,
+          noidung: row.noidung || "",
+          nguoi: row.nguoi || "",
+          xuly: row.xuly || "",
+          cho: row.cho || "",
+          donvinhan: donviSelect?.value || row.donvinhan || "", // ✅ lấy dropdown
+          res: resInput?.value || "",
+          time: timeText?.textContent || "",
+          decision: decisionText?.textContent || "",
+          hidden: isHidden,
+          readonly: isReadOnly,
+          done: isDone
+        });
+      });
+    });
+
+    // 🔹 REF giữ lại nếu đang EDIT
+    let ref = null;
+    const selectedRow = sessionStorage.getItem("selectedRow");
+    if (selectedRow) {
+      try {
+        const parsed = JSON.parse(selectedRow);
+        if (parsed.ref) ref = parsed.ref;
+      } catch (err) {
+        console.warn("⚠️ selectedRow parse lỗi:", err);
+      }
+    }
+
+    // 🔹 Nếu chưa có REF → tạo mới
+    if (!ref) {
+      const now = new Date();
+      const pad = n => n.toString().padStart(2, "0");
+      ref = `TCCB5.003_${pad(now.getDate())}${pad(now.getMonth() + 1)}${now.getFullYear()}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+    }
+
+    // 🔹 Lấy và quy chuẩn phòng ban
+let deptRaw = document.getElementById("deptName")?.textContent.trim() || "";
+
+// 🧠 Chỉ bỏ phần tên cá nhân, giữ “- Đầu mối”, “- Phối hợp”, “- Chủ trì”
+deptRaw = deptRaw.replace(/^Phòng:\s*/i, "");
+
+// Nếu có dạng “Tên người - Đầu mối” thì giữ lại hậu tố
+if (!deptRaw.includes("Phòng") && !deptRaw.includes("Vụ")) {
+  // Trường hợp cá nhân: “Lê Anh Hảo - Đầu mối” -> vẫn giữ “- Đầu mối”
+  const match = deptRaw.match(/^(.*?)(?=(\s-\s(Đầu mối|Phối hợp|Chủ trì))|$)/i);
+  deptRaw = match ? match[0].trim() : deptRaw.trim();
+} else {
+  // Còn nếu đã là “Phòng Tổ chức - Tiền lương (TCCB) - Đầu mối”
+  // thì giữ nguyên, KHÔNG split '-'
+  deptRaw = deptRaw.trim();
+}
+
+deptRaw = deptRaw.replace(/\s{2,}/g, " ");
+if (!deptRaw) deptRaw = "Không xác định";
+
+const dept = normalizeDept(deptRaw);
+console.log("🏢 Phòng ban xác định:", dept);
+
+    // 🔹 Thông tin quy trình
+    const drop = document.getElementById("processSelectChiTiet");
+    const quytrinhCode = drop?.value || "";
+    const quytrinhName = drop?.selectedOptions?.[0]?.textContent?.trim() || "";
+
+    if (!quytrinhCode) {
+      alert("⚠️ Vui lòng chọn quy trình trước khi gửi lên SharePoint!");
+      console.groupEnd();
+      return;
+    }
+
+    // ✅ Payload cuối cùng
+    const payload = {
+      REF: ref,
+      DEPT: dept,
+      QUYTRINH_CODE: quytrinhCode,
+      QUYTRINH_NAME: quytrinhName,
+      DATA: rows,
+      savedAt: new Date().toISOString()
+    };
+
+    console.log("📦 Payload gửi SharePoint:", payload);
+
+    const flowUrl =
+      "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/16754f7e54a04f2e9b8fb60caaaf33b4/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=aXhGTYEd9zepjAkPLtbU1nJvzosQwgmJlylq7riqiwA";
+
+    const res = await fetch(flowUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      console.log("✅ Gửi thành công:", await res.text());
+      alert("✅ Đã gửi dữ liệu trực tiếp sang SharePoint!");
+      sessionStorage.removeItem("mode");
+      window.close();
+    } else {
+      const text = await res.text();
+      console.error("❌ Lỗi HTTP:", res.status, text);
+      alert(`❌ Lỗi khi gửi: ${res.status} - ${text}`);
+    }
+  } catch (err) {
+    console.error("💥 Lỗi khi gửi sang Flow:", err);
+    alert("❌ Không thể gửi dữ liệu: " + err.message);
+  } finally {
+    console.groupEnd();
+  }
+}
+
+
+
+
+ // ✅ Import từ Cloud (lấy danh sách quy trình SharePoint và fill dropdown) — có log chi tiết
+async function importFromCloud() {
+  if (!window.tokenKey || window.tokenKey.trim() === "") {
+    alert("⚠️ Bạn phải import TOKEN_KEY trước!");
+    return;
+  }
+
+  console.group("🌐 importFromCloud");
+
+  try {
+    console.log("🔹 [STEP 1] Gọi Flow Power Automate...");
+    const FLOW_URL =
+      "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/835980df6c0a4b5892289dcbc334ef50/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=YJ4F3Gm_-Z5fPBUfteIeNr5YK-Kg_6C3OyKIvqXfj1M";
+
+    // ⚠️ Nếu Flow của bạn dùng Manual Trigger, thử GET; nếu HTTP Request thì đổi thành POST
+    const res = await fetch(FLOW_URL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    console.log("🔹 [STEP 2] HTTP status:", res.status, res.statusText);
+    console.log("🔹 [STEP 3] Response headers:", Object.fromEntries(res.headers.entries()));
+
+    // 📦 Thử đọc raw text để xem Flow trả về gì
+    const raw = await res.text();
+    console.log("📦 [STEP 4] Raw response:", raw.slice(0, 500), raw.length > 500 ? "..." : "");
+
+    if (!res.ok) {
+      console.error("❌ [ERROR] Flow trả mã lỗi:", res.status);
+      throw new Error(`HTTP ${res.status} - ${res.statusText}`);
+    }
+
+    // 🧩 Thử parse JSON (kể cả khi double encoded)
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch (e1) {
+      try {
+        data = JSON.parse(JSON.parse(raw));
+      } catch (e2) {
+        console.error("❌ [ERROR] Không parse được JSON:", e1, e2);
+        throw new Error("Flow không trả về JSON hợp lệ.");
+      }
+    }
+
+    console.log("✅ [STEP 5] Đã parse JSON, tổng số quy trình:", Array.isArray(data) ? data.length : 0);
+    console.log("🔸 [SAMPLE ITEM]", data[0]);
+
+    if (!Array.isArray(data) || data.length === 0) {
+      alert("⚠️ Không có dữ liệu quy trình trả về từ Cloud.");
+      console.groupEnd();
+      return;
+    }
+
+    // 🔹 Chuẩn hóa dữ liệu
+    const list = data.map(item => ({
+      maSo: item["MÃ SỐ"] || item["MASO"] || "",
+      ten: (item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || item["QUYTRINH_NAME"] || "").trim(),
+      QUYTRINH_NAME: (item["QUYTRINH_NAME"] || item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || "").trim(),
+      steps: (() => {
+        let rawSteps = item["STEP QUY TRÌNH"] || item["CAYQUYTRINH"] || "[]";
+        try {
+          const parsed = JSON.parse(rawSteps);
+          return Array.isArray(parsed) ? parsed : JSON.parse(parsed);
+        } catch (e) {
+          console.warn("⚠️ [STEP parse lỗi]", e);
+          return [];
+        }
+      })()
+    }));
+
+    console.log("✅ [STEP 6] Chuẩn hóa xong:", list.length, "items");
+    sessionStorage.setItem("processListChiTiet", JSON.stringify(list));
+
+    // 🔹 Fill dropdown
+    const select = document.getElementById("processSelectChiTiet");
+    if (!select) {
+      alert("⚠️ Không tìm thấy dropdown #processSelectChiTiet trên trang!");
+      console.groupEnd();
+      return;
+    }
+
+    select.innerHTML = `<option value="">-- Chọn quy trình --</option>`;
+    list.forEach(q => {
+      const opt = document.createElement("option");
+      opt.value = q.maSo;
+      opt.textContent = q.QUYTRINH_NAME || q.ten || q.maSo;
+      select.appendChild(opt);
+    });
+    console.log("✅ [STEP 7] Đã fill dropdown thành công.");
+
+    // 🔹 Khi người dùng chọn thủ công
+    select.onchange = e => {
+      const maSo = e.target.value;
+      if (!maSo) return;
+      const found = list.find(x => x.maSo === maSo);
+      if (!found) return;
+
+      const h1 = document.querySelector("h1");
+      if (h1) h1.textContent = found.QUYTRINH_NAME || found.ten || found.maSo;
+
+      window.processData = found.steps;
+      renderProcessFromJson();
+    };
+
+    // 🔹 Nếu có record đang edit → auto chọn
+    const selectedRow = sessionStorage.getItem("selectedRow");
+    if (selectedRow) {
+      try {
+        const row = JSON.parse(selectedRow);
+        console.log("🔹 [STEP 8] Đang auto chọn quy trình cho record:", row.QUYTRINH_NAME);
+        autoSelectProcessChiTiet(row);
+      } catch (err) {
+        console.warn("⚠️ Lỗi parse selectedRow:", err);
+      }
+    }
+
+    alert("✅ Đã import dữ liệu quy trình từ Cloud!");
+  } catch (err) {
+    console.error("❌ [ERROR importFromCloud]:", err);
+    alert("❌ Lỗi khi import từ Cloud: " + err.message);
+  } finally {
+    console.groupEnd();
+  }
+}
+
+
+    renderProcessFromJson();
+    // Hàm khóa row eDoc (ẩn nút, readonly)
+    function lockEdocRow(id) {
+      document.getElementById(`time-icon-${id}`)?.classList.add("hidden");
+
+      document.querySelectorAll(`#${id} .btn-next`).forEach(btn => btn.classList.add("hidden"));
+      document.getElementById(`res-${id}`)?.setAttribute("readonly", true);
+    }
+
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const result = fillStepsFromEdoc(edocData, nhanSuPhong);
+
+      // Văn thư (1 record duy nhất)
+      if (result.vanThu) {
+        const id = "s0r0";
+        document.getElementById(id).classList.remove("hidden");
+        document.getElementById(`time-text-${id}`).textContent = result.vanThu.thoi_gian;
+        document.getElementById(`ngaygui-${id}`).textContent = result.vanThu.thoi_gian;
+        document.getElementById(`nguoigui-${id}`).textContent = result.vanThu.nguoi_gui;
+        document.getElementById(`nguoinhan-${id}`).textContent = result.vanThu.nguoi_nhan;
+        document.getElementById(`donvinhan-${id}`).textContent = result.vanThu.don_vi_nhan;
+
+        lockEdocRow(id);
+        showNext(id, 0, 0);
+      }
+
+      // Lãnh đạo Vụ (nhiều người → clone nhiều row)
+      if (result.lanhDaoVu.length > 0) {
+        const tbody = document.querySelector("#processTable tbody");
+        const templateRow = document.getElementById("s0r1");
+
+        result.lanhDaoVu.forEach((c, idx) => {
+          const rowId = `s0r1r${idx}`;
+          const row = document.createElement("tr");
+          row.id = rowId;
+
+          row.innerHTML = `
+      <td>${c.noidung || "Xử lý Tờ trình"}</td>
+      <td>${c.chuc_vu || "Lãnh đạo Vụ"}</td>
+      <td id="ngaygui-${rowId}">${c.thoi_gian || ""}</td>
+      <td id="nguoigui-${rowId}">${c.nguoi_gui || ""}</td>
+      <td id="nguoinhan-${rowId}">${c.nguoi_nhan || ""}</td>
+      <td id="donvinhan-${rowId}">${c.don_vi_nhan || ""}</td>
+      <td>01 ngày</td>
+      <td></td>
+      <td></td>
+      <td><textarea class="result-input" id="res-${rowId}" readonly placeholder="Nhập kết quả"></textarea></td>
+      <td><span id="time-text-${rowId}">${c.thoi_gian || ""}</span></td>
+      <td id="decision-${rowId}"></td>
+    `;
+
+          tbody.insertBefore(row, templateRow.nextSibling);
+          row.classList.remove("hidden");   // 👈 đảm bảo hiện ra
+          lockEdocRow(rowId);
+        });
+
+        // Ẩn dòng gốc s0r1 (chỉ làm template)
+        templateRow.classList.add("hidden");
+
+        // 👉 mở tiếp bước sau dựa trên timestamp mới nhất
+        const lastTime = result.lanhDaoVu
+          .map(c => parseVNDate(c.thoi_gian))
+          .filter(Boolean)
+          .reduce((a, b) => a > b ? a : b);
+
+        if (lastTime) {
+          showNext("s0r1r" + (result.lanhDaoVu.length - 1), 0, 1);
+        }
+      }
+
+      // Lãnh đạo Phòng (1 record duy nhất)
+      if (result.lanhDaoPhong) {
+        const id = "s0r2";
+        document.getElementById(id).classList.remove("hidden");
+        document.getElementById(`time-text-${id}`).textContent = result.lanhDaoPhong.thoi_gian;
+        document.getElementById(`ngaygui-${id}`).textContent = result.lanhDaoPhong.thoi_gian;
+        document.getElementById(`nguoigui-${id}`).textContent = result.lanhDaoPhong.nguoi_gui;
+        document.getElementById(`nguoinhan-${id}`).textContent = result.lanhDaoPhong.nguoi_nhan;
+        document.getElementById(`donvinhan-${id}`).textContent = result.lanhDaoPhong.don_vi_nhan;
+
+        lockEdocRow(id);
+        showNext(id, 0, 2);
+      }
+
+      // Công chức phụ trách (nhiều người → clone nhiều row)
+      cloneRowsFromArray(result.congChuc, "s0r3", "Công chức phụ trách", "0,5 ngày", 0, 3);
+    });
+    function completeStepNow(id, s, r) {
+      const now = new Date();
+      const last = getLastTimeBefore(s, r);
+      if (last && now <= last) {
+        alert("❌ Thời gian phải lớn hơn các bước trước!");
+        return;
+      }
+
+      document.getElementById(`time-${id}`).value = now.toISOString().slice(0, 16);
+      document.getElementById(`time-text-${id}`).textContent = formatDate(now);
+
+      // Không add hidden cho từng nút, chỉ ẩn cụm cha nếu có
+      document.getElementById(`time-icon-${id}`)?.classList.add("hidden");
+
+      lockStep(id, s, r);
+      showNext(id, s, r);
+    }
+
+
+    function completeStepManual(id, s, r) {
+      const inp = document.getElementById(`time-${id}`);
+      if (inp.showPicker) {
+        inp.showPicker();  // bật lịch chọn
+      } else {
+        inp.click();       // fallback cho browser khác
+      }
+    }
+
+    function decisionStepNow(id, s, r) {
+      console.groupCollapsed(`[decisionStepNow] id=${id}, s=${s}, r=${r}`);
+
+      const isPositive =
+        document.getElementById(`decision-${id}`).dataset.choice === "Phù hợp" ||
+        document.getElementById(`decision-${id}`).dataset.choice === "Thống nhất";
+
+      const now = new Date();
+      const last = getLastTimeBefore(s, r);
+      if (last && now <= last) {
+        alert("❌ Thời gian phải lớn hơn các bước trước!");
+        console.groupEnd();
+        return;
+      }
+
+      // cập nhật thời gian
+      document.getElementById(`time-${id}`).value = now.toISOString().slice(0, 16);
+      document.getElementById(`time-text-${id}`).textContent = formatDate(now);
+
+      // chỉ ẩn cụm cha (không add hidden vào từng nút)
+      document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
+
+      finishDecision(id, s, r, isPositive);
+      console.groupEnd();
+    }
+
+
+    function finishDecision(id, s, r, isPositive) {
+  console.groupCollapsed(`[finishDecision] id=${id}, s=${s}, r=${r}, isPositive=${isPositive}`);
+
+  const row = processData[s]?.sub?.[r] || {};
+  const stepType = row.type || "";
+
+  // 🧩 Ưu tiên lấy text từ buttons trong data nếu có
+  const buttons = row.buttons && Array.isArray(row.buttons) && row.buttons.length >= 2
+    ? row.buttons
+    : stepType === "decision3"
+      ? ["Thống nhất", "Chưa thống nhất"]
+      : ["Phù hợp", "Chưa phù hợp"];
+
+  // 🧠 Lấy lựa chọn thực tế (ưu tiên dataset.choice)
+  const decisionEl = document.getElementById(`decision-${id}`);
+  const choiceText = decisionEl?.dataset.choice || (isPositive ? buttons[0] : buttons[1]);
+
+  // 🔹 Cập nhật hiển thị quyết định
+  if (decisionEl) {
+    decisionEl.textContent = choiceText;
+    decisionEl.classList.add("locked");
+  }
+
+  // 🔹 Ẩn cụm chọn thời gian (⏱📅)
+  document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
+
+  // 🔹 Khóa nội dung phản hồi
+  document.getElementById(`res-${id}`)?.setAttribute("readonly", true);
+
+  // 🔹 Lưu lại quyết định và thời gian vào data
+  row.decision = choiceText;
+  row.time = new Date().toLocaleString("vi-VN");
+
+  // 🔹 Mở bước kế tiếp
+  if (isPositive) {
+    // mở bước đầu tiên của step kế tiếp
+    document.getElementById(`s${s + 1}r0`)?.classList.remove("hidden");
+  } else {
+    // mở dòng kế trong cùng step
+    document.getElementById(`s${s}r${r + 1}`)?.classList.remove("hidden");
+  }
+
+  updateSummary();
+  console.log(`✅ [Finish Decision] ${choiceText}`);
+  console.groupEnd();
+}
+
+
+
+
+    function decisionStepManual(id, s, r, isPositive) {
+      const inp = document.getElementById(`time-${id}`);
+      inp.dataset.decision = isPositive;
+      if (inp.showPicker) {
+        inp.showPicker();
+      } else {
+        inp.click();
+      }
+    }
+// 🧩 Khi trang load, tự động lấy ?ref=... trên URL và gọi importFromCloudByRef
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const ref = urlParams.get("ref") || "";
+
+  console.log("🚀 DOM ready → REF =", ref);
+  if (ref) {
+    importFromCloudByRef(ref);
+  } else {
+    console.warn("⚠️ Không có ref trong URL, bỏ qua importFromCloudByRef()");
+  }
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+  // 🧩 Lấy dữ liệu từ sessionStorage
+  const row = JSON.parse(sessionStorage.getItem("selectedRow") || "{}");
+  const chitiet = JSON.parse(sessionStorage.getItem("chitietData") || "{}");
+  const ykien = JSON.parse(sessionStorage.getItem("ykienData") || "[]");
+  const luanchuyen = JSON.parse(sessionStorage.getItem("luanchuyenData") || "[]");
+
+  console.log("📦 Nhận dữ liệu từ homepage:", { row, chitiet, ykien, luanchuyen });
+
+  // 🏢 Gán REF hiển thị
+  const refEl = document.getElementById("refDisplay");
+  if (refEl) {
+    refEl.textContent = `REF: ${row.ref || chitiet.stt || "—"}`;
+  }
+
+  // 🏢 Gán phòng ban hiển thị (ưu tiên row.dept, fallback từ luanchuyen)
+  const deptEl = document.getElementById("deptName");
+  if (deptEl) {
+    const deptText = row.dept || extractPhongDauMoi(luanchuyen) || "—";
+    deptEl.textContent = `Phòng: ${deptText}`;
+  }
+
+  // Lưu global nếu cần dùng tiếp
+  window.currentRow = row;
+  window.currentChitiet = chitiet;
+  window.currentYkien = ykien;
+  window.currentLuanchuyen = luanchuyen;
+});
+
+/** 🧠 Hàm tìm 'Phòng đầu mối' trong dữ liệu luân chuyển */
+// helper: normalize like bạn muốn (giữ các mapping cũ)
+function normalizeToSharePointDept(raw = "") {
+  if (!raw) return "";
+
+  const txt = raw
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // bỏ dấu
+    .replace(/[()\-–_]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (txt.includes("to chuc tien luong") || txt.includes("tien luong tccb"))
+    return "Phòng Tổ chức tiền lương";
+  if (txt.includes("thi dua") || txt.includes("khen thuong"))
+    return "Phòng Thi đua - Khen thưởng";
+  if (txt.includes("can bo dia phuong") || txt.includes("dia phuong"))
+    return "Phòng Cán bộ địa phương";
+  if (txt.includes("dao tao") || txt.includes("nguon nhan luc") || txt.includes("phat trien"))
+    return "Phòng Đào tạo và Phát triển nguồn nhân lực";
+  if (txt.includes("to chuc can bo") || txt.includes("tccb"))
+    return "Vụ Tổ chức cán bộ";
+
+  return raw.trim();
+}
+
+// tìm "Phòng ... - Đầu mối" trong luanchuyen array
+function extractPhongDauMoi(luanchuyenData) {
+  console.group("[extractPhongDauMoi] Debug chi tiết");
+
+  let dept = "Không xác định";
+
+  if (Array.isArray(luanchuyenData)) {
+    console.log(`🔎 Bắt đầu quét ${luanchuyenData.length} dòng luanchuyenData`);
+
+    for (let i = 0; i < luanchuyenData.length; i++) {
+      const item = luanchuyenData[i];
+      const raw =
+        item.nguoi_nhan ||
+        item["Người nhận"] ||
+        item["Thời gian gửi"] ||
+        item["Đơn vị nhận"] ||
+        "";
+
+      const val = raw
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/Đ/g, "D")
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase();
+
+      console.log(`🔍 [${i}] raw="${raw}" → val="${val}"`);
+
+      // 🎯 Nếu có "phong" và "dau moi"
+      if (val.includes("phong") && val.includes("dau moi")) {
+        console.log(`✅ Khớp tại [${i}] ${raw}`);
+
+        // 🧩 Regex mở rộng để lấy toàn cụm "Phòng ... (TCCB)"
+        const found =
+          raw.match(/(Phòng|Phong)[^–—-]+(?:\(TCCB\))?/i)?.[0] ||
+          raw.match(/(Phòng|Phong)[^–—-]+/i)?.[0];
+
+        if (found) {
+          dept = found
+            .replace(/Phong/i, "Phòng")
+            .replace(/\s{2,}/g, " ")
+            .trim();
+          break;
+        }
+      }
+
+      // 🔁 fallback: nếu có "TCCB" hoặc "Tien luong"
+      if (val.includes("tccb") || val.includes("tien luong")) {
+        const found =
+          raw.match(/(Phòng|Phong)[^–—-]+/i)?.[0] ||
+          raw.match(/(Phòng|Phong)[^(]+/i)?.[0];
+        if (found) {
+          dept = found.replace(/Phong/i, "Phòng").trim();
+          console.log(`⚙️ Fallback match tại [${i}] → ${dept}`);
+          break;
+        }
+      }
+    }
+  }
+
+  console.log("🏁 Kết quả cuối cùng:", dept);
+  console.groupEnd();
+  return dept;
+}
+// đọc sessionStorage và cập nhật DOM
+window.addEventListener("DOMContentLoaded", () => {
+  console.group("⚙️ DOMContentLoaded (detail page)");
+  const selectedRaw = sessionStorage.getItem("selectedRow");
+  const row = selectedRaw ? JSON.parse(selectedRaw) : {};
+  console.log("🧾 selectedRow:", row);
+
+  // ưu tiên lấy luanchuyenData từ selectedRow, fallback từ key riêng
+  const luanchuyen = row.luanchuyenData || JSON.parse(sessionStorage.getItem("luanchuyenData") || "[]");
+  console.log("📦 luanchuyenData (effective):", luanchuyen);
+
+  // hiển thị REF
+  const refEl = document.getElementById("refDisplay");
+  const refVal = row.ref || (row.chitietData && row.chitietData.stt) || "—";
+  if (refEl) refEl.textContent = `REF: ${refVal}`;
+
+  // hiển thị PHÒNG
+  const deptEl = document.getElementById("deptName");
+  if (deptEl) {
+    const phong = extractPhongDauMoi(luanchuyen);
+    deptEl.textContent = `Phòng: ${phong || "—"}`;
+  } else {
+    console.warn("⚠️ Không tìm thấy phần tử #deptName trên trang");
+  }
+
+  console.groupEnd();
+});                     
+
+
+  </script>
+</body>
+
+</html>
