@@ -633,6 +633,7 @@ select:disabled {
               <th>Kết quả</th>
               <th>Ngày hoàn thành</th>
               <th>Quyết định</th>
+              <th>File đính kèm</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -1569,6 +1570,7 @@ function getDropdownHTML1(selectedValue = "") {
           <th>Kết quả</th>
           <th>Ngày hoàn thành</th>
           <th>Quyết định</th>
+          <th>File đính kèm</th> <!-- 🧩 Thêm cột mới -->
         </tr>
       </thead>
       <tbody>
@@ -3373,31 +3375,75 @@ async function sendToSharePoint() {
       }
     }
 
-    function decisionStepNow(id, s, r) {
-      console.groupCollapsed(`[decisionStepNow] id=${id}, s=${s}, r=${r}`);
+// 🧩 Khi người dùng chọn thời gian hoàn tất quyết định
+function decisionStepNow(id, s, r) {
+  console.groupCollapsed(`[decisionStepNow] id=${id}, s=${s}, r=${r}`);
 
-      const isPositive =
-        document.getElementById(`decision-${id}`).dataset.choice === "Phù hợp" ||
-        document.getElementById(`decision-${id}`).dataset.choice === "Thống nhất";
+  const decisionEl = document.getElementById(`decision-${id}`);
+  const choice = decisionEl?.dataset.choice?.trim().toLowerCase() || "";
 
-      const now = new Date();
-      const last = getLastTimeBefore(s, r);
-      if (last && now <= last) {
-        alert("❌ Thời gian phải lớn hơn các bước trước!");
-        console.groupEnd();
-        return;
-      }
+  // 🧩 Xác định positive hay negative CHÍNH XÁC
+  // - chỉ khi chứa từ khóa đồng ý, phê duyệt, thống nhất, phù hợp, ok
+  // - và KHÔNG chứa phủ định như "không", "chưa"
+  const isPositive =
+    /(phê duyệt|phù hợp|thống nhất|đồng ý|ok)/i.test(choice) &&
+    !/(không|chưa)/i.test(choice);
 
-      // cập nhật thời gian
-      document.getElementById(`time-${id}`).value = now.toISOString().slice(0, 16);
-      document.getElementById(`time-text-${id}`).textContent = formatDate(now);
+  console.log(`[decisionStepNow] choice="${choice}" → isPositive=${isPositive}`);
 
-      // chỉ ẩn cụm cha (không add hidden vào từng nút)
-      document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
+  finishDecision(id, s, r, isPositive);
+  console.groupEnd();
+}
 
-      finishDecision(id, s, r, isPositive);
-      console.groupEnd();
+function finishDecision(id, s, r, isPositive) {
+  console.groupCollapsed(`[finishDecision] id=${id}, s=${s}, r=${r}, isPositive=${isPositive}`);
+
+  const row = processData[s]?.sub?.[r] || {};
+  const stepType = row.type || "";
+
+  const buttons = row.buttons && Array.isArray(row.buttons) && row.buttons.length >= 2
+    ? row.buttons
+    : stepType === "decision3"
+      ? ["Thống nhất", "Chưa thống nhất"]
+      : ["Phù hợp", "Không phù hợp"];
+
+  const decisionEl = document.getElementById(`decision-${id}`);
+  const choiceText = decisionEl?.dataset.choice || buttons[isPositive ? 0 : 1];
+
+  // Cập nhật giao diện
+  if (decisionEl) {
+    decisionEl.textContent = choiceText;
+    decisionEl.classList.add("locked");
+  }
+
+  document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
+  document.getElementById(`res-${id}`)?.setAttribute("readonly", true);
+
+  // Ghi vào data
+  row.decision = choiceText;
+  row.time = new Date().toLocaleString("vi-VN");
+
+  // Điều hướng bước
+  if (isPositive) {
+    const jumpMatch = row.noidung.match(/nhảy\s*(Bước|Step)\s*(\d+)/i);
+    if (jumpMatch) {
+      const jumpTo = parseInt(jumpMatch[2], 10) - 1;
+      console.log(`🚀 [Decision Jump] ${choiceText} → Bước ${jumpTo + 1}`);
+      document.getElementById(`s${jumpTo}r0`)?.classList.remove("hidden");
+    } else {
+      console.log(`➡️ [Decision Next] ${choiceText} → Mở bước kế tiếp`);
+      document.getElementById(`s${s + 1}r0`)?.classList.remove("hidden");
     }
+  } else {
+    console.log(`↘️ [Decision Reject] Mở dòng kế trong cùng bước`);
+    document.getElementById(`s${s}r${r + 1}`)?.classList.remove("hidden");
+  }
+
+  updateSummary();
+  console.log(`✅ [Finish Decision] ${choiceText}`);
+  console.groupEnd();
+}
+
 
 
     function finishDecision(id, s, r, isPositive) {
