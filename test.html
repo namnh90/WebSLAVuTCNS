@@ -1058,14 +1058,73 @@ function getDropdownHTML1(selectedValue = "") {
     });
     // =============== RENDER CHI TIẾT ===================
     function renderChiTiet(chitiet) {
-      if (!chitiet) return "";
-      return `
+  if (!chitiet) return "";
+
+  // 🧩 Xử lý link file SharePoint — luôn lấy link thật từ chitiet data
+  let fileLinkHTML = "";
+  if (chitiet.fileDinhKem) {
+    // Trường hợp 1️⃣: MẢNG nhiều file
+    if (Array.isArray(chitiet.fileDinhKem)) {
+      fileLinkHTML = chitiet.fileDinhKem.map(f => {
+        // Ưu tiên lấy URL gốc từ SharePoint (ServerRelativeUrl hoặc url)
+        const url = f.ServerRelativeUrl
+          ? `https://vcb365.sharepoint.com${f.ServerRelativeUrl}`
+          : f.url || f.link || f.FileRef || f.FilePath || "";
+        const name = f.tenTep || f.FileName || decodeURIComponent(url.split("/").pop());
+        const note = f.ghiChu || "";
+        const display = note ? `${name} (${note})` : name;
+        return url
+          ? `<a href="${url}" target="_blank" rel="noopener noreferrer">${display}</a>`
+          : display;
+      }).join("<br>");
+    }
+
+    // Trường hợp 2️⃣: OBJECT 1 file
+    else if (typeof chitiet.fileDinhKem === "object") {
+      const f = chitiet.fileDinhKem;
+      const url = f.ServerRelativeUrl
+        ? `https://vcb365.sharepoint.com${f.ServerRelativeUrl}`
+        : f.url || f.link || f.FileRef || f.FilePath || "";
+      const name = f.tenTep || f.FileName || decodeURIComponent(url.split("/").pop());
+      const note = f.ghiChu || "";
+      const display = note ? `${name} (${note})` : name;
+      fileLinkHTML = url
+        ? `<a href="${url}" target="_blank" rel="noopener noreferrer">${display}</a>`
+        : display;
+    }
+
+    // Trường hợp 3️⃣: CHUỖI — có thể là link SharePoint hoặc tên + ghi chú
+    else if (typeof chitiet.fileDinhKem === "string") {
+      const raw = chitiet.fileDinhKem.trim();
+
+      // 🧠 Nếu có link thật
+      if (raw.startsWith("http")) {
+        const url = raw.split(" ")[0]; // tách phần URL trước dấu cách
+        const noteMatch = raw.match(/\(([^)]+)\)$/);
+        const fileName = decodeURIComponent(url.split("/").pop());
+        const note = noteMatch ? noteMatch[1] : "";
+        const display = note ? `${fileName} (${note})` : fileName;
+        fileLinkHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer">${display}</a>`;
+      }
+      // 🧠 Nếu chỉ là "642.pdf (Kiểm tra chữ ký)"
+      else {
+        const match = raw.match(/^(.+?)\s*\((.+)\)$/);
+        const fileName = match ? match[1].trim() : raw;
+        const note = match ? match[2].trim() : "";
+        const display = note ? `${fileName} (${note})` : fileName;
+        fileLinkHTML = display; // không gắn URL vì không có đường dẫn thật
+      }
+    }
+  }
+
+  // 🔹 Dưới đây là phần render bảng
+  return `
     <div class="edoc-block">
-  <div class="edoc-title">QUY TRÌNH XỬ LÝ</div>
-  <div style="padding:10px;">
-    <label for="processSelectChiTiet"><b>Chọn quy trình:</b></label>
-    <select id="processSelectChiTiet" style="margin-left:8px; padding:6px 8px; min-width:400px;"></select>
-  </div>
+      <div class="edoc-title">QUY TRÌNH XỬ LÝ</div>
+      <div style="padding:10px;">
+        <label for="processSelectChiTiet"><b>Chọn quy trình:</b></label>
+        <select id="processSelectChiTiet" style="margin-left:8px; padding:6px 8px; min-width:400px;"></select>
+      </div>
       <div class="edoc-title">CHI TIẾT VĂN BẢN ĐẾN</div>
       <div class="edoc-body">
         <table>
@@ -1075,7 +1134,7 @@ function getDropdownHTML1(selectedValue = "") {
           </tr>
           <tr>
             <td><b>Cơ quan/đơn vị gửi đến</b></td><td>${chitiet.coQuanGui || ""}</td>
-            <td><b>Số ký hiệu</b></td><td>${chitiet.soKyHieu || ""}</td>
+            <td><b>Loại văn bản</b></td><td>${chitiet.loaiVanBan || ""}</td>
           </tr>
           <tr>
             <td><b>Ngày gửi đến</b></td><td>${chitiet.ngayGuiDen || ""}</td>
@@ -1099,12 +1158,14 @@ function getDropdownHTML1(selectedValue = "") {
           </tr>
           <tr>
             <td><b>File văn bản</b></td>
-            <td colspan="3">${chitiet.fileDinhKem ? `<a href="#">${chitiet.fileDinhKem}</a>` : ""}</td>
+            <td colspan="3">${fileLinkHTML || "<i>Không có tệp đính kèm</i>"}</td>
           </tr>
         </table>
       </div>
     </div>`;
-    }
+}
+
+
 
     // =============== RENDER Ý KIẾN ===================
     function renderYKienTable(data) {
