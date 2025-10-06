@@ -419,107 +419,149 @@
     .edoc-block td:nth-child(6) {
       display: center;
     }
+
     /* ========= TONE & COLORS ========= */
-:root{
-  --line-strong:#D0D5DD;      /* viền bảng */
-  --line-strong-2:#98A2B3;    /* hover/outline */
-  --fill-strong-1:#F2F4F7;    /* header th */
-  --row-zebra:#FAFAFB;        /* hàng chẵn */
-  --ink-strong:#101828;       /* chữ đậm */
-}
+    :root {
+      --line-strong: #D0D5DD;
+      /* viền bảng */
+      --line-strong-2: #98A2B3;
+      /* hover/outline */
+      --fill-strong-1: #F2F4F7;
+      /* header th */
+      --row-zebra: #FAFAFB;
+      /* hàng chẵn */
+      --ink-strong: #101828;
+      /* chữ đậm */
+    }
 
-/* ========= CARD / SECTION ========= */
-.card{
-  background:#fff;
-  border:1px solid var(--line-strong);
-  border-radius:12px;
-  box-shadow:0 4px 14px rgba(16,24,40,.06);
-}
+    /* ========= CARD / SECTION ========= */
+    .card {
+      background: #fff;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(16, 24, 40, .06);
+    }
 
-/* ========= TABLE ========= */
-.table{
-  width:100%;
-  border-collapse:separate;   /* để bo góc đẹp */
-  border-spacing:0;
-  border:1.25px solid var(--line-strong);
-  border-radius:10px;
-  overflow:hidden;            /* bo góc cho header */
-  font-size:14.5px;
-  color:var(--ink-strong);
-}
+    /* ========= TABLE ========= */
+    .table {
+      width: 100%;
+      border-collapse: separate;
+      /* để bo góc đẹp */
+      border-spacing: 0;
+      border: 1.25px solid var(--line-strong);
+      border-radius: 10px;
+      overflow: hidden;
+      /* bo góc cho header */
+      font-size: 14.5px;
+      color: var(--ink-strong);
+    }
 
-.table th,
-.table td{
-  padding:10px 12px;
-  border-right:1.25px solid var(--line-strong);
-  border-bottom:1.25px solid var(--line-strong);
-  vertical-align:top;
-}
+    .table th,
+    .table td {
+      padding: 10px 12px;
+      border-right: 1.25px solid var(--line-strong);
+      border-bottom: 1.25px solid var(--line-strong);
+      vertical-align: top;
+    }
 
-.table th{
-  background:var(--fill-strong-1);
-  font-weight:600;
-}
+    .table th {
+      background: var(--fill-strong-1);
+      font-weight: 600;
+    }
 
-.table tr:nth-child(even) td{
-  background:var(--row-zebra);
-}
+    .table tr:nth-child(even) td {
+      background: var(--row-zebra);
+    }
 
-/* bỏ viền phải ô cuối & viền dưới hàng cuối */
-.table tr > *:last-child{ border-right:none; }
-.table tr:last-child > *{ border-bottom:none; }
+    /* bỏ viền phải ô cuối & viền dưới hàng cuối */
+    .table tr>*:last-child {
+      border-right: none;
+    }
 
-/* hover hàng (tùy thích) */
-.table tbody tr:hover td{
-  background:#EEF2F6;
-}
+    .table tr:last-child>* {
+      border-bottom: none;
+    }
 
-/* ========= BADGE / STATUS ========= */
-.badge{
-  display:inline-block;
-  padding:4px 10px;
-  border-radius:999px;
-  font-size:12.5px;
-  font-weight:600;
-  border:1px solid transparent;
-}
+    /* hover hàng (tùy thích) */
+    .table tbody tr:hover td {
+      background: #EEF2F6;
+    }
 
-.badge--info{    background:#E0EAFF; color:#1E40AF; border-color:#BFD5FF; }
-.badge--warn{    background:#FEF0C7; color:#92400E; border-color:#FDE68A; }
-.badge--success{ background:#D1FADF; color:#05603A; border-color:#A6F4C5; }
-.badge--danger{  background:#FEE4E2; color:#912018; border-color:#FECDCA; }
+    /* ========= BADGE / STATUS ========= */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
 
-/* ========= LABEL (cột tiêu đề bên trái) ========= */
-.kv-label{
-  font-weight:600;
-  color:#0F172A;
-}
+    .badge--info {
+      background: #E0EAFF;
+      color: #1E40AF;
+      border-color: #BFD5FF;
+    }
 
-/* ========= BUTTON SAVE (nhìn sắc nét hơn) ========= */
-.btn-primary{
-  background:#1D4ED8; color:#fff;
-  border:1px solid #1E40AF;
-  padding:8px 14px; border-radius:10px;
-  box-shadow:0 2px 8px rgba(29,78,216,.25);
-}
-.btn-primary:hover{ background:#1B46C2; } 
-.select-donvi {
-  width: 100%;
-  padding: 6px 8px;
-  border: 1px solid #d0d5dd;
-  border-radius: 8px;
-  font-size: 14px;
-  background-color: #fff;
-  color: #111827;
-  outline: none;
-}
+    .badge--warn {
+      background: #FEF0C7;
+      color: #92400E;
+      border-color: #FDE68A;
+    }
 
-.select-donvi:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37,99,235,0.25);
+    .badge--success {
+      background: #D1FADF;
+      color: #05603A;
+      border-color: #A6F4C5;
+    }
+
+    .badge--danger {
+      background: #FEE4E2;
+      color: #912018;
+      border-color: #FECDCA;
+    }
+
+    /* ========= LABEL (cột tiêu đề bên trái) ========= */
+    .kv-label {
+      font-weight: 600;
+      color: #0F172A;
+    }
+
+    /* ========= BUTTON SAVE (nhìn sắc nét hơn) ========= */
+    .btn-primary {
+      background: #1D4ED8;
+      color: #fff;
+      border: 1px solid #1E40AF;
+      padding: 8px 14px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(29, 78, 216, .25);
+    }
+
+    .btn-primary:hover {
+      background: #1B46C2;
+    }
+
+    .select-donvi {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+      font-size: 14px;
+      background-color: #fff;
+      color: #111827;
+      outline: none;
+    }
+
+    .select-donvi:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+    }
+    .select-nguoinhan, .select-donvinhan {
+  width: 48%;
+  min-width: 140px;
 }
   </style>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 
@@ -578,6 +620,7 @@
               <th>Nội dung thực hiện</th>
               <th>Người thực hiện/Phê duyệt</th>
               <th>Ngày gửi</th>
+              <th>Người nhận</th>
               <th>Đơn vị nhận</th>
               <th>Thời gian xử lý</th>
               <th>Thời gian chờ</th>
@@ -597,89 +640,224 @@
   </div>
 
   <script>
-  function getDropdownHTML(selectedValue = "") {
-    let html = `<select class="select-donvi"><option value="">-- Chọn đơn vị nhận --</option>`;
-    donViNhanData.forEach(group => {
-      html += `<optgroup label="${group.group}">`;
-      group.items.forEach(item => {
-        const sel = item === selectedValue ? "selected" : "";
-        html += `<option value="${item}" ${sel}>${item}</option>`;
-      });
-      html += `</optgroup>`;
+function getDropdownHTML(selectedValue = "") {
+  // 🧠 Nếu dữ liệu về là object có key khác nhau thì fallback
+  if (selectedValue && typeof selectedValue === "object") {
+    selectedValue = selectedValue.donvinhan || selectedValue.donviNhan || "";
+  }
+
+  let html = `<select class="select-donvinhan">
+                <option value="">-- Chọn đơn vị nhận --</option>`;
+
+  donViNhanData.forEach(group => {
+    html += `<optgroup label="${group.group}">`;
+
+    group.items.forEach(item => {
+      const sel =
+        item.trim().toLowerCase() === (selectedValue || "").trim().toLowerCase()
+          ? "selected"
+          : "";
+      html += `<option value="${item}" ${sel}>${item}</option>`;
     });
-    html += `</select>`;
-    return html;
+
+    html += `</optgroup>`;
+  });
+
+  html += `</select>`;
+  return html;
+}
+
+function getDropdownHTML1(selectedValue = "") {
+  // 🧠 Nếu dữ liệu về là object có key khác nhau thì fallback
+  if (selectedValue && typeof selectedValue === "object") {
+    selectedValue = selectedValue.nguoinhan || selectedValue.nguoiNhan || "";
   }
 
-const donViNhanData = [
-  {
-    group: "Ngân hàng Nhà nước Trung ương",
-    items: [
-      "Vụ Chính sách tiền tệ",
-      "Vụ Thanh toán",
-      "Vụ Tín dụng các ngành kinh tế",
-      "Vụ Dự báo, thống kê – Ổn định tiền tệ, tài chính",
-      "Vụ Hợp tác quốc tế",
-      "Vụ Pháp chế",
-      "Vụ Tài chính – Kế toán",
-      "Vụ Tổ chức cán bộ",
-      "Văn phòng",
-      "Thanh tra Ngân hàng Nhà nước",
-      "Sở Giao dịch",
-      "Cục Công nghệ thông tin",
-      "Cục Phát hành và Kho quỹ",
-      "Cục Quản lý ngoại hối",
-      "Cục Phòng, chống rửa tiền",
-      "Cục Quản lý, giám sát tổ chức tín dụng",
-      "Cục An toàn hệ thống các tổ chức tín dụng",
-      "Ngân hàng Nhà nước chi nhánh tại các khu vực",
-      "Trung tâm Thông tin tín dụng Quốc gia Việt Nam",
-      "Thời báo Ngân hàng"
-    ]
-  },
-  {
-    group: "Bộ, Cơ quan ngang Bộ Trung ương",
-    items: [
-      "Bộ Quốc phòng",
-      "Bộ Công an",
-      "Bộ Ngoại giao",
-      "Bộ Nội vụ",
-      "Bộ Tư pháp",
-      "Bộ Kế hoạch và Đầu tư",
-      "Bộ Tài chính",
-      "Bộ Công Thương",
-      "Bộ Nông nghiệp và Phát triển nông thôn",
-      "Bộ Giao thông vận tải",
-      "Bộ Xây dựng",
-      "Bộ Tài nguyên và Môi trường",
-      "Bộ Thông tin và Truyền thông",
-      "Bộ Lao động - Thương binh và Xã hội",
-      "Bộ Văn hóa, Thể thao và Du lịch",
-      "Bộ Khoa học và Công nghệ",
-      "Bộ Giáo dục và Đào tạo",
-      "Bộ Y tế",
-      "Ủy ban Dân tộc",
-      "Ngân hàng Nhà nước Việt Nam",
-      "Thanh tra Chính phủ",
-      "Văn phòng Chính phủ"
-    ]
-  },
-  {
-    group: "Ngân hàng Nhà nước khu vực",
-    items: Array.from({ length: 15 }, (_, i) => `Ngân hàng Nhà nước khu vực ${i + 1}`)
-  },
-  {
-    group: "Phòng ban thuộc Vụ TCNS",
-    items: [
-      "Phòng cán bộ trung ương",
-      "Phòng cán bộ địa phương",
-      "Phòng tổ chức - tiền lương",
-      "Phòng Thi đua, khen thưởng",
-      "Phòng Đào tạo và phát triển nguồn nhân lực"
-    ]
-  }
-];
+  let html = `<select class="select-nguoinhan">
+                <option value="">-- Chọn người nhận --</option>`;
 
+  chonNhansu.forEach(group => {
+    html += `<optgroup label="${group.group}">`;
+
+    group.items.forEach(item => {
+      const sel =
+        item.trim().toLowerCase() === (selectedValue || "").trim().toLowerCase()
+          ? "selected"
+          : "";
+      html += `<option value="${item}" ${sel}>${item}</option>`;
+    });
+
+    html += `</optgroup>`;
+  });
+
+  html += `</select>`;
+  return html;
+}
+    const donViNhanData = [
+      {
+        group: "Ngân hàng Nhà nước Trung ương",
+        items: [
+          "Vụ Chính sách tiền tệ",
+          "Vụ Thanh toán",
+          "Vụ Tín dụng các ngành kinh tế",
+          "Vụ Dự báo, thống kê – Ổn định tiền tệ, tài chính",
+          "Vụ Hợp tác quốc tế",
+          "Vụ Pháp chế",
+          "Vụ Tài chính – Kế toán",
+          "Vụ Tổ chức cán bộ",
+          "Văn phòng",
+          "Thanh tra Ngân hàng Nhà nước",
+          "Sở Giao dịch",
+          "Cục Công nghệ thông tin",
+          "Cục Phát hành và Kho quỹ",
+          "Cục Quản lý ngoại hối",
+          "Cục Phòng, chống rửa tiền",
+          "Cục Quản lý, giám sát tổ chức tín dụng",
+          "Cục An toàn hệ thống các tổ chức tín dụng",
+          "Ngân hàng Nhà nước chi nhánh tại các khu vực",
+          "Trung tâm Thông tin tín dụng Quốc gia Việt Nam",
+          "Thời báo Ngân hàng"
+        ]
+      },
+      {
+        group: "Bộ, Cơ quan ngang Bộ Trung ương",
+        items: [
+          "Bộ Quốc phòng",
+          "Bộ Công an",
+          "Bộ Ngoại giao",
+          "Bộ Nội vụ",
+          "Bộ Tư pháp",
+          "Bộ Kế hoạch và Đầu tư",
+          "Bộ Tài chính",
+          "Bộ Công Thương",
+          "Bộ Nông nghiệp và Phát triển nông thôn",
+          "Bộ Giao thông vận tải",
+          "Bộ Xây dựng",
+          "Bộ Tài nguyên và Môi trường",
+          "Bộ Thông tin và Truyền thông",
+          "Bộ Lao động - Thương binh và Xã hội",
+          "Bộ Văn hóa, Thể thao và Du lịch",
+          "Bộ Khoa học và Công nghệ",
+          "Bộ Giáo dục và Đào tạo",
+          "Bộ Y tế",
+          "Ủy ban Dân tộc",
+          "Ngân hàng Nhà nước Việt Nam",
+          "Thanh tra Chính phủ",
+          "Văn phòng Chính phủ"
+        ]
+      },
+      {
+        group: "Ngân hàng Nhà nước khu vực",
+        items: Array.from({ length: 15 }, (_, i) => `Ngân hàng Nhà nước khu vực ${i + 1}`)
+      },
+      {
+        group: "Phòng ban thuộc Vụ TCNS",
+        items: [
+          "Phòng cán bộ trung ương",
+          "Phòng cán bộ địa phương",
+          "Phòng tổ chức - tiền lương",
+          "Phòng Thi đua, khen thưởng",
+          "Phòng Đào tạo và phát triển nguồn nhân lực"
+        ]
+      }
+    ];
+    const chonNhansu =
+      [
+        {
+          "group": "Phòng Tổ chức - Tiền lương",
+          "items": [
+            "Lê Anh Hảo - Trưởng phòng",
+            "Nguyễn Thị Bích Thảo - Phó Trưởng phòng",
+            "Sầm Thị Kim Phương - Phó Trưởng phòng",
+            "Trương Hoàng Nam - Phó Trưởng phòng",
+            "Trương Hồng Quang - Chuyên viên",
+            "Trịnh Thị Phương - Chuyên viên",
+            "Nguyễn Thu Thủy - Chuyên viên chính",
+            "Nguyễn Minh Anh - Chuyên viên",
+            "Trần Thị Hải Yến - Chuyên viên",
+            "Nguyễn Quỳnh Anh - Chuyên viên",
+            "Phạm Thu Hoài - Chuyên viên",
+            "Thân Hoàng Duy - Chuyên viên",
+            "Hoàng Quỳnh Liên - Chuyên viên",
+            "Lê Thị Kim Oanh - Văn thư"
+          ]
+        },
+        {
+          "group": "Phòng Cán bộ Trung ương",
+          "items": [
+            "Lê Anh Minh - Trưởng phòng",
+            "Nguyễn Thành Kiên - Phó Trưởng phòng",
+            "Nguyễn Thị Cúc - Phó Trưởng phòng",
+            "Khổng Đức Chính - Chuyên viên",
+            "Nguyễn Thị Minh - Chuyên viên",
+            "Tăng Thùy Anh - Chuyên viên",
+            "Nguyễn Hiền Trang - Chuyên viên",
+            "Nguyễn Thị Hồng Thịnh - Chuyên viên chính",
+            "Lê Kiều Nga - Chuyên viên",
+            "Vũ Hoàng Yến - Chuyên viên",
+            "Nguyễn Văn Huấn - Chuyên viên",
+            "Trần Thị Thùy Ly - Chuyên viên",
+            "Trương Hồng Quang - Chuyên viên"
+          ]
+        },
+        {
+          "group": "Phòng Đào tạo và Phát triển nguồn nhân lực",
+          "items": [
+            "Hà Tú Anh - Trưởng phòng",
+            "Dương Hải Chi - Phó Trưởng phòng",
+            "Vũ Thanh Thủy - Phó Trưởng phòng",
+            "Lê Thu Hằng - Phó Trưởng phòng",
+            "Trần Thị Thanh Hòa - Phó Trưởng phòng",
+            "Nguyễn Tiến Pháp - Chuyên viên",
+            "Đỗ Hạnh Trang - Chuyên viên",
+            "Phạm Thu Hương - Chuyên viên",
+            "Giang Thị Kim Thanh - Chuyên viên chính",
+            "Nguyễn Thị Thu Thoa - Chuyên viên",
+            "Lương Thanh Hà - Chuyên viên",
+            "Ngô Thị Minh Thu - Chuyên viên chính",
+            "Phạm Thanh Hà - Chuyên viên chính",
+            "Phạm Hà Phương - Chuyên viên chính",
+            "Bùi Xuân Khải - Chuyên viên",
+            "Trương Hồng Quang - Chuyên viên"
+          ]
+        },
+        {
+          "group": "Phòng Thi đua - Khen thưởng",
+          "items": [
+            "Nguyễn Thị Bích Huệ - Trưởng phòng",
+            "Triệu Thị Bảo Hoa - Phó Trưởng phòng",
+            "Đinh Xuân Phú - Phó Trưởng phòng",
+            "Nguyễn Thanh Sơn - Phó Trưởng phòng",
+            "Lê Minh Hà - Chuyên viên",
+            "Nguyễn Thị Như Hoa - Chuyên viên chính",
+            "Nguyễn Thị Ánh Tuyết - Chuyên viên",
+            "Tạ Thanh Huyền - Chuyên viên chính",
+            "Vũ Thị Hạnh - Chuyên viên",
+            "Nguyễn Thị Lan Phương - Chuyên viên",
+            "Phạm Minh Hà - Chuyên viên",
+            "Đặng Thị Duyên - Chuyên viên",
+            "Đỗ Thị Hương Lan - Chuyên viên chính",
+            "Lê Xuân Mạnh - Chuyên viên",
+            "Lê Thị Ngọc Hà - Chuyên viên chính",
+            "Trương Hồng Quang - Chuyên viên"
+          ]
+        },
+        {
+          "group": "Phòng Cán bộ địa phương",
+          "items": [
+            "Đỗ Trọng Toàn - Trưởng phòng",
+            "Nguyễn Mạnh Khải - Phó Trưởng phòng",
+            "Vũ Tuấn Linh - Chuyên viên",
+            "Bùi Minh Hải - Chuyên viên chính",
+            "Nguyễn Hoài Nam - Chuyên viên chính",
+            "Phạm Văn Hưng - Chuyên viên chính",
+            "Bùi Lệ Hằng - Chuyên viên",
+            "Phạm Thanh Huyên - Chuyên viên",
+            "Trần Thị Hà Châu - Chuyên viên",
+            "Trương Hồng Quang - Chuyên viên"
+          ]
+        }
+      ]
     let edocData = [];
     try {
       const stored = sessionStorage.getItem("edocData");
@@ -696,149 +874,149 @@ const donViNhanData = [
     const FLOW_URL =
       "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/e92a5c03c0524754a5957ec23d945b77/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ytc79DxIlkb3uRhF93uLhGp8DuWxVMETGyFkZDtfQ-Y";
 
-// ✅ Lấy danh sách quy trình từ Flow SharePoint và fill vào dropdown
-// ✅ Lấy danh sách quy trình từ Flow SharePoint và fill vào dropdown
-// ✅ Lấy danh sách quy trình từ Flow SharePoint và fill vào dropdown
-async function loadProcessList() {
-  const container = document.getElementById("chitiet-container");
-  if (container) container.innerHTML = "<p>⏳ Đang tải danh sách quy trình...</p>";
+    // ✅ Lấy danh sách quy trình từ Flow SharePoint và fill vào dropdown
+    // ✅ Lấy danh sách quy trình từ Flow SharePoint và fill vào dropdown
+    // ✅ Lấy danh sách quy trình từ Flow SharePoint và fill vào dropdown
+    async function loadProcessList() {
+      const container = document.getElementById("chitiet-container");
+      if (container) container.innerHTML = "<p>⏳ Đang tải danh sách quy trình...</p>";
 
-  try {
-    console.log("🔄 [loadProcessList] Gọi Flow để lấy danh sách quy trình...");
-    const res = await fetch(FLOW_URL, { method: "POST" });
-    if (!res.ok) throw new Error(`Lỗi tải danh mục (${res.status})`);
-
-    const text = await res.text();
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      data = JSON.parse(JSON.parse(text)); // fallback nếu JSON lồng
-    }
-
-    const list = Array.isArray(data) ? data : [data];
-
-    // 🔹 Chuẩn hóa format dữ liệu từ SharePoint
-    const normalized = list.map(item => ({
-      maSo: item["MÃ SỐ"] || item["MASO"] || "",
-      ten: (item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || item["QUYTRINH_NAME"] || "").trim(),
-      QUYTRINH_NAME: (item["QUYTRINH_NAME"] || item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || "").trim(),
-      steps: (() => {
-        let raw = item["STEP QUY TRÌNH"] || item["CAYQUYTRINH"] || "[]";
-        try {
-          const parsed = JSON.parse(raw);
-          return Array.isArray(parsed) ? parsed : JSON.parse(parsed);
-        } catch (e) {
-          console.warn("⚠️ STEP parse lỗi:", e);
-          return [];
-        }
-      })()
-    }));
-
-    // 🔹 Cache danh sách để tái sử dụng
-    sessionStorage.setItem("processListChiTiet", JSON.stringify(normalized));
-    console.log("✅ Đã nhận", normalized.length, "quy trình từ SharePoint");
-
-    // --- Render dropdown ---
-    const select = document.getElementById("processSelectChiTiet");
-    const title = document.getElementById("pageTitle");
-    if (!select) {
-      console.error("❌ Không tìm thấy dropdown #processSelectChiTiet");
-      if (container) container.innerHTML = "<p>⚠️ Không có dropdown quy trình để hiển thị.</p>";
-      return;
-    }
-
-    select.innerHTML = `<option value="">-- Chọn quy trình --</option>`;
-    normalized.forEach(q => {
-      const opt = document.createElement("option");
-      opt.value = q.maSo;
-      opt.textContent = q.QUYTRINH_NAME || q.ten || q.maSo;
-      select.appendChild(opt);
-    });
-
-    // --- Khi người dùng chọn ---
-select.onchange = e => {
-  const maSo = e.target.value;
-  const found = normalized.find(x => x.maSo === maSo);
-  if (!found) return;
-
-  console.log("🟢 [Đã chọn thủ công]", found.QUYTRINH_NAME);
-
-  const title = document.getElementById("pageTitle") || document.querySelector("h1");
-  if (title) {
-    title.textContent = found.QUYTRINH_NAME || found.ten || found.maSo;
-    title.style.display = "block";
-  }
-
-  // ✅ Gán data & render full inner UI
-  window.processData = found.steps;
-  if (typeof renderSteps === "function") {
-    renderSteps(window.processData); // ⚡ Gọi hàm gốc có icon, textarea, nút
-  } else {
-    console.warn("⚠️ Chưa có renderSteps() — fallback về renderProcessFromJson()");
-    renderProcessFromJson();
-  }
-};
-
-    if (container) container.innerHTML = ""; // clear loading
-
-    // ✅ Đợi dropdown render đầy đủ rồi mới auto-select
-    await new Promise(resolve => {
-      let tries = 0;
-      const timer = setInterval(() => {
-        if (select.options.length > 1 || tries++ > 30) {
-          clearInterval(timer);
-          resolve();
-        }
-      }, 100);
-    });
-
-    // ✅ Nếu có record đang edit → tự động chọn quy trình đúng tên hoặc mã
-    const selectedRow = sessionStorage.getItem("selectedRow");
-    if (selectedRow) {
       try {
-        const row = JSON.parse(selectedRow);
-        if (row.QUYTRINH_NAME || row.MASO) {
-          console.log("📌 [Auto-select] Tìm quy trình:", row.QUYTRINH_NAME || row.MASO);
+        console.log("🔄 [loadProcessList] Gọi Flow để lấy danh sách quy trình...");
+        const res = await fetch(FLOW_URL, { method: "POST" });
+        if (!res.ok) throw new Error(`Lỗi tải danh mục (${res.status})`);
 
-          const found = normalized.find(x =>
-            x.maSo.trim().toLowerCase() === (row.MASO || "").trim().toLowerCase() ||
-            x.QUYTRINH_NAME.trim().toLowerCase() === (row.QUYTRINH_NAME || "").trim().toLowerCase()
-          );
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = JSON.parse(JSON.parse(text)); // fallback nếu JSON lồng
+        }
 
-          if (found) {
-            // ✅ Gán selected đúng
-            select.value = found.maSo;
-            const opt = [...select.options].find(o => o.value === found.maSo);
-            if (opt) opt.setAttribute("selected", "selected");
+        const list = Array.isArray(data) ? data : [data];
 
-            // ✅ Cập nhật tiêu đề
-            if (title) {
-              title.textContent = found.QUYTRINH_NAME || found.ten || found.maSo;
-              title.style.display = "block";
+        // 🔹 Chuẩn hóa format dữ liệu từ SharePoint
+        const normalized = list.map(item => ({
+          maSo: item["MÃ SỐ"] || item["MASO"] || "",
+          ten: (item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || item["QUYTRINH_NAME"] || "").trim(),
+          QUYTRINH_NAME: (item["QUYTRINH_NAME"] || item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || "").trim(),
+          steps: (() => {
+            let raw = item["STEP QUY TRÌNH"] || item["CAYQUYTRINH"] || "[]";
+            try {
+              const parsed = JSON.parse(raw);
+              return Array.isArray(parsed) ? parsed : JSON.parse(parsed);
+            } catch (e) {
+              console.warn("⚠️ STEP parse lỗi:", e);
+              return [];
             }
+          })()
+        }));
 
-            console.log("✅ [Auto-select] Chọn thành công:", found.QUYTRINH_NAME);
+        // 🔹 Cache danh sách để tái sử dụng
+        sessionStorage.setItem("processListChiTiet", JSON.stringify(normalized));
+        console.log("✅ Đã nhận", normalized.length, "quy trình từ SharePoint");
 
-            // ✅ Gán dữ liệu & render
-            window.processData = found.steps;
-            await new Promise(r => setTimeout(r, 100)); // đợi DOM update
-            renderProcessFromJson();
+        // --- Render dropdown ---
+        const select = document.getElementById("processSelectChiTiet");
+        const title = document.getElementById("pageTitle");
+        if (!select) {
+          console.error("❌ Không tìm thấy dropdown #processSelectChiTiet");
+          if (container) container.innerHTML = "<p>⚠️ Không có dropdown quy trình để hiển thị.</p>";
+          return;
+        }
+
+        select.innerHTML = `<option value="">-- Chọn quy trình --</option>`;
+        normalized.forEach(q => {
+          const opt = document.createElement("option");
+          opt.value = q.maSo;
+          opt.textContent = q.QUYTRINH_NAME || q.ten || q.maSo;
+          select.appendChild(opt);
+        });
+
+        // --- Khi người dùng chọn ---
+        select.onchange = e => {
+          const maSo = e.target.value;
+          const found = normalized.find(x => x.maSo === maSo);
+          if (!found) return;
+
+          console.log("🟢 [Đã chọn thủ công]", found.QUYTRINH_NAME);
+
+          const title = document.getElementById("pageTitle") || document.querySelector("h1");
+          if (title) {
+            title.textContent = found.QUYTRINH_NAME || found.ten || found.maSo;
+            title.style.display = "block";
+          }
+
+          // ✅ Gán data & render full inner UI
+          window.processData = found.steps;
+          if (typeof renderSteps === "function") {
+            renderSteps(window.processData); // ⚡ Gọi hàm gốc có icon, textarea, nút
           } else {
-            console.warn("⚠️ [Auto-select] Không tìm thấy quy trình khớp:", row.QUYTRINH_NAME);
+            console.warn("⚠️ Chưa có renderSteps() — fallback về renderProcessFromJson()");
+            renderProcessFromJson();
+          }
+        };
+
+        if (container) container.innerHTML = ""; // clear loading
+
+        // ✅ Đợi dropdown render đầy đủ rồi mới auto-select
+        await new Promise(resolve => {
+          let tries = 0;
+          const timer = setInterval(() => {
+            if (select.options.length > 1 || tries++ > 30) {
+              clearInterval(timer);
+              resolve();
+            }
+          }, 100);
+        });
+
+        // ✅ Nếu có record đang edit → tự động chọn quy trình đúng tên hoặc mã
+        const selectedRow = sessionStorage.getItem("selectedRow");
+        if (selectedRow) {
+          try {
+            const row = JSON.parse(selectedRow);
+            if (row.QUYTRINH_NAME || row.MASO) {
+              console.log("📌 [Auto-select] Tìm quy trình:", row.QUYTRINH_NAME || row.MASO);
+
+              const found = normalized.find(x =>
+                x.maSo.trim().toLowerCase() === (row.MASO || "").trim().toLowerCase() ||
+                x.QUYTRINH_NAME.trim().toLowerCase() === (row.QUYTRINH_NAME || "").trim().toLowerCase()
+              );
+
+              if (found) {
+                // ✅ Gán selected đúng
+                select.value = found.maSo;
+                const opt = [...select.options].find(o => o.value === found.maSo);
+                if (opt) opt.setAttribute("selected", "selected");
+
+                // ✅ Cập nhật tiêu đề
+                if (title) {
+                  title.textContent = found.QUYTRINH_NAME || found.ten || found.maSo;
+                  title.style.display = "block";
+                }
+
+                console.log("✅ [Auto-select] Chọn thành công:", found.QUYTRINH_NAME);
+
+                // ✅ Gán dữ liệu & render
+                window.processData = found.steps;
+                await new Promise(r => setTimeout(r, 100)); // đợi DOM update
+                renderProcessFromJson();
+              } else {
+                console.warn("⚠️ [Auto-select] Không tìm thấy quy trình khớp:", row.QUYTRINH_NAME);
+              }
+            }
+          } catch (err) {
+            console.warn("⚠️ Lỗi parse selectedRow khi auto-select:", err);
           }
         }
+
       } catch (err) {
-        console.warn("⚠️ Lỗi parse selectedRow khi auto-select:", err);
+        console.error("❌ loadProcessList lỗi:", err);
+        if (container)
+          container.innerHTML = `<p>❌ Lỗi tải danh sách: ${err.message}</p>`;
       }
     }
-
-  } catch (err) {
-    console.error("❌ loadProcessList lỗi:", err);
-    if (container)
-      container.innerHTML = `<p>❌ Lỗi tải danh sách: ${err.message}</p>`;
-  }
-}
 
     // ✅ Render step xuống bảng chi tiết (processTable)
     // ✅ Icon trạng thái
@@ -1277,38 +1455,39 @@ select.onchange = e => {
 
     // ✅ RENDER PROCESS TỪ JSON PHẲNG (thay cho renderProcess cũ)
     function renderProcessFromJson() {
-      const processData = window.processData || [];  // ⚙️ lấy dữ liệu toàn cục
-      const tableContainer = document.getElementById("processTable");
+  const processData = window.processData || [];
+  const tableContainer = document.getElementById("processTable");
 
-      if (!tableContainer) {
-        console.error("❌ Không tìm thấy phần tử #processTable trong DOM.");
-        return;
-      }
+  if (!tableContainer) {
+    console.error("❌ Không tìm thấy phần tử #processTable trong DOM.");
+    return;
+  }
 
-      if (!Array.isArray(processData) || processData.length === 0) {
-        tableContainer.innerHTML = `<p>⚠️ Không có dữ liệu quy trình để hiển thị.</p>`;
-        return;
-      }
+  if (!Array.isArray(processData) || processData.length === 0) {
+    tableContainer.innerHTML = `<p>⚠️ Không có dữ liệu quy trình để hiển thị.</p>`;
+    return;
+  }
 
-      console.log("📋 [Render] Bắt đầu render", processData.length, "bước quy trình");
+  console.log("📋 [Render] Bắt đầu render", processData.length, "bước quy trình");
 
-      // 🧩 Bắt đầu dựng HTML bảng
+  // 🧩 Dựng HTML bảng
   let html = `
-  <table class="process-table-inner">
-    <thead>
-      <tr>
-        <th>Nội dung thực hiện</th>
-        <th>Người thực hiện/Phê duyệt</th>
-        <th>Ngày gửi</th>
-        <th>Đơn vị nhận</th>
-        <th>Thời gian xử lý</th>
-        <th>Thời gian chờ</th>
-        <th>Kết quả</th>
-        <th>Ngày hoàn thành</th>
-        <th>Quyết định</th>
-      </tr>
-    </thead>
-    <tbody>
+    <table class="process-table-inner">
+      <thead>
+        <tr>
+          <th>Nội dung thực hiện</th>
+          <th>Người thực hiện/Phê duyệt</th>
+          <th>Ngày gửi</th>
+          <th>Người nhận</th>
+          <th>Đơn vị nhận</th>
+          <th>Thời gian xử lý</th>
+          <th>Thời gian chờ</th>
+          <th>Kết quả</th>
+          <th>Ngày hoàn thành</th>
+          <th>Quyết định</th>
+        </tr>
+      </thead>
+      <tbody>
   `;
 
   processData.forEach((step, s) => {
@@ -1317,51 +1496,69 @@ select.onchange = e => {
 
     step.sub.forEach((row, r) => {
       const id = `s${s}r${r}`;
-      const dropdown = getDropdownHTML(row.donviNhan);
+
+      // 🧠 tạo dropdown (có ID riêng để send)
+const dropdownNguoi = getDropdownHTML1(row.nguoinhan || "").replace(
+  "<select",
+  `<select id="nguoinhan-${id}" class="select-nguoinhan"`
+);
+const dropdownDonVi = getDropdownHTML(row.donvinhan || "").replace(
+  "<select",
+  `<select id="donvinhan-${id}" class="select-donvinhan"`
+);
 
       html += `
-      <tr class="${(s === 0 && r === 0) ? '' : 'hidden'}" id="${id}">
-        <td>${row.noidung || ''}</td>
-        <td>${row.nguoi || ''}</td>
-        <td id="ngaygui-${id}"></td>
-        <td>${dropdown}</td>
-        <td>${row.xuly || ''}</td>
-        <td>${row.cho || ''}</td>
-        <td>
-          <textarea class="result-input" id="res-${id}" placeholder="Nhập kết quả"></textarea>
+        <tr class="${(s === 0 && r === 0) ? "" : "hidden"}" id="${id}">
+          <td>${row.noidung || ""}</td>
+          <td>${row.nguoi || ""}</td>
+          <td id="ngaygui-${id}"></td>
+
+          <!-- 🧩 Đúng thứ tự: Người nhận trước, Đơn vị nhận sau -->
+          <td>${dropdownNguoi}</td>
+          <td>${dropdownDonVi}</td>
+
+          <td>${row.xuly || ""}</td>
+          <td>${row.cho || ""}</td>
+
+          <td>
+            <textarea
+              class="result-input"
+              id="res-${id}"
+              placeholder="Nhập kết quả"
+            ></textarea>
       `;
 
-      // ⚙️ Decision logic giữ nguyên
+      // ⚙️ Decision logic
       if (row.buttons && Array.isArray(row.buttons) && row.buttons.length >= 2) {
         const [positiveLabel, negativeLabel] = row.buttons;
         html += `
-          <div id="decision-choices-${id}">
-            <button class="btn btn-next" onclick="chooseDecision('${id}',${s},${r},true)">${positiveLabel}</button>
-            <button class="btn btn-next" onclick="chooseDecision('${id}',${s},${r},false)">${negativeLabel}</button>
-          </div>
-          <div id="decision-time-${id}" class="hidden">
-            <button class="btn btn-next" onclick="decisionStepNow('${id}',${s},${r})">⏱</button>
-            <button class="btn btn-next" onclick="decisionStepManual('${id}',${s},${r})">📅</button>
-          </div>
-        `;
+            <div id="decision-choices-${id}">
+              <button class="btn btn-next" onclick="chooseDecision('${id}',${s},${r},true)">${positiveLabel}</button>
+              <button class="btn btn-next" onclick="chooseDecision('${id}',${s},${r},false)">${negativeLabel}</button>
+            </div>
+            <div id="decision-time-${id}" class="hidden">
+              <button class="btn btn-next" onclick="decisionStepNow('${id}',${s},${r})">⏱</button>
+              <button class="btn btn-next" onclick="decisionStepManual('${id}',${s},${r})">📅</button>
+            </div>
+          `;
       } else {
         html += `
-          <button class="btn btn-next" onclick="completeStepNow('${id}',${s},${r})">⏱</button>
-          <button class="btn btn-next" onclick="completeStepManual('${id}',${s},${r})">📅</button>
-        `;
+            <button class="btn btn-next" onclick="completeStepNow('${id}',${s},${r})">⏱</button>
+            <button class="btn btn-next" onclick="completeStepManual('${id}',${s},${r})">📅</button>
+          `;
       }
 
       html += `
-        </td>
-        <td>
-          <div class="time-wrapper">
-            <input type="datetime-local" id="time-${id}" class="time-input" onchange="applyManualTime('${id}')">
-            <span id="time-text-${id}"></span>
-            <span id="time-icon-${id}" class="time-icon hidden" onclick="openTimeInput('${id}')">🕒</span>
-          </div>
-        </td>
-        <td id="decision-${id}"></td>
-      </tr>
+          </td>
+          <td>
+            <div class="time-wrapper">
+              <input type="datetime-local" id="time-${id}" class="time-input" onchange="applyManualTime('${id}')">
+              <span id="time-text-${id}"></span>
+              <span id="time-icon-${id}" class="time-icon hidden" onclick="openTimeInput('${id}')">🕒</span>
+            </div>
+          </td>
+          <td id="decision-${id}"></td>
+        </tr>
       `;
     });
   });
@@ -1372,39 +1569,40 @@ select.onchange = e => {
   console.log("✅ [Render] Hoàn tất render quy trình");
 }
 
-function chooseDecision(id, s, r, isPositive) {
-  console.groupCollapsed(`[chooseDecision] id=${id}, s=${s}, r=${r}, isPositive=${isPositive}`);
 
-  // 🧩 Lấy thông tin step hiện tại
-  const row = processData[s]?.sub?.[r] || {};
-  const stepType = row.type || "normal";
+    function chooseDecision(id, s, r, isPositive) {
+      console.groupCollapsed(`[chooseDecision] id=${id}, s=${s}, r=${r}, isPositive=${isPositive}`);
 
-  // 🧩 Ưu tiên lấy text từ buttons trong data (nếu có)
-  const buttons = row.buttons && Array.isArray(row.buttons) && row.buttons.length >= 2
-    ? row.buttons
-    : stepType === "decision3"
-      ? ["Thống nhất", "Chưa thống nhất"]
-      : ["Phù hợp", "Chưa phù hợp"];
+      // 🧩 Lấy thông tin step hiện tại
+      const row = processData[s]?.sub?.[r] || {};
+      const stepType = row.type || "normal";
 
-  // 🧠 Xác định text được chọn
-  const choiceText = isPositive ? buttons[0] : buttons[1];
+      // 🧩 Ưu tiên lấy text từ buttons trong data (nếu có)
+      const buttons = row.buttons && Array.isArray(row.buttons) && row.buttons.length >= 2
+        ? row.buttons
+        : stepType === "decision3"
+          ? ["Thống nhất", "Chưa thống nhất"]
+          : ["Phù hợp", "Chưa phù hợp"];
 
-  // 🔹 Lưu trạng thái tạm thời
-  const decisionEl = document.getElementById(`decision-${id}`);
-  if (decisionEl) {
-    decisionEl.dataset.choice = choiceText;
-    decisionEl.textContent = choiceText;
-  }
+      // 🧠 Xác định text được chọn
+      const choiceText = isPositive ? buttons[0] : buttons[1];
 
-  // 🔹 Ẩn nhóm nút chọn
-  document.getElementById(`decision-choices-${id}`)?.classList.add("hidden");
+      // 🔹 Lưu trạng thái tạm thời
+      const decisionEl = document.getElementById(`decision-${id}`);
+      if (decisionEl) {
+        decisionEl.dataset.choice = choiceText;
+        decisionEl.textContent = choiceText;
+      }
 
-  // 🔹 Hiện cụm chọn thời gian (⏱📅)
-  document.getElementById(`decision-time-${id}`)?.classList.remove("hidden");
+      // 🔹 Ẩn nhóm nút chọn
+      document.getElementById(`decision-choices-${id}`)?.classList.add("hidden");
 
-  console.log(`🟢 [Decision] ${choiceText} → chờ chọn thời gian`);
-  console.groupEnd();
-}
+      // 🔹 Hiện cụm chọn thời gian (⏱📅)
+      document.getElementById(`decision-time-${id}`)?.classList.remove("hidden");
+
+      console.log(`🟢 [Decision] ${choiceText} → chờ chọn thời gian`);
+      console.groupEnd();
+    }
 
 
     // === Lấy REF từ URL ===
@@ -1415,165 +1613,165 @@ function chooseDecision(id, s, r, isPositive) {
 
 
 
-// === Import từ Cloud theo REF (Flow phải hỗ trợ query REF) ===
-async function importFromCloudByRef(ref) {
-  console.groupCollapsed(`🌐 [importFromCloudByRef] Bắt đầu import REF="${ref}"`);
+    // === Import từ Cloud theo REF (Flow phải hỗ trợ query REF) ===
+    async function importFromCloudByRef(ref) {
+      console.groupCollapsed(`🌐 [importFromCloudByRef] Bắt đầu import REF="${ref}"`);
 
-  if (!ref) {
-    
-    console.groupEnd();
-    return;
-  }
+      if (!ref) {
 
-  try {
-    // ⚙️ Gọi Flow kèm REF
-    const FLOW_URL_BASE =
-      "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/835980df6c0a4b5892289dcbc334ef50/triggers/manual/paths/invoke";
-    const FLOW_SIG =
-      "?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=YJ4F3Gm_-Z5fPBUfteIeNr5YK-Kg_6C3OyKIvqXfj1M";
-    const url = `${FLOW_URL_BASE}${FLOW_SIG}&ref=${encodeURIComponent(ref)}`;
-
-    console.log("🌐 Gọi Flow:", url);
-    const res = await fetch(url, { method: "GET" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-
-    const raw = (await res.text()).trim();
-    console.log("📦 Raw:", raw.slice(0, 300));
-
-    // ✅ Parse JSON (kể cả double encode)
-    let data;
-    try {
-      data = JSON.parse(raw);
-    } catch {
-      data = JSON.parse(JSON.parse(raw));
-    }
-
-    if (!Array.isArray(data) || !data.length)
-      throw new Error("Flow không trả dữ liệu hợp lệ.");
-    const item = data[0];
-
-    const quytrinhName = item.QUYTRINH_NAME || item["TÊN QUY TRÌNH"] || "";
-    const dataRaw = item.DATA || "[]";
-
-    console.log("🔹 QUYTRINH_NAME:", quytrinhName);
-    console.log("🔹 DATA (raw):", dataRaw.slice(0, 200));
-
-    // ✅ 1. Đợi dropdown render đầy đủ
-    const select = document.getElementById("processSelectChiTiet");
-    if (!select) throw new Error("Không tìm thấy dropdown #processSelectChiTiet");
-
-    console.log("⏳ Đang chờ dropdown quy trình render...");
-    await new Promise(resolve => {
-      const maxWait = 8000;
-      const start = Date.now();
-      const timer = setInterval(() => {
-        if (select.options.length > 1) {
-          clearInterval(timer);
-          console.log("✅ Dropdown quy trình đã sẵn sàng.");
-          resolve();
-        } else if (Date.now() - start > maxWait) {
-          clearInterval(timer);
-          console.warn("⚠️ Dropdown chưa sẵn sau 8s, tiếp tục import...");
-          resolve();
-        }
-      }, 300);
-    });
-
-    // ✅ 2. Chọn option khớp tên
-    const match = Array.from(select.options).find(
-      o => o.textContent.trim().toLowerCase() === quytrinhName.trim().toLowerCase()
-    );
-
-    if (match) {
-      console.log("✅ [Auto-select] Khớp quy trình:", match.textContent);
-      select.value = match.value;
-      select.dispatchEvent(new Event("change"));
-    } else {
-      console.warn("⚠️ Không tìm thấy option khớp tên:", quytrinhName);
-    }
-
-    // ✅ 3. Cập nhật tiêu đề
-    const h1 = document.querySelector("h1");
-    if (h1) h1.textContent = quytrinhName || ref;
-
-    // ✅ 4. Đợi bảng render xong (inner table)
-    console.log("⏳ Đang chờ bảng #processTable render...");
-    await new Promise(resolve => {
-      const maxWait = 6000;
-      const start = Date.now();
-      const timer = setInterval(() => {
-        const tbl = document.getElementById("processTable");
-        if (tbl && tbl.querySelectorAll("tr").length > 1) {
-          clearInterval(timer);
-          console.log("✅ Bảng #processTable đã render xong!");
-          resolve();
-        } else if (Date.now() - start > maxWait) {
-          clearInterval(timer);
-          console.warn("⏰ Hết thời gian chờ render bảng.");
-          resolve();
-        }
-      }, 300);
-    });
-
-    // ✅ 5. Parse dữ liệu DATA từ SharePoint
-    let parsedData = [];
-    try {
-      parsedData = typeof dataRaw === "string" ? JSON.parse(dataRaw) : dataRaw;
-    } catch (err) {
-      console.warn("⚠️ DATA không parse được JSON:", err);
-    }
-
-    // ✅ 6. Gọi render và fill dữ liệu
-    if (Array.isArray(parsedData) && parsedData.length) {
-      console.log("📊 parseDecodedToTable(parsedData)", parsedData);
-
-      // 🟩 Đảm bảo bảng inner được render trước
-      if (typeof renderProcessFromJson === "function") {
-        renderProcessFromJson();
+        console.groupEnd();
+        return;
       }
 
-      // 🟩 Sau đó fill dữ liệu từng dòng từ SharePoint
-      if (typeof hydrateFromSharePointData === "function") {
-        hydrateFromSharePointData(parsedData);
-      } else if (typeof parseDecodedToTable === "function") {
-        parseDecodedToTable(parsedData);
-      } else {
-        console.table(parsedData);
-        
-      }
+      try {
+        // ⚙️ Gọi Flow kèm REF
+        const FLOW_URL_BASE =
+          "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/835980df6c0a4b5892289dcbc334ef50/triggers/manual/paths/invoke";
+        const FLOW_SIG =
+          "?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=YJ4F3Gm_-Z5fPBUfteIeNr5YK-Kg_6C3OyKIvqXfj1M";
+        const url = `${FLOW_URL_BASE}${FLOW_SIG}&ref=${encodeURIComponent(ref)}`;
 
-      // 🟢 NEW: Đồng bộ lại trạng thái vào processData để có thể PATCH ngược
-      if (window.processData) {
-        parsedData.forEach(item => {
-          const stepIndex = window.processData.findIndex(
-            s => (s.title || s.step || "").trim().toLowerCase() === (item.step || "").trim().toLowerCase()
-          );
-          if (stepIndex < 0) return;
-          const subIndex = window.processData[stepIndex].sub.findIndex(
-            sub => (sub.noidung || "").trim() === (item.noidung || "").trim()
-          );
-          if (subIndex < 0) return;
+        console.log("🌐 Gọi Flow:", url);
+        const res = await fetch(url, { method: "GET" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
 
-          window.processData[stepIndex].sub[subIndex] = {
-            ...window.processData[stepIndex].sub[subIndex],
-            ...item
-          };
+        const raw = (await res.text()).trim();
+        console.log("📦 Raw:", raw.slice(0, 300));
+
+        // ✅ Parse JSON (kể cả double encode)
+        let data;
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          data = JSON.parse(JSON.parse(raw));
+        }
+
+        if (!Array.isArray(data) || !data.length)
+          throw new Error("Flow không trả dữ liệu hợp lệ.");
+        const item = data[0];
+
+        const quytrinhName = item.QUYTRINH_NAME || item["TÊN QUY TRÌNH"] || "";
+        const dataRaw = item.DATA || "[]";
+
+        console.log("🔹 QUYTRINH_NAME:", quytrinhName);
+        console.log("🔹 DATA (raw):", dataRaw.slice(0, 200));
+
+        // ✅ 1. Đợi dropdown render đầy đủ
+        const select = document.getElementById("processSelectChiTiet");
+        if (!select) throw new Error("Không tìm thấy dropdown #processSelectChiTiet");
+
+        console.log("⏳ Đang chờ dropdown quy trình render...");
+        await new Promise(resolve => {
+          const maxWait = 8000;
+          const start = Date.now();
+          const timer = setInterval(() => {
+            if (select.options.length > 1) {
+              clearInterval(timer);
+              console.log("✅ Dropdown quy trình đã sẵn sàng.");
+              resolve();
+            } else if (Date.now() - start > maxWait) {
+              clearInterval(timer);
+              console.warn("⚠️ Dropdown chưa sẵn sau 8s, tiếp tục import...");
+              resolve();
+            }
+          }, 300);
         });
 
-        console.log("🔁 processData đã được sync với SharePoint");
-      }
-    } else {
-      console.warn("⚠️ Không có dữ liệu DATA hợp lệ trong SharePoint.");
-    }
+        // ✅ 2. Chọn option khớp tên
+        const match = Array.from(select.options).find(
+          o => o.textContent.trim().toLowerCase() === quytrinhName.trim().toLowerCase()
+        );
 
-   
-  } catch (err) {
-    console.error("💥 Lỗi importFromCloudByRef:", err);
-    
-  } finally {
-    console.groupEnd();
-  }
-}
+        if (match) {
+          console.log("✅ [Auto-select] Khớp quy trình:", match.textContent);
+          select.value = match.value;
+          select.dispatchEvent(new Event("change"));
+        } else {
+          console.warn("⚠️ Không tìm thấy option khớp tên:", quytrinhName);
+        }
+
+        // ✅ 3. Cập nhật tiêu đề
+        const h1 = document.querySelector("h1");
+        if (h1) h1.textContent = quytrinhName || ref;
+
+        // ✅ 4. Đợi bảng render xong (inner table)
+        console.log("⏳ Đang chờ bảng #processTable render...");
+        await new Promise(resolve => {
+          const maxWait = 6000;
+          const start = Date.now();
+          const timer = setInterval(() => {
+            const tbl = document.getElementById("processTable");
+            if (tbl && tbl.querySelectorAll("tr").length > 1) {
+              clearInterval(timer);
+              console.log("✅ Bảng #processTable đã render xong!");
+              resolve();
+            } else if (Date.now() - start > maxWait) {
+              clearInterval(timer);
+              console.warn("⏰ Hết thời gian chờ render bảng.");
+              resolve();
+            }
+          }, 300);
+        });
+
+        // ✅ 5. Parse dữ liệu DATA từ SharePoint
+        let parsedData = [];
+        try {
+          parsedData = typeof dataRaw === "string" ? JSON.parse(dataRaw) : dataRaw;
+        } catch (err) {
+          console.warn("⚠️ DATA không parse được JSON:", err);
+        }
+
+        // ✅ 6. Gọi render và fill dữ liệu
+        if (Array.isArray(parsedData) && parsedData.length) {
+          console.log("📊 parseDecodedToTable(parsedData)", parsedData);
+
+          // 🟩 Đảm bảo bảng inner được render trước
+          if (typeof renderProcessFromJson === "function") {
+            renderProcessFromJson();
+          }
+
+          // 🟩 Sau đó fill dữ liệu từng dòng từ SharePoint
+          if (typeof hydrateFromSharePointData === "function") {
+            hydrateFromSharePointData(parsedData);
+          } else if (typeof parseDecodedToTable === "function") {
+            parseDecodedToTable(parsedData);
+          } else {
+            console.table(parsedData);
+
+          }
+
+          // 🟢 NEW: Đồng bộ lại trạng thái vào processData để có thể PATCH ngược
+          if (window.processData) {
+            parsedData.forEach(item => {
+              const stepIndex = window.processData.findIndex(
+                s => (s.title || s.step || "").trim().toLowerCase() === (item.step || "").trim().toLowerCase()
+              );
+              if (stepIndex < 0) return;
+              const subIndex = window.processData[stepIndex].sub.findIndex(
+                sub => (sub.noidung || "").trim() === (item.noidung || "").trim()
+              );
+              if (subIndex < 0) return;
+
+              window.processData[stepIndex].sub[subIndex] = {
+                ...window.processData[stepIndex].sub[subIndex],
+                ...item
+              };
+            });
+
+            console.log("🔁 processData đã được sync với SharePoint");
+          }
+        } else {
+          console.warn("⚠️ Không có dữ liệu DATA hợp lệ trong SharePoint.");
+        }
+
+
+      } catch (err) {
+        console.error("💥 Lỗi importFromCloudByRef:", err);
+
+      } finally {
+        console.groupEnd();
+      }
+    }
 
 
 
@@ -1945,7 +2143,7 @@ async function importFromCloudByRef(ref) {
         if (choice) {
           const isPositive = (choice === "Phù hợp" || choice === "Thống nhất");
           finishDecision(id, s, r, isPositive);
-        } else {  
+        } else {
           showNext(id, s, r);
           updateSummary();
         }
@@ -1962,63 +2160,63 @@ async function importFromCloudByRef(ref) {
         inp.click();        // fallback
       }
     }
-// 🧩 Tự động chọn quy trình khi record đang edit có QUYTRINH_NAME trùng SharePoint
-function autoSelectProcessChiTiet(row) {
-  let attempts = 0;
+    // 🧩 Tự động chọn quy trình khi record đang edit có QUYTRINH_NAME trùng SharePoint
+    function autoSelectProcessChiTiet(row) {
+      let attempts = 0;
 
-  const timer = setInterval(() => {
-    const drop = document.getElementById("processSelectChiTiet");
-    const listStr = sessionStorage.getItem("processListChiTiet");
-    attempts++;
+      const timer = setInterval(() => {
+        const drop = document.getElementById("processSelectChiTiet");
+        const listStr = sessionStorage.getItem("processListChiTiet");
+        attempts++;
 
-    if (!drop || !listStr) {
-      console.log("⏳ [autoSelectProcessChiTiet] Đang chờ dropdown hoặc processListChiTiet...");
-      if (attempts > 10) {
+        if (!drop || !listStr) {
+          console.log("⏳ [autoSelectProcessChiTiet] Đang chờ dropdown hoặc processListChiTiet...");
+          if (attempts > 10) {
+            clearInterval(timer);
+            console.warn("⛔ Hết thời gian chờ load processListChiTiet.");
+          }
+          return;
+        }
+
         clearInterval(timer);
-        console.warn("⛔ Hết thời gian chờ load processListChiTiet.");
-      }
-      return;
+
+        const list = JSON.parse(listStr);
+        const normalize = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
+        // 🔹 Tên quy trình từ record đang edit
+        const queryName = (row.QUYTRINH_NAME || row.quytrinh || "").trim();
+        if (!queryName) {
+          console.warn("⚠️ Không có QUYTRINH_NAME trong record → bỏ qua auto-select");
+          return;
+        }
+
+        const normQuery = normalize(queryName);
+
+        // 🔹 So khớp với QUYTRINH_NAME hoặc TEN QUY TRÌNH từ SharePoint
+        const found = list.find(x =>
+          normalize(x.QUYTRINH_NAME || x.ten || "") === normQuery ||
+          normalize(x.maSo || "") === normQuery
+        );
+
+        if (found) {
+          // ✅ Set dropdown
+          drop.value = found.maSo || "";
+
+          // ✅ Lấy text hiển thị từ dropdown (chính là h1)
+          const selectedText = drop.selectedOptions[0]?.textContent?.trim() || found.QUYTRINH_NAME || "";
+          const h1 = document.querySelector("h1");
+          if (h1) h1.textContent = selectedText;
+
+          // ✅ Render dữ liệu quy trình
+          window.processData = found.steps || [];
+          renderProcessFromJson();
+
+          console.log(`🟢 Auto chọn quy trình: [${found.maSo}] ${selectedText}`);
+        } else {
+          console.warn("⚠️ Không tìm thấy quy trình khớp tên:", queryName);
+        }
+      }, 500);
     }
-
-    clearInterval(timer);
-
-    const list = JSON.parse(listStr);
-    const normalize = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
-
-    // 🔹 Tên quy trình từ record đang edit
-    const queryName = (row.QUYTRINH_NAME || row.quytrinh || "").trim();
-    if (!queryName) {
-      console.warn("⚠️ Không có QUYTRINH_NAME trong record → bỏ qua auto-select");
-      return;
-    }
-
-    const normQuery = normalize(queryName);
-
-    // 🔹 So khớp với QUYTRINH_NAME hoặc TEN QUY TRÌNH từ SharePoint
-    const found = list.find(x =>
-      normalize(x.QUYTRINH_NAME || x.ten || "") === normQuery ||
-      normalize(x.maSo || "") === normQuery
-    );
-
-    if (found) {
-      // ✅ Set dropdown
-      drop.value = found.maSo || "";
-
-      // ✅ Lấy text hiển thị từ dropdown (chính là h1)
-      const selectedText = drop.selectedOptions[0]?.textContent?.trim() || found.QUYTRINH_NAME || "";
-      const h1 = document.querySelector("h1");
-      if (h1) h1.textContent = selectedText;
-
-      // ✅ Render dữ liệu quy trình
-      window.processData = found.steps || [];
-      renderProcessFromJson();
-
-      console.log(`🟢 Auto chọn quy trình: [${found.maSo}] ${selectedText}`);
-    } else {
-      console.warn("⚠️ Không tìm thấy quy trình khớp tên:", queryName);
-    }
-  }, 500);
-}
     function saveProcess(ref) {
       const data = {
         ref: ref,
@@ -2081,176 +2279,176 @@ function autoSelectProcessChiTiet(row) {
 
       // 4️⃣ Chế độ EDIT (được gọi từ homepage)
       // 4️⃣ Chế độ EDIT (được gọi từ homepage)
-if (mode === "edit") {
-  console.log("✏️ Chế độ EDIT từ sessionStorage");
-  document.getElementById("processSelectWrapper").classList.add("hidden");
+      if (mode === "edit") {
+        console.log("✏️ Chế độ EDIT từ sessionStorage");
+        document.getElementById("processSelectWrapper").classList.add("hidden");
 
-  if (dataStr) {
-    const row = JSON.parse(dataStr);
-    console.log("📦 Đang load selectedRow từ session:", row);
+        if (dataStr) {
+          const row = JSON.parse(dataStr);
+          console.log("📦 Đang load selectedRow từ session:", row);
 
-    // ===============================
-    // 🔹 Lấy dữ liệu phụ trong session
-    // ===============================
-    const chitiet = JSON.parse(sessionStorage.getItem("chitietData") || "{}");
-    const ykien = JSON.parse(sessionStorage.getItem("ykienData") || "[]");
-    const rawLuan = JSON.parse(sessionStorage.getItem("luanchuyenData") || "[]");
-    const edoc = JSON.parse(sessionStorage.getItem("edocData") || "[]");
+          // ===============================
+          // 🔹 Lấy dữ liệu phụ trong session
+          // ===============================
+          const chitiet = JSON.parse(sessionStorage.getItem("chitietData") || "{}");
+          const ykien = JSON.parse(sessionStorage.getItem("ykienData") || "[]");
+          const rawLuan = JSON.parse(sessionStorage.getItem("luanchuyenData") || "[]");
+          const edoc = JSON.parse(sessionStorage.getItem("edocData") || "[]");
 
-    // ===============================
-    // 🔹 Chuẩn hóa luanchuyenData
-    // ===============================
-    const luan = rawLuan.map(raw => ({
-      nguoi_gui:      raw["Đơn vị nhận"]      || "",
-      don_vi_nhan:    raw["Người nhận"]       || "",
-      nguoi_nhan:     raw["Thời gian gửi"]    || "",
-      thoi_gian_gui:  raw["Thời gian nhận"]   || "",
-      thoi_gian_nhan: raw["Môi trường"]       || "",
-      trang_thai:     raw["Lý do"]            || "",
-      ly_do:          "",
-      ref: raw.ref ?? ""
-    }));
+          // ===============================
+          // 🔹 Chuẩn hóa luanchuyenData
+          // ===============================
+          const luan = rawLuan.map(raw => ({
+            nguoi_gui: raw["Đơn vị nhận"] || "",
+            don_vi_nhan: raw["Người nhận"] || "",
+            nguoi_nhan: raw["Thời gian gửi"] || "",
+            thoi_gian_gui: raw["Thời gian nhận"] || "",
+            thoi_gian_nhan: raw["Môi trường"] || "",
+            trang_thai: raw["Lý do"] || "",
+            ly_do: "",
+            ref: raw.ref ?? ""
+          }));
 
-    console.log("💬 luanchuyenData (chuẩn hóa):", luan);
-    setTimeout(() => {
-  console.log("🔍 Gọi extractPhongDauMoi sau khi đã có luanchuyenData thật:", luan.length, "dòng");
-  const phong = extractPhongDauMoi(luan);
-  console.log("🏢 Kết quả extractPhongDauMoi =", phong);
-}, 200);
-    console.log("📊 chitiet =", chitiet);
-    console.log("💬 ykienData =", ykien.length, "| luanchuyenData =", luan.length, "| edocData =", edoc.length);
+          console.log("💬 luanchuyenData (chuẩn hóa):", luan);
+          setTimeout(() => {
+            console.log("🔍 Gọi extractPhongDauMoi sau khi đã có luanchuyenData thật:", luan.length, "dòng");
+            const phong = extractPhongDauMoi(luan);
+            console.log("🏢 Kết quả extractPhongDauMoi =", phong);
+          }, 200);
+          console.log("📊 chitiet =", chitiet);
+          console.log("💬 ykienData =", ykien.length, "| luanchuyenData =", luan.length, "| edocData =", edoc.length);
 
-    // ===============================
-// 🔍 Tìm phòng trong luanchuyenData dựa theo "Phòng" + "Đầu mối"
-let dept = "Không xác định";
+          // ===============================
+          // 🔍 Tìm phòng trong luanchuyenData dựa theo "Phòng" + "Đầu mối"
+          let dept = "Không xác định";
 
-if (Array.isArray(luan) && luan.length > 0) {
-  const cleanText = s =>
-    (s || "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") // bỏ dấu tiếng Việt
-      .replace(/\s+/g, " ") // gộp space, tab, xuống dòng
-      .replace(/\n/g, " ")
-      .trim()
-      .toLowerCase();
+          if (Array.isArray(luan) && luan.length > 0) {
+            const cleanText = s =>
+              (s || "")
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "") // bỏ dấu tiếng Việt
+                .replace(/\s+/g, " ") // gộp space, tab, xuống dòng
+                .replace(/\n/g, " ")
+                .trim()
+                .toLowerCase();
 
-  console.groupCollapsed("🔎 Kiểm tra từng dòng tìm 'Phòng ... - Đầu mối'");
-  let matched = null;
+            console.groupCollapsed("🔎 Kiểm tra từng dòng tìm 'Phòng ... - Đầu mối'");
+            let matched = null;
 
-  luan.forEach((item, i) => {
-    const val = cleanText(item.nguoi_nhan);
-    if (val.includes("phong") && val.includes("dau moi")) {
-      matched = item;
-      console.log(`✅ [${i}] Match:`, item.nguoi_nhan);
-    } else if (val.includes("phong")) {
-      console.log(`⚠️ [${i}] Có 'phong' nhưng thiếu 'dau moi':`, item.nguoi_nhan);
-    } else if (val.includes("dau moi")) {
-      console.log(`⚠️ [${i}] Có 'dau moi' nhưng thiếu 'phong':`, item.nguoi_nhan);
-    }
-  });
-  console.groupEnd();
+            luan.forEach((item, i) => {
+              const val = cleanText(item.nguoi_nhan);
+              if (val.includes("phong") && val.includes("dau moi")) {
+                matched = item;
+                console.log(`✅ [${i}] Match:`, item.nguoi_nhan);
+              } else if (val.includes("phong")) {
+                console.log(`⚠️ [${i}] Có 'phong' nhưng thiếu 'dau moi':`, item.nguoi_nhan);
+              } else if (val.includes("dau moi")) {
+                console.log(`⚠️ [${i}] Có 'dau moi' nhưng thiếu 'phong':`, item.nguoi_nhan);
+              }
+            });
+            console.groupEnd();
 
-  if (matched) {
-    let raw = (matched.nguoi_nhan || "").replace(/\s+/g, " ").trim();
+            if (matched) {
+              let raw = (matched.nguoi_nhan || "").replace(/\s+/g, " ").trim();
 
-    // Cắt ra phần "Phòng ..." nếu có
-    const found = raw.match(/(Phòng|Phong)[^-\n]+/i);
-    if (found) {
-      dept = found[0].replace(/Phong/i, "Phòng").trim();
-    } else {
-      dept = matched.don_vi_nhan?.trim() || "Không xác định";
-    }
+              // Cắt ra phần "Phòng ..." nếu có
+              const found = raw.match(/(Phòng|Phong)[^-\n]+/i);
+              if (found) {
+                dept = found[0].replace(/Phong/i, "Phòng").trim();
+              } else {
+                dept = matched.don_vi_nhan?.trim() || "Không xác định";
+              }
 
-    console.log("🏢 Phòng xác định:", dept, "→ từ dòng:", matched);
-  } else {
-    console.warn("⚠️ Không tìm thấy dòng chứa 'phòng' và 'đầu mối'");
-  }
-} else {
-  console.warn("⚠️ luanchuyenData không hợp lệ:", luan);
-}
+              console.log("🏢 Phòng xác định:", dept, "→ từ dòng:", matched);
+            } else {
+              console.warn("⚠️ Không tìm thấy dòng chứa 'phòng' và 'đầu mối'");
+            }
+          } else {
+            console.warn("⚠️ luanchuyenData không hợp lệ:", luan);
+          }
 
-// 🔹 Chuẩn hóa tên phòng qua normalizeDept()
-dept = normalizeDept(dept);
+          // 🔹 Chuẩn hóa tên phòng qua normalizeDept()
+          dept = normalizeDept(dept);
 
-// 🔹 Cập nhật giao diện
-document.getElementById("deptName").textContent = "Phòng: " + dept + " - Đầu mối";
-console.log("✅ Kết quả cuối cùng:", dept);
+          // 🔹 Cập nhật giao diện
+          document.getElementById("deptName").textContent = "Phòng: " + dept + " - Đầu mối";
+          console.log("✅ Kết quả cuối cùng:", dept);
 
-    // ===============================
-    // 🔹 Render bảng chi tiết & dữ liệu phụ
-    // ===============================
-    document.getElementById("detailWrapper").innerHTML =
-      renderChiTiet(chitiet) +
-      renderYKienTable(ykien) +
-      renderLuanChuyenTable(luan);
+          // ===============================
+          // 🔹 Render bảng chi tiết & dữ liệu phụ
+          // ===============================
+          document.getElementById("detailWrapper").innerHTML =
+            renderChiTiet(chitiet) +
+            renderYKienTable(ykien) +
+            renderLuanChuyenTable(luan);
 
-    // ===============================
-    // 🔹 Chọn lại quy trình chi tiết (dropdown)
-    // ===============================
-    setTimeout(() => {
-      const quytrinhName = row.quytrinh?.trim() || "";
-      if (!quytrinhName) {
-        console.warn("⚠️ Không có tên quy trình trong row.quytrinh");
+          // ===============================
+          // 🔹 Chọn lại quy trình chi tiết (dropdown)
+          // ===============================
+          setTimeout(() => {
+            const quytrinhName = row.quytrinh?.trim() || "";
+            if (!quytrinhName) {
+              console.warn("⚠️ Không có tên quy trình trong row.quytrinh");
+              return;
+            }
+
+            const drop = document.getElementById("processSelectChiTiet");
+            const listStr = sessionStorage.getItem("processListChiTiet");
+
+            if (!drop || !listStr) {
+              console.warn("⚠️ Chưa có dropdown hoặc danh sách quy trình trong sessionStorage");
+              return;
+            }
+
+            const list = JSON.parse(listStr);
+            const found = list.find(
+              x => x.ten.toLowerCase().trim() === quytrinhName.toLowerCase().trim()
+            );
+
+            if (found) {
+              drop.value = found.maSo;
+              console.log("🟢 Chọn sẵn quy trình:", found.ten);
+              document.querySelector("h1").textContent = found.ten;
+
+              window.processData = found.steps;
+              renderProcessFromJson();
+            } else {
+              console.warn("⚠️ Không tìm thấy quy trình khớp tên:", quytrinhName);
+            }
+          }, 800);
+
+          // ===============================
+          // 🔹 Render quy trình chính
+          // ===============================
+          renderProcessFromJson();
+
+          // Nếu chưa có edocData → import lại
+          if (!sessionStorage.getItem("edocData") || edoc.length === 0) {
+            console.warn("⚠️ Không có edocData trong sessionStorage → tự import từ Cloud theo REF:", row.ref);
+            importFromCloudByRef(row.ref);
+          } else {
+            console.log("✅ Có edocData trong sessionStorage, không cần import lại");
+          }
+
+          console.groupEnd();
+          return;
+        }
+
+        // ===============================
+        // 🔹 Fallback khi không có selectedRow
+        // ===============================
+        if (refQuery) {
+          console.log("🔍 Không có selectedRow → lấy theo refQuery:", refQuery);
+          document.getElementById("processSelectWrapper").classList.add("hidden");
+          document.getElementById("refDisplay").textContent = "REF: " + refQuery;
+          importFromCloudByRef(refQuery);
+        } else {
+          console.warn("⚠️ Không có selectedRow và không có refQuery → không thể load dữ liệu");
+        }
+
+        console.groupEnd();
         return;
       }
-
-      const drop = document.getElementById("processSelectChiTiet");
-      const listStr = sessionStorage.getItem("processListChiTiet");
-
-      if (!drop || !listStr) {
-        console.warn("⚠️ Chưa có dropdown hoặc danh sách quy trình trong sessionStorage");
-        return;
-      }
-
-      const list = JSON.parse(listStr);
-      const found = list.find(
-        x => x.ten.toLowerCase().trim() === quytrinhName.toLowerCase().trim()
-      );
-
-      if (found) {
-        drop.value = found.maSo;
-        console.log("🟢 Chọn sẵn quy trình:", found.ten);
-        document.querySelector("h1").textContent = found.ten;
-
-        window.processData = found.steps;
-        renderProcessFromJson();
-      } else {
-        console.warn("⚠️ Không tìm thấy quy trình khớp tên:", quytrinhName);
-      }
-    }, 800);
-
-    // ===============================
-    // 🔹 Render quy trình chính
-    // ===============================
-    renderProcessFromJson();
-
-    // Nếu chưa có edocData → import lại
-    if (!sessionStorage.getItem("edocData") || edoc.length === 0) {
-      console.warn("⚠️ Không có edocData trong sessionStorage → tự import từ Cloud theo REF:", row.ref);
-      importFromCloudByRef(row.ref);
-    } else {
-      console.log("✅ Có edocData trong sessionStorage, không cần import lại");
-    }
-
-    console.groupEnd();
-    return;
-  }
-
-  // ===============================
-  // 🔹 Fallback khi không có selectedRow
-  // ===============================
-  if (refQuery) {
-    console.log("🔍 Không có selectedRow → lấy theo refQuery:", refQuery);
-    document.getElementById("processSelectWrapper").classList.add("hidden");
-    document.getElementById("refDisplay").textContent = "REF: " + refQuery;
-    importFromCloudByRef(refQuery);
-  } else {
-    console.warn("⚠️ Không có selectedRow và không có refQuery → không thể load dữ liệu");
-  }
-
-  console.groupEnd();
-  return;
-}
 
 
       // 5️⃣ Mặc định (auto load theo ref trên URL)
@@ -2418,212 +2616,212 @@ console.log("✅ Kết quả cuối cùng:", dept);
       };
       reader.readAsText(file, "utf-8");
     }
-function hydrateFromSharePointData(data) {
-  console.groupCollapsed("📋 [hydrateFromSharePointData] Áp trạng thái từ SharePoint DATA");
+    function hydrateFromSharePointData(data) {
+      console.groupCollapsed("📋 [hydrateFromSharePointData] Áp trạng thái từ SharePoint DATA");
 
-  let arr = typeof data === "string" ? JSON.parse(data) : data;
-  if (!Array.isArray(arr)) {
-    console.warn("⚠️ DATA không phải mảng hợp lệ");
-    return;
-  }
-
-  arr.forEach((item) => {
-    const step = item.step || "";
-    const sIndex = window.processData.findIndex(
-      s => (s.title || s.step || "").trim().toLowerCase() === step.trim().toLowerCase()
-    );
-    if (sIndex < 0) return;
-
-    const rIndex = window.processData[sIndex]?.sub?.findIndex(
-      sub => (sub.noidung || "").trim() === (item.noidung || "").trim()
-    );
-    if (rIndex < 0) return;
-
-    const id = `s${sIndex}r${rIndex}`;
-    const tr = document.getElementById(id);
-    if (!tr) return;
-
-    // ✅ Ẩn / hiện hàng
-    tr.classList.toggle("hidden", !!item.hidden);
-
-    // ✅ Điền dữ liệu
-    const res = document.getElementById(`res-${id}`);
-    const timeText = document.getElementById(`time-text-${id}`);
-    const decisionCell = document.getElementById(`decision-${id}`);
-
-    if (res) {
-      res.value = item.res || "";
-      res.readOnly = !!item.readonly || !!item.done;
-    }
-    if (timeText) timeText.textContent = item.time || "";
-    if (decisionCell) decisionCell.textContent = item.decision || "";
-
-    // ✅ Xử lý nhóm nút
-    const btns = tr.querySelectorAll("button");
-    const decGroup = document.getElementById(`decision-choices-${id}`);
-    const decTime = document.getElementById(`decision-time-${id}`);
-
-    if (item.done || item.readonly) {
-      // Ẩn tất cả nhóm nút
-      btns.forEach(b => b.classList.add("hidden"));
-      decGroup?.classList.add("hidden");
-      decTime?.classList.add("hidden");
-    } else {
-      // Bước decision: chỉ hiện nhóm lựa chọn
-      if (item.type === "decision2" || item.type === "decision3") {
-        decGroup?.classList.remove("hidden");
-        decTime?.classList.add("hidden");
-      } else {
-        // Bước thường
-        btns.forEach(b => b.classList.remove("hidden"));
+      let arr = typeof data === "string" ? JSON.parse(data) : data;
+      if (!Array.isArray(arr)) {
+        console.warn("⚠️ DATA không phải mảng hợp lệ");
+        return;
       }
+
+      arr.forEach((item) => {
+        const step = item.step || "";
+        const sIndex = window.processData.findIndex(
+          s => (s.title || s.step || "").trim().toLowerCase() === step.trim().toLowerCase()
+        );
+        if (sIndex < 0) return;
+
+        const rIndex = window.processData[sIndex]?.sub?.findIndex(
+          sub => (sub.noidung || "").trim() === (item.noidung || "").trim()
+        );
+        if (rIndex < 0) return;
+
+        const id = `s${sIndex}r${rIndex}`;
+        const tr = document.getElementById(id);
+        if (!tr) return;
+
+        // ✅ Ẩn / hiện hàng
+        tr.classList.toggle("hidden", !!item.hidden);
+
+        // ✅ Điền dữ liệu
+        const res = document.getElementById(`res-${id}`);
+        const timeText = document.getElementById(`time-text-${id}`);
+        const decisionCell = document.getElementById(`decision-${id}`);
+
+        if (res) {
+          res.value = item.res || "";
+          res.readOnly = !!item.readonly || !!item.done;
+        }
+        if (timeText) timeText.textContent = item.time || "";
+        if (decisionCell) decisionCell.textContent = item.decision || "";
+
+        // ✅ Xử lý nhóm nút
+        const btns = tr.querySelectorAll("button");
+        const decGroup = document.getElementById(`decision-choices-${id}`);
+        const decTime = document.getElementById(`decision-time-${id}`);
+
+        if (item.done || item.readonly) {
+          // Ẩn tất cả nhóm nút
+          btns.forEach(b => b.classList.add("hidden"));
+          decGroup?.classList.add("hidden");
+          decTime?.classList.add("hidden");
+        } else {
+          // Bước decision: chỉ hiện nhóm lựa chọn
+          if (item.type === "decision2" || item.type === "decision3") {
+            decGroup?.classList.remove("hidden");
+            decTime?.classList.add("hidden");
+          } else {
+            // Bước thường
+            btns.forEach(b => b.classList.remove("hidden"));
+          }
+        }
+
+        // ✅ Hiển thị biểu tượng đồng hồ nếu có time
+        // ✅ Hiển thị biểu tượng đồng hồ nếu có time và bước chưa hoàn tất
+        const timeIcon = document.getElementById(`time-icon-${id}`);
+        if (timeIcon) {
+          if (item.time && !item.done && !item.readonly) {
+            timeIcon.classList.remove("hidden");
+          } else {
+            timeIcon.classList.add("hidden");
+          }
+        }
+
+        // ✅ Mở bước kế tiếp nếu done
+        if (item.done && typeof showNext === "function") {
+          showNext(id, sIndex, rIndex);
+        }
+      });
+
+      console.log("✅ Hydrate hoàn tất theo trạng thái SharePoint");
+      console.groupEnd();
     }
-
-    // ✅ Hiển thị biểu tượng đồng hồ nếu có time
-   // ✅ Hiển thị biểu tượng đồng hồ nếu có time và bước chưa hoàn tất
-const timeIcon = document.getElementById(`time-icon-${id}`);
-if (timeIcon) {
-  if (item.time && !item.done && !item.readonly) {
-    timeIcon.classList.remove("hidden");
-  } else {
-    timeIcon.classList.add("hidden");
-  }
-}
-
-    // ✅ Mở bước kế tiếp nếu done
-    if (item.done && typeof showNext === "function") {
-      showNext(id, sIndex, rIndex);
-    }
-  });
-
-  console.log("✅ Hydrate hoàn tất theo trạng thái SharePoint");
-  console.groupEnd();
-}
 
 
 
     // ================== APPLY DECODED DATA ==================
-// ✅ Hydrate lại bảng inner từ DATA (RES/TIME/DECISION) theo đúng step/sub
-function parseDecodedToTable(rows) {
-  console.groupCollapsed("📋 [parseDecodedToTable] Hydrate bảng inner");
-  try {
-    // 1) Chuẩn hóa input
-    let dataArr = rows;
-    if (typeof rows === "string") {
-      try { dataArr = JSON.parse(rows); } catch(e) {
-        console.error("❌ DATA không phải JSON hợp lệ:", e);
-        alert("⚠️ Dữ liệu không hợp lệ để render");
-        return;
+    // ✅ Hydrate lại bảng inner từ DATA (RES/TIME/DECISION) theo đúng step/sub
+    function parseDecodedToTable(rows) {
+      console.groupCollapsed("📋 [parseDecodedToTable] Hydrate bảng inner");
+      try {
+        // 1) Chuẩn hóa input
+        let dataArr = rows;
+        if (typeof rows === "string") {
+          try { dataArr = JSON.parse(rows); } catch (e) {
+            console.error("❌ DATA không phải JSON hợp lệ:", e);
+            alert("⚠️ Dữ liệu không hợp lệ để render");
+            return;
+          }
+        }
+        if (!Array.isArray(dataArr)) {
+          console.warn("⚠️ DATA không phải mảng, bỏ qua");
+          return;
+        }
+
+        // 2) Bảng inner phải tồn tại rồi (renderProcessFromJson đã chạy)
+        const table = document.querySelector("#processTable tbody");
+        if (!table) {
+          console.warn("⚠️ Chưa có bảng inner (#processTable) → gọi renderProcessFromJson trước");
+          if (typeof renderProcessFromJson === "function") renderProcessFromJson();
+        }
+
+        // 3) Lập bucket id cho từng step theo processData (theo thứ tự)
+        const buckets = {}; // { stepKey: [{id,s,r}, ...] }
+        const pd = (window.processData || []);
+        const norm = (s) => (s || "").toString().trim().toLowerCase();
+
+        pd.forEach((step, s) => {
+          const key = norm(step.title || `Bước ${s + 1}`);
+          buckets[key] = (step.sub || []).map((_, r) => ({ id: `s${s}r${r}`, s, r }));
+        });
+
+        // 4) Hydrate từng dòng đã lưu
+        dataArr.forEach((rowSaved, i) => {
+          const stepKey = norm(rowSaved.step);
+          const bucket = buckets[stepKey] || [];
+          const item = bucket.shift();                // lấy đúng hàng theo thứ tự xuất
+          if (!item) {
+            console.warn("⚠️ Không match được id cho dòng:", rowSaved);
+            return;
+          }
+
+          const { id, s, r } = item;
+
+          // 👉 Mở hàng hiện tại
+          const tr = document.getElementById(id);
+          tr?.classList.remove("hidden");
+
+          // 👉 Điền KẾT QUẢ
+          const resEl = document.getElementById(`res-${id}`);
+          if (resEl && rowSaved.res != null && rowSaved.res !== "") {
+            resEl.value = rowSaved.res;
+            resEl.readOnly = true;
+          }
+
+          // 👉 Điền NGÀY HOÀN THÀNH (cột cuối cùng có span time-text-*)
+          const timeTxt = document.getElementById(`time-text-${id}`);
+          const timeInp = document.getElementById(`time-${id}`);
+          if (rowSaved.time) {
+            timeTxt && (timeTxt.textContent = rowSaved.time);
+            // Ẩn icon mở lịch nếu có
+            document.getElementById(`time-icon-${id}`)?.classList.add("hidden");
+          }
+
+          // 👉 Điền QUYẾT ĐỊNH (nếu có)
+          const decEl = document.getElementById(`decision-${id}`);
+          if (rowSaved.decision) {
+            decEl && (decEl.textContent = rowSaved.decision);
+            // Ẩn group chọn quyết định/time picker của bước decision
+            document.getElementById(`decision-choices-${id}`)?.classList.add("hidden");
+            document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
+          }
+
+          // 👉 Khóa thao tác của hàng hiện tại & mở hàng kế tiếp theo flow
+          if (typeof lockStep === "function") lockStep(id, s, r);
+          if (typeof showNext === "function") showNext(id, s, r);
+        });
+
+        // 5) Cập nhật bảng tổng hợp
+        if (typeof updateSummary === "function") updateSummary();
+
+        console.log(`✅ Hydrate xong ${dataArr.length} dòng`);
+      } catch (err) {
+        console.error("💥 parseDecodedToTable lỗi:", err);
+      } finally {
+        console.groupEnd();
       }
     }
-    if (!Array.isArray(dataArr)) {
-      console.warn("⚠️ DATA không phải mảng, bỏ qua");
-      return;
-    }
-
-    // 2) Bảng inner phải tồn tại rồi (renderProcessFromJson đã chạy)
-    const table = document.querySelector("#processTable tbody");
-    if (!table) {
-      console.warn("⚠️ Chưa có bảng inner (#processTable) → gọi renderProcessFromJson trước");
-      if (typeof renderProcessFromJson === "function") renderProcessFromJson();
-    }
-
-    // 3) Lập bucket id cho từng step theo processData (theo thứ tự)
-    const buckets = {}; // { stepKey: [{id,s,r}, ...] }
-    const pd = (window.processData || []);
-    const norm = (s) => (s || "").toString().trim().toLowerCase();
-
-    pd.forEach((step, s) => {
-      const key = norm(step.title || `Bước ${s + 1}`);
-      buckets[key] = (step.sub || []).map((_, r) => ({ id: `s${s}r${r}`, s, r }));
-    });
-
-    // 4) Hydrate từng dòng đã lưu
-    dataArr.forEach((rowSaved, i) => {
-      const stepKey = norm(rowSaved.step);
-      const bucket = buckets[stepKey] || [];
-      const item = bucket.shift();                // lấy đúng hàng theo thứ tự xuất
-      if (!item) {
-        console.warn("⚠️ Không match được id cho dòng:", rowSaved);
-        return;
-      }
-
-      const { id, s, r } = item;
-
-      // 👉 Mở hàng hiện tại
-      const tr = document.getElementById(id);
-      tr?.classList.remove("hidden");
-
-      // 👉 Điền KẾT QUẢ
-      const resEl = document.getElementById(`res-${id}`);
-      if (resEl && rowSaved.res != null && rowSaved.res !== "") {
-        resEl.value = rowSaved.res;
-        resEl.readOnly = true;
-      }
-
-      // 👉 Điền NGÀY HOÀN THÀNH (cột cuối cùng có span time-text-*)
-      const timeTxt = document.getElementById(`time-text-${id}`);
-      const timeInp = document.getElementById(`time-${id}`);
-      if (rowSaved.time) {
-        timeTxt && (timeTxt.textContent = rowSaved.time);
-        // Ẩn icon mở lịch nếu có
-        document.getElementById(`time-icon-${id}`)?.classList.add("hidden");
-      }
-
-      // 👉 Điền QUYẾT ĐỊNH (nếu có)
-      const decEl = document.getElementById(`decision-${id}`);
-      if (rowSaved.decision) {
-        decEl && (decEl.textContent = rowSaved.decision);
-        // Ẩn group chọn quyết định/time picker của bước decision
-        document.getElementById(`decision-choices-${id}`)?.classList.add("hidden");
-        document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
-      }
-
-      // 👉 Khóa thao tác của hàng hiện tại & mở hàng kế tiếp theo flow
-      if (typeof lockStep === "function") lockStep(id, s, r);
-      if (typeof showNext === "function")  showNext(id, s, r);
-    });
-
-    // 5) Cập nhật bảng tổng hợp
-    if (typeof updateSummary === "function") updateSummary();
-
-    console.log(`✅ Hydrate xong ${dataArr.length} dòng`);
-  } catch (err) {
-    console.error("💥 parseDecodedToTable lỗi:", err);
-  } finally {
-    console.groupEnd();
-  }
-}
 
     //Send to SharePoint via Power Automate
     // ================== EXPORT CLOUD ==================
-function normalizeDept(rawDept = "") {
-  if (!rawDept) return "";
+    function normalizeDept(rawDept = "") {
+      if (!rawDept) return "";
 
-  let dept = rawDept
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // bỏ dấu tiếng Việt
-    .toLowerCase()
-    .replace(/[()\-–_]/g, " ") // bỏ ký tự đặc biệt
-    .replace(/\s+/g, " ")
-    .trim();
+      let dept = rawDept
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // bỏ dấu tiếng Việt
+        .toLowerCase()
+        .replace(/[()\-–_]/g, " ") // bỏ ký tự đặc biệt
+        .replace(/\s+/g, " ")
+        .trim();
 
-  if (dept.includes("to chuc tien luong") || dept.includes("tien luong tccb"))
-    return "Phòng Tổ chức tiền lương";
-  if (dept.includes("thi dua") || dept.includes("khen thuong"))
-    return "Phòng Thi đua - Khen thưởng";
-  if (dept.includes("can bo dia phuong") || dept.includes("dia phuong"))
-    return "Phòng Cán bộ địa phương";
-  if (dept.includes("dao tao") || dept.includes("nguon nhan luc") || dept.includes("phat trien"))
-    return "Phòng Đào tạo và Phát triển nguồn nhân lực";
-  if (dept.includes("to chuc can bo") || dept.includes("tccb"))
-    return "Vụ Tổ chức cán bộ";
+      if (dept.includes("to chuc tien luong") || dept.includes("tien luong tccb"))
+        return "Phòng Tổ chức tiền lương";
+      if (dept.includes("thi dua") || dept.includes("khen thuong"))
+        return "Phòng Thi đua - Khen thưởng";
+      if (dept.includes("can bo dia phuong") || dept.includes("dia phuong"))
+        return "Phòng Cán bộ địa phương";
+      if (dept.includes("dao tao") || dept.includes("nguon nhan luc") || dept.includes("phat trien"))
+        return "Phòng Đào tạo và Phát triển nguồn nhân lực";
+      if (dept.includes("to chuc can bo") || dept.includes("tccb"))
+        return "Vụ Tổ chức cán bộ";
 
-  console.warn("⚠️ Dept chưa mapping:", rawDept);
-  return rawDept.trim();
-}
+      console.warn("⚠️ Dept chưa mapping:", rawDept);
+      return rawDept.trim();
+    }
 
 
-// ✅ Hàm gửi dữ liệu sang SharePoint (có normalizeDept)
+    // ✅ Hàm gửi dữ liệu sang SharePoint (có normalizeDept)
 async function sendToSharePoint() {
   console.groupCollapsed("📤 [sendToSharePoint] Gửi dữ liệu sang SharePoint...");
 
@@ -2637,7 +2835,11 @@ async function sendToSharePoint() {
         const resInput = document.getElementById(`res-${rowId}`);
         const timeText = document.getElementById(`time-text-${rowId}`);
         const decisionText = document.getElementById(`decision-${rowId}`);
-const donviSelect = document.getElementById(`donvinhan-${rowId}`);
+
+        // ✅ Thêm cả dropdown người nhận & đơn vị nhận
+        const nguoiSelect = document.getElementById(`nguoinhan-${rowId}`);
+        const donviSelect = document.getElementById(`donvinhan-${rowId}`);
+
         const isHidden = rowEl?.classList.contains("hidden") || false;
         const isDone = !!(timeText?.textContent || decisionText?.textContent);
         const isReadOnly = resInput?.readOnly || false;
@@ -2646,9 +2848,10 @@ const donviSelect = document.getElementById(`donvinhan-${rowId}`);
           step: step.title,
           noidung: row.noidung || "",
           nguoi: row.nguoi || "",
+          nguoinhan: nguoiSelect?.value || row.nguoinhan || "", // ✅ người nhận dropdown
+          donvinhan: donviSelect?.value || row.donvinhan || "", // ✅ đơn vị nhận dropdown
           xuly: row.xuly || "",
           cho: row.cho || "",
-          donvinhan: donviSelect?.value || row.donvinhan || "", // ✅ lấy dropdown
           res: resInput?.value || "",
           time: timeText?.textContent || "",
           decision: decisionText?.textContent || "",
@@ -2679,27 +2882,19 @@ const donviSelect = document.getElementById(`donvinhan-${rowId}`);
     }
 
     // 🔹 Lấy và quy chuẩn phòng ban
-let deptRaw = document.getElementById("deptName")?.textContent.trim() || "";
+    let deptRaw = document.getElementById("deptName")?.textContent.trim() || "";
+    deptRaw = deptRaw.replace(/^Phòng:\s*/i, "");
+    if (!deptRaw.includes("Phòng") && !deptRaw.includes("Vụ")) {
+      const match = deptRaw.match(/^(.*?)(?=(\s-\s(Đầu mối|Phối hợp|Chủ trì))|$)/i);
+      deptRaw = match ? match[0].trim() : deptRaw.trim();
+    } else {
+      deptRaw = deptRaw.trim();
+    }
+    deptRaw = deptRaw.replace(/\s{2,}/g, " ");
+    if (!deptRaw) deptRaw = "Không xác định";
 
-// 🧠 Chỉ bỏ phần tên cá nhân, giữ “- Đầu mối”, “- Phối hợp”, “- Chủ trì”
-deptRaw = deptRaw.replace(/^Phòng:\s*/i, "");
-
-// Nếu có dạng “Tên người - Đầu mối” thì giữ lại hậu tố
-if (!deptRaw.includes("Phòng") && !deptRaw.includes("Vụ")) {
-  // Trường hợp cá nhân: “Lê Anh Hảo - Đầu mối” -> vẫn giữ “- Đầu mối”
-  const match = deptRaw.match(/^(.*?)(?=(\s-\s(Đầu mối|Phối hợp|Chủ trì))|$)/i);
-  deptRaw = match ? match[0].trim() : deptRaw.trim();
-} else {
-  // Còn nếu đã là “Phòng Tổ chức - Tiền lương (TCCB) - Đầu mối”
-  // thì giữ nguyên, KHÔNG split '-'
-  deptRaw = deptRaw.trim();
-}
-
-deptRaw = deptRaw.replace(/\s{2,}/g, " ");
-if (!deptRaw) deptRaw = "Không xác định";
-
-const dept = normalizeDept(deptRaw);
-console.log("🏢 Phòng ban xác định:", dept);
+    const dept = normalizeDept(deptRaw);
+    console.log("🏢 Phòng ban xác định:", dept);
 
     // 🔹 Thông tin quy trình
     const drop = document.getElementById("processSelectChiTiet");
@@ -2754,133 +2949,134 @@ console.log("🏢 Phòng ban xác định:", dept);
 
 
 
- // ✅ Import từ Cloud (lấy danh sách quy trình SharePoint và fill dropdown) — có log chi tiết
-async function importFromCloud() {
-  if (!window.tokenKey || window.tokenKey.trim() === "") {
-    alert("⚠️ Bạn phải import TOKEN_KEY trước!");
-    return;
-  }
 
-  console.group("🌐 importFromCloud");
-
-  try {
-    console.log("🔹 [STEP 1] Gọi Flow Power Automate...");
-    const FLOW_URL =
-      "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/835980df6c0a4b5892289dcbc334ef50/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=YJ4F3Gm_-Z5fPBUfteIeNr5YK-Kg_6C3OyKIvqXfj1M";
-
-    // ⚠️ Nếu Flow của bạn dùng Manual Trigger, thử GET; nếu HTTP Request thì đổi thành POST
-    const res = await fetch(FLOW_URL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
+    // ✅ Import từ Cloud (lấy danh sách quy trình SharePoint và fill dropdown) — có log chi tiết
+    async function importFromCloud() {
+      if (!window.tokenKey || window.tokenKey.trim() === "") {
+        alert("⚠️ Bạn phải import TOKEN_KEY trước!");
+        return;
       }
-    });
 
-    console.log("🔹 [STEP 2] HTTP status:", res.status, res.statusText);
-    console.log("🔹 [STEP 3] Response headers:", Object.fromEntries(res.headers.entries()));
+      console.group("🌐 importFromCloud");
 
-    // 📦 Thử đọc raw text để xem Flow trả về gì
-    const raw = await res.text();
-    console.log("📦 [STEP 4] Raw response:", raw.slice(0, 500), raw.length > 500 ? "..." : "");
-
-    if (!res.ok) {
-      console.error("❌ [ERROR] Flow trả mã lỗi:", res.status);
-      throw new Error(`HTTP ${res.status} - ${res.statusText}`);
-    }
-
-    // 🧩 Thử parse JSON (kể cả khi double encoded)
-    let data;
-    try {
-      data = JSON.parse(raw);
-    } catch (e1) {
       try {
-        data = JSON.parse(JSON.parse(raw));
-      } catch (e2) {
-        console.error("❌ [ERROR] Không parse được JSON:", e1, e2);
-        throw new Error("Flow không trả về JSON hợp lệ.");
-      }
-    }
+        console.log("🔹 [STEP 1] Gọi Flow Power Automate...");
+        const FLOW_URL =
+          "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/835980df6c0a4b5892289dcbc334ef50/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=YJ4F3Gm_-Z5fPBUfteIeNr5YK-Kg_6C3OyKIvqXfj1M";
 
-    console.log("✅ [STEP 5] Đã parse JSON, tổng số quy trình:", Array.isArray(data) ? data.length : 0);
-    console.log("🔸 [SAMPLE ITEM]", data[0]);
+        // ⚠️ Nếu Flow của bạn dùng Manual Trigger, thử GET; nếu HTTP Request thì đổi thành POST
+        const res = await fetch(FLOW_URL, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
 
-    if (!Array.isArray(data) || data.length === 0) {
-      alert("⚠️ Không có dữ liệu quy trình trả về từ Cloud.");
-      console.groupEnd();
-      return;
-    }
+        console.log("🔹 [STEP 2] HTTP status:", res.status, res.statusText);
+        console.log("🔹 [STEP 3] Response headers:", Object.fromEntries(res.headers.entries()));
 
-    // 🔹 Chuẩn hóa dữ liệu
-    const list = data.map(item => ({
-      maSo: item["MÃ SỐ"] || item["MASO"] || "",
-      ten: (item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || item["QUYTRINH_NAME"] || "").trim(),
-      QUYTRINH_NAME: (item["QUYTRINH_NAME"] || item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || "").trim(),
-      steps: (() => {
-        let rawSteps = item["STEP QUY TRÌNH"] || item["CAYQUYTRINH"] || "[]";
-        try {
-          const parsed = JSON.parse(rawSteps);
-          return Array.isArray(parsed) ? parsed : JSON.parse(parsed);
-        } catch (e) {
-          console.warn("⚠️ [STEP parse lỗi]", e);
-          return [];
+        // 📦 Thử đọc raw text để xem Flow trả về gì
+        const raw = await res.text();
+        console.log("📦 [STEP 4] Raw response:", raw.slice(0, 500), raw.length > 500 ? "..." : "");
+
+        if (!res.ok) {
+          console.error("❌ [ERROR] Flow trả mã lỗi:", res.status);
+          throw new Error(`HTTP ${res.status} - ${res.statusText}`);
         }
-      })()
-    }));
 
-    console.log("✅ [STEP 6] Chuẩn hóa xong:", list.length, "items");
-    sessionStorage.setItem("processListChiTiet", JSON.stringify(list));
+        // 🧩 Thử parse JSON (kể cả khi double encoded)
+        let data;
+        try {
+          data = JSON.parse(raw);
+        } catch (e1) {
+          try {
+            data = JSON.parse(JSON.parse(raw));
+          } catch (e2) {
+            console.error("❌ [ERROR] Không parse được JSON:", e1, e2);
+            throw new Error("Flow không trả về JSON hợp lệ.");
+          }
+        }
 
-    // 🔹 Fill dropdown
-    const select = document.getElementById("processSelectChiTiet");
-    if (!select) {
-      alert("⚠️ Không tìm thấy dropdown #processSelectChiTiet trên trang!");
-      console.groupEnd();
-      return;
-    }
+        console.log("✅ [STEP 5] Đã parse JSON, tổng số quy trình:", Array.isArray(data) ? data.length : 0);
+        console.log("🔸 [SAMPLE ITEM]", data[0]);
 
-    select.innerHTML = `<option value="">-- Chọn quy trình --</option>`;
-    list.forEach(q => {
-      const opt = document.createElement("option");
-      opt.value = q.maSo;
-      opt.textContent = q.QUYTRINH_NAME || q.ten || q.maSo;
-      select.appendChild(opt);
-    });
-    console.log("✅ [STEP 7] Đã fill dropdown thành công.");
+        if (!Array.isArray(data) || data.length === 0) {
+          alert("⚠️ Không có dữ liệu quy trình trả về từ Cloud.");
+          console.groupEnd();
+          return;
+        }
 
-    // 🔹 Khi người dùng chọn thủ công
-    select.onchange = e => {
-      const maSo = e.target.value;
-      if (!maSo) return;
-      const found = list.find(x => x.maSo === maSo);
-      if (!found) return;
+        // 🔹 Chuẩn hóa dữ liệu
+        const list = data.map(item => ({
+          maSo: item["MÃ SỐ"] || item["MASO"] || "",
+          ten: (item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || item["QUYTRINH_NAME"] || "").trim(),
+          QUYTRINH_NAME: (item["QUYTRINH_NAME"] || item["TÊN QUY TRÌNH"] || item["TENQUYTRINH"] || "").trim(),
+          steps: (() => {
+            let rawSteps = item["STEP QUY TRÌNH"] || item["CAYQUYTRINH"] || "[]";
+            try {
+              const parsed = JSON.parse(rawSteps);
+              return Array.isArray(parsed) ? parsed : JSON.parse(parsed);
+            } catch (e) {
+              console.warn("⚠️ [STEP parse lỗi]", e);
+              return [];
+            }
+          })()
+        }));
 
-      const h1 = document.querySelector("h1");
-      if (h1) h1.textContent = found.QUYTRINH_NAME || found.ten || found.maSo;
+        console.log("✅ [STEP 6] Chuẩn hóa xong:", list.length, "items");
+        sessionStorage.setItem("processListChiTiet", JSON.stringify(list));
 
-      window.processData = found.steps;
-      renderProcessFromJson();
-    };
+        // 🔹 Fill dropdown
+        const select = document.getElementById("processSelectChiTiet");
+        if (!select) {
+          alert("⚠️ Không tìm thấy dropdown #processSelectChiTiet trên trang!");
+          console.groupEnd();
+          return;
+        }
 
-    // 🔹 Nếu có record đang edit → auto chọn
-    const selectedRow = sessionStorage.getItem("selectedRow");
-    if (selectedRow) {
-      try {
-        const row = JSON.parse(selectedRow);
-        console.log("🔹 [STEP 8] Đang auto chọn quy trình cho record:", row.QUYTRINH_NAME);
-        autoSelectProcessChiTiet(row);
+        select.innerHTML = `<option value="">-- Chọn quy trình --</option>`;
+        list.forEach(q => {
+          const opt = document.createElement("option");
+          opt.value = q.maSo;
+          opt.textContent = q.QUYTRINH_NAME || q.ten || q.maSo;
+          select.appendChild(opt);
+        });
+        console.log("✅ [STEP 7] Đã fill dropdown thành công.");
+
+        // 🔹 Khi người dùng chọn thủ công
+        select.onchange = e => {
+          const maSo = e.target.value;
+          if (!maSo) return;
+          const found = list.find(x => x.maSo === maSo);
+          if (!found) return;
+
+          const h1 = document.querySelector("h1");
+          if (h1) h1.textContent = found.QUYTRINH_NAME || found.ten || found.maSo;
+
+          window.processData = found.steps;
+          renderProcessFromJson();
+        };
+
+        // 🔹 Nếu có record đang edit → auto chọn
+        const selectedRow = sessionStorage.getItem("selectedRow");
+        if (selectedRow) {
+          try {
+            const row = JSON.parse(selectedRow);
+            console.log("🔹 [STEP 8] Đang auto chọn quy trình cho record:", row.QUYTRINH_NAME);
+            autoSelectProcessChiTiet(row);
+          } catch (err) {
+            console.warn("⚠️ Lỗi parse selectedRow:", err);
+          }
+        }
+
+        alert("✅ Đã import dữ liệu quy trình từ Cloud!");
       } catch (err) {
-        console.warn("⚠️ Lỗi parse selectedRow:", err);
+        console.error("❌ [ERROR importFromCloud]:", err);
+        alert("❌ Lỗi khi import từ Cloud: " + err.message);
+      } finally {
+        console.groupEnd();
       }
     }
-
-    alert("✅ Đã import dữ liệu quy trình từ Cloud!");
-  } catch (err) {
-    console.error("❌ [ERROR importFromCloud]:", err);
-    alert("❌ Lỗi khi import từ Cloud: " + err.message);
-  } finally {
-    console.groupEnd();
-  }
-}
 
 
     renderProcessFromJson();
@@ -3028,51 +3224,51 @@ async function importFromCloud() {
 
 
     function finishDecision(id, s, r, isPositive) {
-  console.groupCollapsed(`[finishDecision] id=${id}, s=${s}, r=${r}, isPositive=${isPositive}`);
+      console.groupCollapsed(`[finishDecision] id=${id}, s=${s}, r=${r}, isPositive=${isPositive}`);
 
-  const row = processData[s]?.sub?.[r] || {};
-  const stepType = row.type || "";
+      const row = processData[s]?.sub?.[r] || {};
+      const stepType = row.type || "";
 
-  // 🧩 Ưu tiên lấy text từ buttons trong data nếu có
-  const buttons = row.buttons && Array.isArray(row.buttons) && row.buttons.length >= 2
-    ? row.buttons
-    : stepType === "decision3"
-      ? ["Thống nhất", "Chưa thống nhất"]
-      : ["Phù hợp", "Chưa phù hợp"];
+      // 🧩 Ưu tiên lấy text từ buttons trong data nếu có
+      const buttons = row.buttons && Array.isArray(row.buttons) && row.buttons.length >= 2
+        ? row.buttons
+        : stepType === "decision3"
+          ? ["Thống nhất", "Chưa thống nhất"]
+          : ["Phù hợp", "Chưa phù hợp"];
 
-  // 🧠 Lấy lựa chọn thực tế (ưu tiên dataset.choice)
-  const decisionEl = document.getElementById(`decision-${id}`);
-  const choiceText = decisionEl?.dataset.choice || (isPositive ? buttons[0] : buttons[1]);
+      // 🧠 Lấy lựa chọn thực tế (ưu tiên dataset.choice)
+      const decisionEl = document.getElementById(`decision-${id}`);
+      const choiceText = decisionEl?.dataset.choice || (isPositive ? buttons[0] : buttons[1]);
 
-  // 🔹 Cập nhật hiển thị quyết định
-  if (decisionEl) {
-    decisionEl.textContent = choiceText;
-    decisionEl.classList.add("locked");
-  }
+      // 🔹 Cập nhật hiển thị quyết định
+      if (decisionEl) {
+        decisionEl.textContent = choiceText;
+        decisionEl.classList.add("locked");
+      }
 
-  // 🔹 Ẩn cụm chọn thời gian (⏱📅)
-  document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
+      // 🔹 Ẩn cụm chọn thời gian (⏱📅)
+      document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
 
-  // 🔹 Khóa nội dung phản hồi
-  document.getElementById(`res-${id}`)?.setAttribute("readonly", true);
+      // 🔹 Khóa nội dung phản hồi
+      document.getElementById(`res-${id}`)?.setAttribute("readonly", true);
 
-  // 🔹 Lưu lại quyết định và thời gian vào data
-  row.decision = choiceText;
-  row.time = new Date().toLocaleString("vi-VN");
+      // 🔹 Lưu lại quyết định và thời gian vào data
+      row.decision = choiceText;
+      row.time = new Date().toLocaleString("vi-VN");
 
-  // 🔹 Mở bước kế tiếp
-  if (isPositive) {
-    // mở bước đầu tiên của step kế tiếp
-    document.getElementById(`s${s + 1}r0`)?.classList.remove("hidden");
-  } else {
-    // mở dòng kế trong cùng step
-    document.getElementById(`s${s}r${r + 1}`)?.classList.remove("hidden");
-  }
+      // 🔹 Mở bước kế tiếp
+      if (isPositive) {
+        // mở bước đầu tiên của step kế tiếp
+        document.getElementById(`s${s + 1}r0`)?.classList.remove("hidden");
+      } else {
+        // mở dòng kế trong cùng step
+        document.getElementById(`s${s}r${r + 1}`)?.classList.remove("hidden");
+      }
 
-  updateSummary();
-  console.log(`✅ [Finish Decision] ${choiceText}`);
-  console.groupEnd();
-}
+      updateSummary();
+      console.log(`✅ [Finish Decision] ${choiceText}`);
+      console.groupEnd();
+    }
 
 
 
@@ -3086,167 +3282,167 @@ async function importFromCloud() {
         inp.click();
       }
     }
-// 🧩 Khi trang load, tự động lấy ?ref=... trên URL và gọi importFromCloudByRef
-document.addEventListener("DOMContentLoaded", () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const ref = urlParams.get("ref") || "";
+    // 🧩 Khi trang load, tự động lấy ?ref=... trên URL và gọi importFromCloudByRef
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get("ref") || "";
 
-  console.log("🚀 DOM ready → REF =", ref);
-  if (ref) {
-    importFromCloudByRef(ref);
-  } else {
-    console.warn("⚠️ Không có ref trong URL, bỏ qua importFromCloudByRef()");
-  }
-});
+      console.log("🚀 DOM ready → REF =", ref);
+      if (ref) {
+        importFromCloudByRef(ref);
+      } else {
+        console.warn("⚠️ Không có ref trong URL, bỏ qua importFromCloudByRef()");
+      }
+    });
 
-window.addEventListener("DOMContentLoaded", () => {
-  // 🧩 Lấy dữ liệu từ sessionStorage
-  const row = JSON.parse(sessionStorage.getItem("selectedRow") || "{}");
-  const chitiet = JSON.parse(sessionStorage.getItem("chitietData") || "{}");
-  const ykien = JSON.parse(sessionStorage.getItem("ykienData") || "[]");
-  const luanchuyen = JSON.parse(sessionStorage.getItem("luanchuyenData") || "[]");
+    window.addEventListener("DOMContentLoaded", () => {
+      // 🧩 Lấy dữ liệu từ sessionStorage
+      const row = JSON.parse(sessionStorage.getItem("selectedRow") || "{}");
+      const chitiet = JSON.parse(sessionStorage.getItem("chitietData") || "{}");
+      const ykien = JSON.parse(sessionStorage.getItem("ykienData") || "[]");
+      const luanchuyen = JSON.parse(sessionStorage.getItem("luanchuyenData") || "[]");
 
-  console.log("📦 Nhận dữ liệu từ homepage:", { row, chitiet, ykien, luanchuyen });
+      console.log("📦 Nhận dữ liệu từ homepage:", { row, chitiet, ykien, luanchuyen });
 
-  // 🏢 Gán REF hiển thị
-  const refEl = document.getElementById("refDisplay");
-  if (refEl) {
-    refEl.textContent = `REF: ${row.ref || chitiet.stt || "—"}`;
-  }
+      // 🏢 Gán REF hiển thị
+      const refEl = document.getElementById("refDisplay");
+      if (refEl) {
+        refEl.textContent = `REF: ${row.ref || chitiet.stt || "—"}`;
+      }
 
-  // 🏢 Gán phòng ban hiển thị (ưu tiên row.dept, fallback từ luanchuyen)
-  const deptEl = document.getElementById("deptName");
-  if (deptEl) {
-    const deptText = row.dept || extractPhongDauMoi(luanchuyen) || "—";
-    deptEl.textContent = `Phòng: ${deptText}`;
-  }
+      // 🏢 Gán phòng ban hiển thị (ưu tiên row.dept, fallback từ luanchuyen)
+      const deptEl = document.getElementById("deptName");
+      if (deptEl) {
+        const deptText = row.dept || extractPhongDauMoi(luanchuyen) || "—";
+        deptEl.textContent = `Phòng: ${deptText}`;
+      }
 
-  // Lưu global nếu cần dùng tiếp
-  window.currentRow = row;
-  window.currentChitiet = chitiet;
-  window.currentYkien = ykien;
-  window.currentLuanchuyen = luanchuyen;
-});
+      // Lưu global nếu cần dùng tiếp
+      window.currentRow = row;
+      window.currentChitiet = chitiet;
+      window.currentYkien = ykien;
+      window.currentLuanchuyen = luanchuyen;
+    });
 
-/** 🧠 Hàm tìm 'Phòng đầu mối' trong dữ liệu luân chuyển */
-// helper: normalize like bạn muốn (giữ các mapping cũ)
-function normalizeToSharePointDept(raw = "") {
-  if (!raw) return "";
+    /** 🧠 Hàm tìm 'Phòng đầu mối' trong dữ liệu luân chuyển */
+    // helper: normalize like bạn muốn (giữ các mapping cũ)
+    function normalizeToSharePointDept(raw = "") {
+      if (!raw) return "";
 
-  const txt = raw
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // bỏ dấu
-    .replace(/[()\-–_]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-
-  if (txt.includes("to chuc tien luong") || txt.includes("tien luong tccb"))
-    return "Phòng Tổ chức tiền lương";
-  if (txt.includes("thi dua") || txt.includes("khen thuong"))
-    return "Phòng Thi đua - Khen thưởng";
-  if (txt.includes("can bo dia phuong") || txt.includes("dia phuong"))
-    return "Phòng Cán bộ địa phương";
-  if (txt.includes("dao tao") || txt.includes("nguon nhan luc") || txt.includes("phat trien"))
-    return "Phòng Đào tạo và Phát triển nguồn nhân lực";
-  if (txt.includes("to chuc can bo") || txt.includes("tccb"))
-    return "Vụ Tổ chức cán bộ";
-
-  return raw.trim();
-}
-
-// tìm "Phòng ... - Đầu mối" trong luanchuyen array
-function extractPhongDauMoi(luanchuyenData) {
-  console.group("[extractPhongDauMoi] Debug chi tiết");
-
-  let dept = "Không xác định";
-
-  if (Array.isArray(luanchuyenData)) {
-    console.log(`🔎 Bắt đầu quét ${luanchuyenData.length} dòng luanchuyenData`);
-
-    for (let i = 0; i < luanchuyenData.length; i++) {
-      const item = luanchuyenData[i];
-      const raw =
-        item.nguoi_nhan ||
-        item["Người nhận"] ||
-        item["Thời gian gửi"] ||
-        item["Đơn vị nhận"] ||
-        "";
-
-      const val = raw
+      const txt = raw
+        .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/đ/g, "d")
-        .replace(/Đ/g, "D")
+        .replace(/[\u0300-\u036f]/g, "") // bỏ dấu
+        .replace(/[()\-–_]/g, " ")
         .replace(/\s+/g, " ")
-        .trim()
-        .toLowerCase();
+        .trim();
 
-      console.log(`🔍 [${i}] raw="${raw}" → val="${val}"`);
+      if (txt.includes("to chuc tien luong") || txt.includes("tien luong tccb"))
+        return "Phòng Tổ chức tiền lương";
+      if (txt.includes("thi dua") || txt.includes("khen thuong"))
+        return "Phòng Thi đua - Khen thưởng";
+      if (txt.includes("can bo dia phuong") || txt.includes("dia phuong"))
+        return "Phòng Cán bộ địa phương";
+      if (txt.includes("dao tao") || txt.includes("nguon nhan luc") || txt.includes("phat trien"))
+        return "Phòng Đào tạo và Phát triển nguồn nhân lực";
+      if (txt.includes("to chuc can bo") || txt.includes("tccb"))
+        return "Vụ Tổ chức cán bộ";
 
-      // 🎯 Nếu có "phong" và "dau moi"
-      if (val.includes("phong") && val.includes("dau moi")) {
-        console.log(`✅ Khớp tại [${i}] ${raw}`);
-
-        // 🧩 Regex mở rộng để lấy toàn cụm "Phòng ... (TCCB)"
-        const found =
-          raw.match(/(Phòng|Phong)[^–—-]+(?:\(TCCB\))?/i)?.[0] ||
-          raw.match(/(Phòng|Phong)[^–—-]+/i)?.[0];
-
-        if (found) {
-          dept = found
-            .replace(/Phong/i, "Phòng")
-            .replace(/\s{2,}/g, " ")
-            .trim();
-          break;
-        }
-      }
-
-      // 🔁 fallback: nếu có "TCCB" hoặc "Tien luong"
-      if (val.includes("tccb") || val.includes("tien luong")) {
-        const found =
-          raw.match(/(Phòng|Phong)[^–—-]+/i)?.[0] ||
-          raw.match(/(Phòng|Phong)[^(]+/i)?.[0];
-        if (found) {
-          dept = found.replace(/Phong/i, "Phòng").trim();
-          console.log(`⚙️ Fallback match tại [${i}] → ${dept}`);
-          break;
-        }
-      }
+      return raw.trim();
     }
-  }
 
-  console.log("🏁 Kết quả cuối cùng:", dept);
-  console.groupEnd();
-  return dept;
-}
-// đọc sessionStorage và cập nhật DOM
-window.addEventListener("DOMContentLoaded", () => {
-  console.group("⚙️ DOMContentLoaded (detail page)");
-  const selectedRaw = sessionStorage.getItem("selectedRow");
-  const row = selectedRaw ? JSON.parse(selectedRaw) : {};
-  console.log("🧾 selectedRow:", row);
+    // tìm "Phòng ... - Đầu mối" trong luanchuyen array
+    function extractPhongDauMoi(luanchuyenData) {
+      console.group("[extractPhongDauMoi] Debug chi tiết");
 
-  // ưu tiên lấy luanchuyenData từ selectedRow, fallback từ key riêng
-  const luanchuyen = row.luanchuyenData || JSON.parse(sessionStorage.getItem("luanchuyenData") || "[]");
-  console.log("📦 luanchuyenData (effective):", luanchuyen);
+      let dept = "Không xác định";
 
-  // hiển thị REF
-  const refEl = document.getElementById("refDisplay");
-  const refVal = row.ref || (row.chitietData && row.chitietData.stt) || "—";
-  if (refEl) refEl.textContent = `REF: ${refVal}`;
+      if (Array.isArray(luanchuyenData)) {
+        console.log(`🔎 Bắt đầu quét ${luanchuyenData.length} dòng luanchuyenData`);
 
-  // hiển thị PHÒNG
-  const deptEl = document.getElementById("deptName");
-  if (deptEl) {
-    const phong = extractPhongDauMoi(luanchuyen);
-    deptEl.textContent = `Phòng: ${phong || "—"}`;
-  } else {
-    console.warn("⚠️ Không tìm thấy phần tử #deptName trên trang");
-  }
+        for (let i = 0; i < luanchuyenData.length; i++) {
+          const item = luanchuyenData[i];
+          const raw =
+            item.nguoi_nhan ||
+            item["Người nhận"] ||
+            item["Thời gian gửi"] ||
+            item["Đơn vị nhận"] ||
+            "";
 
-  console.groupEnd();
-});                     
+          const val = raw
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/đ/g, "d")
+            .replace(/Đ/g, "D")
+            .replace(/\s+/g, " ")
+            .trim()
+            .toLowerCase();
+
+          console.log(`🔍 [${i}] raw="${raw}" → val="${val}"`);
+
+          // 🎯 Nếu có "phong" và "dau moi"
+          if (val.includes("phong") && val.includes("dau moi")) {
+            console.log(`✅ Khớp tại [${i}] ${raw}`);
+
+            // 🧩 Regex mở rộng để lấy toàn cụm "Phòng ... (TCCB)"
+            const found =
+              raw.match(/(Phòng|Phong)[^–—-]+(?:\(TCCB\))?/i)?.[0] ||
+              raw.match(/(Phòng|Phong)[^–—-]+/i)?.[0];
+
+            if (found) {
+              dept = found
+                .replace(/Phong/i, "Phòng")
+                .replace(/\s{2,}/g, " ")
+                .trim();
+              break;
+            }
+          }
+
+          // 🔁 fallback: nếu có "TCCB" hoặc "Tien luong"
+          if (val.includes("tccb") || val.includes("tien luong")) {
+            const found =
+              raw.match(/(Phòng|Phong)[^–—-]+/i)?.[0] ||
+              raw.match(/(Phòng|Phong)[^(]+/i)?.[0];
+            if (found) {
+              dept = found.replace(/Phong/i, "Phòng").trim();
+              console.log(`⚙️ Fallback match tại [${i}] → ${dept}`);
+              break;
+            }
+          }
+        }
+      }
+
+      console.log("🏁 Kết quả cuối cùng:", dept);
+      console.groupEnd();
+      return dept;
+    }
+    // đọc sessionStorage và cập nhật DOM
+    window.addEventListener("DOMContentLoaded", () => {
+      console.group("⚙️ DOMContentLoaded (detail page)");
+      const selectedRaw = sessionStorage.getItem("selectedRow");
+      const row = selectedRaw ? JSON.parse(selectedRaw) : {};
+      console.log("🧾 selectedRow:", row);
+
+      // ưu tiên lấy luanchuyenData từ selectedRow, fallback từ key riêng
+      const luanchuyen = row.luanchuyenData || JSON.parse(sessionStorage.getItem("luanchuyenData") || "[]");
+      console.log("📦 luanchuyenData (effective):", luanchuyen);
+
+      // hiển thị REF
+      const refEl = document.getElementById("refDisplay");
+      const refVal = row.ref || (row.chitietData && row.chitietData.stt) || "—";
+      if (refEl) refEl.textContent = `REF: ${refVal}`;
+
+      // hiển thị PHÒNG
+      const deptEl = document.getElementById("deptName");
+      if (deptEl) {
+        const phong = extractPhongDauMoi(luanchuyen);
+        deptEl.textContent = `Phòng: ${phong || "—"}`;
+      } else {
+        console.warn("⚠️ Không tìm thấy phần tử #deptName trên trang");
+      }
+
+      console.groupEnd();
+    });
 
 
   </script>
