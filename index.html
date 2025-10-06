@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -51,6 +52,167 @@
       const authCode = params.get("code");
       getToken(authCode);
     }
+=======
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PAD Custom Form</title>
+  <!-- Thư viện tạo Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --bg: #fff9e6;         /* nền vàng nhạt */
+      --card: #fffdf5;       /* khung sáng hơn */
+      --muted: #666;
+      --text: #222;
+      --accent: #ff9800;     /* cam vàng */
+      --accent-2: #4caf50;   /* xanh lá */
+      --danger: #f44336;
+      --radius: 16px;
+      --shadow: 0 4px 12px rgba(0,0,0,.15);
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--text); background: var(--bg);
+      display: grid; place-items: center; padding: 24px;
+    }
+    .card {
+      width: 100%; max-width: 980px; background: var(--card);
+      border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 28px; position: relative;
+    }
+    .title { font-size: 24px; font-weight: 800; margin: 0 0 6px; display: flex; align-items: center; gap: 10px; }
+    .subtitle { color: var(--muted); margin: 0 0 24px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
+    @media (min-width: 820px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .field { display: grid; gap: 8px; }
+    label { font-weight: 600; color: #444; font-size: 14px; }
+    input, select, textarea {
+      background: #fff; border: 1px solid #ccc; color: var(--text);
+      padding: 12px 14px; border-radius: 12px; outline: none; font-size: 14px;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(255,152,0,.3); }
+    textarea { min-height: 110px; resize: vertical; }
+    .row-span-2 { grid-row: span 2; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+    button {
+      padding: 12px 16px; border: 0; border-radius: 12px; font-weight: 700; cursor: pointer;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-secondary { background: var(--accent-2); color: #fff; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-excel { background: #2196f3; color:#fff; }
+    .status { margin-left: auto; color: var(--muted); font-size: 13px; align-self: center; }
+    .json-wrap { margin-top: 14px; }
+    .hint { color: var(--muted); font-size: 12px; margin-top: 4px; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted);
+      background: rgba(0,0,0,.04); border: 1px solid rgba(0,0,0,.1); padding: 6px 10px; border-radius: 999px; }
+    .badge { display:inline-block; background: rgba(255,152,0,.2); color: #ff9800; padding: 2px 8px; border-radius: 999px; font-weight: 700; font-size: 11px; }
+    .hr { height: 1px; background: linear-gradient(90deg, rgba(0,0,0,.1), rgba(0,0,0,0)); margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="pill" style="position:absolute; right:16px; top:14px;">HTML Form • <span class="badge">Excel</span></div>
+
+    <h1 class="title">Phiếu nhập liệu</h1>
+    <p class="subtitle">Điền thông tin và bấm <b>Tải Excel</b> để xuất file <code>namnh6_input.xlsx</code>.</p>
+
+    <form id="dataForm" class="grid" novalidate>
+      <div class="field">
+        <label for="fullName">Họ và tên *</label>
+        <input id="fullName" required />
+      </div>
+      <div class="field">
+        <label for="email">Email *</label>
+        <input id="email" type="email" required />
+      </div>
+      <div class="field">
+        <label for="department">Phòng ban</label>
+        <select id="department">
+          <option value="">— Chọn —</option>
+          <option>Nhân sự</option><option>Kế toán</option><option>IT</option><option>Kinh doanh</option><option>Vận hành</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="phone">Số điện thoại</label>
+        <input id="phone" />
+      </div>
+      <div class="field">
+        <label for="startDate">Ngày bắt đầu *</label>
+        <input id="startDate" type="date" required />
+      </div>
+      <div class="field row-span-2">
+        <label for="notes">Ghi chú</label>
+        <textarea id="notes"></textarea>
+      </div>
+    </form>
+
+    <div class="actions">
+      <button class="btn-primary" id="btnGenerate" type="button">Tạo JSON</button>
+      <button class="btn-secondary" id="btnCopy" type="button">Copy JSON</button>
+      <button class="btn-danger" id="btnReset" type="button">Xóa trắng</button>
+      <button class="btn-excel" id="btnExcel" type="button">Tải Excel</button>
+      <div class="status" id="status">Chưa tạo dữ liệu.</div>
+    </div>
+
+    <div class="json-wrap">
+      <label for="jsonOutput" style="display:block;margin-bottom:6px;font-weight:700;">JSON payload</label>
+      <textarea id="jsonOutput" readonly style="width:100%;min-height:120px"></textarea>
+    </div>
+  </div>
+
+  <script>
+    const $ = sel => document.querySelector(sel);
+
+    function buildPayload() {
+      return {
+        fullName: $('#fullName').value.trim(),
+        email: $('#email').value.trim(),
+        department: $('#department').value.trim(),
+        phone: $('#phone').value.trim(),
+        startDate: $('#startDate').value,
+        notes: $('#notes').value.trim()
+      };
+    }
+
+    function setStatus(msg){ $('#status').textContent = msg; }
+
+    $('#btnGenerate').addEventListener('click', () => {
+      const data = buildPayload();
+      $('#jsonOutput').value = JSON.stringify(data);
+      setStatus("Đã tạo JSON.");
+    });
+
+    $('#btnCopy').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText($('#jsonOutput').value);
+        setStatus("Đã copy JSON.");
+      } catch(e) { setStatus("Không copy được."); }
+    });
+
+    $('#btnReset').addEventListener('click', () => {
+      document.getElementById("dataForm").reset();
+      $('#jsonOutput').value = "";
+      setStatus("Đã xóa trắng.");
+    });
+
+    // Xuất Excel
+    $('#btnExcel').addEventListener('click', () => {
+      const row = buildPayload();
+      const aoa = [
+        ["Họ và tên","Email","Phòng ban","Số điện thoại","Ngày bắt đầu","Ghi chú"],
+        [row.fullName,row.email,row.department,row.phone,row.startDate,row.notes]
+      ];
+      const ws = XLSX.utils.aoa_to_sheet(aoa);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "InputData");
+      XLSX.writeFile(wb, "namnh6_input.xlsx");
+      setStatus("Đã tải file Excel.");
+    });
+>>>>>>> c639728c38ecb50d1806e74a3eded3124f401bb1
   </script>
 </body>
 </html>
