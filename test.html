@@ -560,6 +560,12 @@
   width: 48%;
   min-width: 140px;
 }
+select:disabled {
+  background-color: #f3f3f3;
+  color: #555;
+  opacity: 0.85;
+  cursor: not-allowed;
+}
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -2055,66 +2061,136 @@ const dropdownDonVi = getDropdownHTML(row.donvinhan || "").replace(
       return parts.join(" ");
     }
 
-    function updateSummary() {
-      // 1) Thu timeline sự kiện đang hiển thị
-      const events = [];
-      document.querySelectorAll("#processTable tbody tr:not(.step-title)").forEach(tr => {
-        if (tr.classList.contains("hidden")) return;  // chỉ tính row đã mở
-        const cells = tr.querySelectorAll("td");
-        if (!cells.length) return;
+function updateSummary() {
+  console.groupCollapsed("📊 [updateSummary] Tính tổng thời gian theo chức vụ");
+  try {
+    // 1️⃣ Lấy danh sách sự kiện thực tế
+    const events = [];
+    document.querySelectorAll("#processTable tbody tr:not(.step-title)").forEach(tr => {
+      if (tr.classList.contains("hidden")) return;
+      const cells = tr.querySelectorAll("td");
+      if (!cells.length) return;
 
-        const roleRaw = cells[1]?.textContent.trim(); // cột 2 = Chức vụ / Người thực hiện
-        const role = canonicalRole(roleRaw);
-        const timeStr = tr.querySelector("span[id^='time-text-']")?.textContent.trim();
-        if (!role || !timeStr) return;
+      const roleRaw = cells[1]?.textContent.trim();
+      const role = canonicalRole(roleRaw);
+      const timeStr = tr.querySelector("span[id^='time-text-']")?.textContent.trim();
+      if (!role || !timeStr) return;
 
-        const dt = parseVNDate(timeStr);              // dùng parseVNDate đã sửa nhận 24h & AM/PM
-        if (!dt) return;
+      const dt = parseVNDate(timeStr);
+      if (!dt) return;
+      events.push({ role, time: dt });
+    });
 
-        events.push({ role, time: dt });
-      });
-
-      if (events.length < 2) { document.getElementById("summary").innerHTML = ""; return; }
-
-      // 2) Sắp theo thời gian tăng dần
-      events.sort((a, b) => a.time - b.time);
-
-      // 3) Cộng dồn thời lượng theo quy tắc: mỗi row ăn khoảng (row_i → row_{i+1})
-      const totals = new Map(); // role -> giây
-      const counts = new Map(); // role -> số đoạn đảm nhiệm
-      const order = [];         // thứ tự xuất hiện lần đầu (để render đẹp)
-
-      for (let i = 0; i < events.length - 1; i++) {
-        const cur = events[i];
-        const next = events[i + 1];
-        const diff = (next.time - cur.time) / 1000;
-        if (diff < 0) continue; // bỏ nếu dữ liệu lùi thời gian
-
-        if (!totals.has(cur.role)) { totals.set(cur.role, 0); order.push(cur.role); }
-        totals.set(cur.role, totals.get(cur.role) + diff);
-        counts.set(cur.role, (counts.get(cur.role) || 0) + 1);
-      }
-
-      // 4) Render bảng tổng hợp theo chức vụ
-      let html = `<h2>⏱ Tổng thời gian theo chức vụ (cộng dồn toàn trình)</h2>
-                <table id="summaryTable">
-                  <tr><th>Chức vụ</th><th>Tổng thời gian</th><th>Số đoạn đảm nhiệm</th></tr>`;
-
-      for (const role of order) {
-        if (!totals.has(role)) continue;
-        html += `<tr>
-                <td>${role}</td>
-                <td>${fmtCompact(totals.get(role))}</td>
-                <td>${counts.get(role) || 0}</td>
-              </tr>`;
-      }
-
-      const totalOverall = (events[events.length - 1].time - events[0].time) / 1000;
-      html += `<tr><th colspan="2">Tổng quy trình</th><th>${fmtCompact(totalOverall)}</th></tr>`;
-      html += `</table>`;
-
-      document.getElementById("summary").innerHTML = html;
+    if (!events.length) {
+      document.getElementById("summary").innerHTML =
+        "<p>⚠️ Chưa có dữ liệu để hiển thị tổng thời gian.</p>";
+      return;
     }
+
+    // 2️⃣ Sắp theo thời gian tăng dần
+    events.sort((a, b) => a.time - b.time);
+
+    // 3️⃣ Tính tổng thời gian thực tế (giữa các mốc)
+    const totals = new Map();
+    const counts = new Map();
+    const order = [];
+
+    for (let i = 0; i < events.length - 1; i++) {
+      const cur = events[i];
+      const next = events[i + 1];
+      const diff = (next.time - cur.time) / 1000;
+      if (diff <= 0) continue;
+
+      if (!totals.has(cur.role)) order.push(cur.role);
+      totals.set(cur.role, (totals.get(cur.role) || 0) + diff);
+      counts.set(cur.role, (counts.get(cur.role) || 0) + 1);
+    }
+
+    // 4️⃣ Gom nhóm tiêu chuẩn theo chức vụ (xử lý + chờ)
+    const stdTotals = new Map();
+    const stdCounts = new Map();
+    (window.processData || []).forEach(step => {
+      (step.sub || []).forEach(sub => {
+        const role = canonicalRole(sub.nguoi);
+        if (!role) return;
+        const sec = parseDurationToSec(sub.xuly) + parseDurationToSec(sub.cho);
+        stdTotals.set(role, (stdTotals.get(role) || 0) + sec);
+        stdCounts.set(role, (stdCounts.get(role) || 0) + 1);
+      });
+    });
+
+    // ⚙️ Hợp nhất danh sách role từ cả thực tế và tiêu chuẩn
+    const allRoles = Array.from(
+      new Set([...order, ...stdTotals.keys()])
+    );
+
+    // 5️⃣ Render bảng
+    let html = `
+      <h2>⏱ Tổng thời gian theo chức vụ (cộng dồn toàn trình)</h2>
+      <table id="summaryTable">
+        <tr>
+          <th>Chức vụ</th>
+          <th>Thời gian thực tế</th>
+          <th>Thời gian tiêu chuẩn (xử lý + chờ)</th>
+          <th>Số đoạn đảm nhiệm</th>
+        </tr>`;
+
+    for (const role of allRoles) {
+      const real = fmtCompact(totals.get(role) || 0);
+      const std = fmtCompact(stdTotals.get(role) || 0);
+      const cnt = counts.get(role) || stdCounts.get(role) || 0;
+      html += `
+        <tr>
+          <td>${role}</td>
+          <td>${real}</td>
+          <td>${std}</td>
+          <td>${cnt}</td>
+        </tr>`;
+    }
+
+    // 6️⃣ Tổng toàn bộ
+    const totalOverall = (events[events.length - 1].time - events[0].time) / 1000;
+    const stdOverall = Array.from(stdTotals.values()).reduce((a, b) => a + b, 0);
+
+    html += `
+      <tr style="background:#eee;font-weight:bold">
+        <td>Tổng quy trình</td>
+        <td>${fmtCompact(totalOverall)}</td>
+        <td>${fmtCompact(stdOverall)}</td>
+        <td></td>
+      </tr>
+      </table>`;
+
+    document.getElementById("summary").innerHTML = html;
+    console.log("✅ [updateSummary] Hoàn tất render bảng tổng hợp");
+
+  } catch (err) {
+    console.error("💥 Lỗi updateSummary:", err);
+    document.getElementById("summary").innerHTML =
+      "<p>❌ Lỗi khi tính tổng thời gian</p>";
+  } finally {
+    console.groupEnd();
+  }
+}
+
+function parseDurationToSec(str) {
+  if (!str) return 0;
+  str = str.toLowerCase();
+  const d = parseFloat((str.match(/([\d.,]+)\s*ngày/) || [])[1]) || 0;
+  const h = parseFloat((str.match(/([\d.,]+)\s*giờ/) || [])[1]) || 0;
+  const m = parseFloat((str.match(/([\d.,]+)\s*phút/) || [])[1]) || 0;
+  const s = parseFloat((str.match(/([\d.,]+)\s*giây/) || [])[1]) || 0;
+  return d * 86400 + h * 3600 + m * 60 + s;
+}
+
+function fmtCompact(sec) {
+  if (!sec || sec < 1) return "0 giây";
+  const d = Math.floor(sec / 86400);
+  const h = Math.floor((sec % 86400) / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = Math.floor(sec % 60);
+  return `${d ? d + " ngày " : ""}${h ? h + " giờ " : ""}${m ? m + " phút " : ""}${s ? s + " giây" : ""}`;
+}
     // ===== Export CSV (chỉ export row đang hiển thị) =====
 
 
@@ -2719,96 +2795,119 @@ const dropdownDonVi = getDropdownHTML(row.donvinhan || "").replace(
 
     // ================== APPLY DECODED DATA ==================
     // ✅ Hydrate lại bảng inner từ DATA (RES/TIME/DECISION) theo đúng step/sub
-    function parseDecodedToTable(rows) {
-      console.groupCollapsed("📋 [parseDecodedToTable] Hydrate bảng inner");
+function parseDecodedToTable(rows) {
+  console.groupCollapsed("📋 [parseDecodedToTable] Hydrate bảng inner");
+  try {
+    // 1️⃣ Chuẩn hóa input
+    let dataArr = rows;
+    if (typeof rows === "string") {
       try {
-        // 1) Chuẩn hóa input
-        let dataArr = rows;
-        if (typeof rows === "string") {
-          try { dataArr = JSON.parse(rows); } catch (e) {
-            console.error("❌ DATA không phải JSON hợp lệ:", e);
-            alert("⚠️ Dữ liệu không hợp lệ để render");
-            return;
-          }
-        }
-        if (!Array.isArray(dataArr)) {
-          console.warn("⚠️ DATA không phải mảng, bỏ qua");
-          return;
-        }
-
-        // 2) Bảng inner phải tồn tại rồi (renderProcessFromJson đã chạy)
-        const table = document.querySelector("#processTable tbody");
-        if (!table) {
-          console.warn("⚠️ Chưa có bảng inner (#processTable) → gọi renderProcessFromJson trước");
-          if (typeof renderProcessFromJson === "function") renderProcessFromJson();
-        }
-
-        // 3) Lập bucket id cho từng step theo processData (theo thứ tự)
-        const buckets = {}; // { stepKey: [{id,s,r}, ...] }
-        const pd = (window.processData || []);
-        const norm = (s) => (s || "").toString().trim().toLowerCase();
-
-        pd.forEach((step, s) => {
-          const key = norm(step.title || `Bước ${s + 1}`);
-          buckets[key] = (step.sub || []).map((_, r) => ({ id: `s${s}r${r}`, s, r }));
-        });
-
-        // 4) Hydrate từng dòng đã lưu
-        dataArr.forEach((rowSaved, i) => {
-          const stepKey = norm(rowSaved.step);
-          const bucket = buckets[stepKey] || [];
-          const item = bucket.shift();                // lấy đúng hàng theo thứ tự xuất
-          if (!item) {
-            console.warn("⚠️ Không match được id cho dòng:", rowSaved);
-            return;
-          }
-
-          const { id, s, r } = item;
-
-          // 👉 Mở hàng hiện tại
-          const tr = document.getElementById(id);
-          tr?.classList.remove("hidden");
-
-          // 👉 Điền KẾT QUẢ
-          const resEl = document.getElementById(`res-${id}`);
-          if (resEl && rowSaved.res != null && rowSaved.res !== "") {
-            resEl.value = rowSaved.res;
-            resEl.readOnly = true;
-          }
-
-          // 👉 Điền NGÀY HOÀN THÀNH (cột cuối cùng có span time-text-*)
-          const timeTxt = document.getElementById(`time-text-${id}`);
-          const timeInp = document.getElementById(`time-${id}`);
-          if (rowSaved.time) {
-            timeTxt && (timeTxt.textContent = rowSaved.time);
-            // Ẩn icon mở lịch nếu có
-            document.getElementById(`time-icon-${id}`)?.classList.add("hidden");
-          }
-
-          // 👉 Điền QUYẾT ĐỊNH (nếu có)
-          const decEl = document.getElementById(`decision-${id}`);
-          if (rowSaved.decision) {
-            decEl && (decEl.textContent = rowSaved.decision);
-            // Ẩn group chọn quyết định/time picker của bước decision
-            document.getElementById(`decision-choices-${id}`)?.classList.add("hidden");
-            document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
-          }
-
-          // 👉 Khóa thao tác của hàng hiện tại & mở hàng kế tiếp theo flow
-          if (typeof lockStep === "function") lockStep(id, s, r);
-          if (typeof showNext === "function") showNext(id, s, r);
-        });
-
-        // 5) Cập nhật bảng tổng hợp
-        if (typeof updateSummary === "function") updateSummary();
-
-        console.log(`✅ Hydrate xong ${dataArr.length} dòng`);
-      } catch (err) {
-        console.error("💥 parseDecodedToTable lỗi:", err);
-      } finally {
-        console.groupEnd();
+        dataArr = JSON.parse(rows);
+      } catch (e) {
+        console.error("❌ DATA không phải JSON hợp lệ:", e);
+        alert("⚠️ Dữ liệu không hợp lệ để render");
+        return;
       }
     }
+    if (!Array.isArray(dataArr)) {
+      console.warn("⚠️ DATA không phải mảng, bỏ qua");
+      return;
+    }
+
+    // 2️⃣ Bảng inner phải tồn tại (renderProcessFromJson đã chạy)
+    const table = document.querySelector("#processTable tbody");
+    if (!table) {
+      console.warn("⚠️ Chưa có bảng inner (#processTable) → gọi renderProcessFromJson trước");
+      if (typeof renderProcessFromJson === "function") renderProcessFromJson();
+    }
+
+    // 3️⃣ Lập bucket id cho từng step
+    const buckets = {};
+    const pd = window.processData || [];
+    const norm = s => (s || "").toString().trim().toLowerCase();
+
+    pd.forEach((step, s) => {
+      const key = norm(step.title || `Bước ${s + 1}`);
+      buckets[key] = (step.sub || []).map((_, r) => ({ id: `s${s}r${r}`, s, r }));
+    });
+
+    // 4️⃣ Hydrate từng dòng dữ liệu
+    dataArr.forEach((rowSaved, i) => {
+      const stepKey = norm(rowSaved.step);
+      const bucket = buckets[stepKey] || [];
+      const item = bucket.shift();
+      if (!item) {
+        console.warn("⚠️ Không match được id cho dòng:", rowSaved);
+        return;
+      }
+
+      const { id, s, r } = item;
+
+      // 👉 Mở hàng hiện tại
+      const tr = document.getElementById(id);
+      tr?.classList.remove("hidden");
+
+      // 👉 Điền KẾT QUẢ
+      const resEl = document.getElementById(`res-${id}`);
+      if (resEl && rowSaved.res) {
+        resEl.value = rowSaved.res;
+        resEl.readOnly = true;
+      }
+
+      // 👉 Điền NGÀY HOÀN THÀNH
+      const timeTxt = document.getElementById(`time-text-${id}`);
+      if (rowSaved.time) {
+        if (timeTxt) timeTxt.textContent = rowSaved.time;
+        document.getElementById(`time-icon-${id}`)?.classList.add("hidden");
+      }
+
+      // 👉 Điền QUYẾT ĐỊNH (ẩn nhóm button)
+      const decEl = document.getElementById(`decision-${id}`);
+      if (rowSaved.decision) {
+        if (decEl) decEl.textContent = rowSaved.decision;
+        document.getElementById(`decision-choices-${id}`)?.classList.add("hidden");
+        document.getElementById(`decision-time-${id}`)?.classList.add("hidden");
+      }
+
+      // 👉 Khóa dropdown Người nhận & Đơn vị nhận (chỉ xem, không chọn lại)
+      const disableDropdowns = () => {
+        const nguoiNhanSelect = document.getElementById(`nguoinhan-${id}`);
+        const donViNhanSelect = document.getElementById(`donvinhan-${id}`);
+
+        if (nguoiNhanSelect) {
+          nguoiNhanSelect.disabled = true;
+          nguoiNhanSelect.style.backgroundColor = "#f5f5f5";
+          nguoiNhanSelect.style.color = "#555";
+          nguoiNhanSelect.style.cursor = "not-allowed";
+        }
+
+        if (donViNhanSelect) {
+          donViNhanSelect.disabled = true;
+          donViNhanSelect.style.backgroundColor = "#f5f5f5";
+          donViNhanSelect.style.color = "#555";
+          donViNhanSelect.style.cursor = "not-allowed";
+        }
+      };
+
+      // đảm bảo DOM sẵn sàng trước khi disable
+      setTimeout(disableDropdowns, 300);
+
+      // 👉 Khóa thao tác của hàng hiện tại & mở hàng kế tiếp
+      if (typeof lockStep === "function") lockStep(id, s, r);
+      if (typeof showNext === "function") showNext(id, s, r);
+    });
+
+    // 5️⃣ Cập nhật bảng tổng hợp
+    if (typeof updateSummary === "function") updateSummary();
+
+    console.log(`✅ Hydrate xong ${dataArr.length} dòng`);
+  } catch (err) {
+    console.error("💥 parseDecodedToTable lỗi:", err);
+  } finally {
+    console.groupEnd();
+  }
+}
+g
 
     //Send to SharePoint via Power Automate
     // ================== EXPORT CLOUD ==================

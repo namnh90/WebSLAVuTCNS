@@ -342,6 +342,7 @@
                         <th>REF</th>
                         <th>Phòng ban</th>
                         <th>Quy trình</th>
+                        <th>Văn bản</th>
                         <th>Bước hiện tại</th>
                         <th>Thời gian đã trôi qua</th>
                         <th>Ước tính thời gian cần thiết (Chạy thẳng)</th>
@@ -795,6 +796,7 @@ function extractCore(s) {
         <td>${r.ref}</td>
         <td>${r.dept}</td>
         <td>${r.quytrinh}</td>
+        <td>${r.chitietData?.soVanBan || ""} – ${r.chitietData?.trichYeu || ""}</td>
         <td>${r.buoc}</td>
         <td>${r.trong}</td>
         <td>${r.conlaiStraight}</td>
