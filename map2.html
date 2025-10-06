@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>VCB ATM Routing + Timeline ngang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    #map { height: 100vh; width: 100%; }
+
+    .number-icon {
+      background: #ff5722; color: white; border-radius: 50%;
+      text-align: center; font-weight: bold; font-size: 14px;
+      line-height: 30px; width: 30px; height: 30px;
+    }
+    .tick-icon {
+      position: relative; background: #2e7d32; color: white;
+      border-radius: 50%; width: 34px; height: 34px;
+      display: flex; justify-content: center; align-items: center;
+      font-size: 18px; font-weight: bold;
+      box-shadow: 0 0 8px rgba(0,128,0,0.6);
+    }
+    .tick-icon .badge {
+      position: absolute; bottom: -6px; right: -6px;
+      background: white; color: #2e7d32; font-size: 10px;
+      font-weight: bold; border-radius: 50%; width: 16px; height: 16px;
+      display: flex; justify-content: center; align-items: center;
+      border: 1px solid #2e7d32;
+    }
+
+    /* Thanh ngang status */
+    #status-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      background: #2e7d32;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 10px 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    #status-bar .route { font-size: 13px; margin-top: 4px; }
+    #status-bar b { color: #ffd700; }
+
+    /* Thanh ngang lộ trình */
+    #route-bar {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: #fff;
+      border-top: 3px solid #2e7d32;
+      padding: 8px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      white-space: nowrap;
+      z-index: 1000;
+    }
+    .atm-card {
+      min-width: 100px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 6px;
+      text-align: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .atm-card .order {
+      display:inline-block;
+      width:22px; height:22px;
+      border-radius:50%;
+      line-height:22px;
+      font-weight:bold;
+      color:#fff;
+      margin-bottom:4px;
+    }
+    .atm-card.done .order { background:#2e7d32; }
+    .atm-card.pending .order { background:#ff5722; }
+    .atm-card .dist { font-size: 12px; color:#555; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="status-bar">
+    <div id="status-text"><i>⏳ Đang tải bản đồ...</i></div>
+    <div id="route-info" class="route"></div>
+  </div>
+  <div id="route-bar"></div>
+
+  <script>
+    const startPoint = {id:"VCB Hải Phòng", lat:20.8453891, lon:106.6815777};
+    const atms = [
+      {id: "10800964", lat: 20.833259, lon: 106.697571},
+      {id: "10800945", lat: 20.694132, lon: 106.484218},
+      {id: "10800946", lat: 20.813541, lon: 106.623697},
+      {id: "10800970", lat: 20.833259, lon: 106.697571},
+      {id: "10800920", lat: 20.941910, lon: 107.031156},
+      {id: "10800912", lat: 20.820652, lon: 106.538555},
+      {id: "10800904", lat: 20.795430, lon: 106.690935}
+    ];
+    const completedCount = 4;
+
+    let map = L.map('map').setView([startPoint.lat, startPoint.lon], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    let carMarker, routeCoords;
+
+    function distance(a, b) {
+      const R = 6371;
+      const dLat = (b.lat - a.lat) * Math.PI/180;
+      const dLon = (b.lon - a.lon) * Math.PI/180;
+      const lat1 = a.lat * Math.PI/180;
+      const lat2 = b.lat * Math.PI/180;
+      const x = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+      return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
+    }
+
+    function nearestRoute(start, points) {
+      let route = [], unvisited = [...points], current = start;
+      while (unvisited.length > 0) {
+        let nearest = unvisited.reduce((min, p) =>
+          distance(current, p) < distance(current, min) ? p : min
+        );
+        route.push(nearest);
+        unvisited = unvisited.filter(p => p !== nearest);
+        current = nearest;
+      }
+      return route;
+    }
+
+    async function buildRoute() {
+      document.getElementById("status-text").innerHTML = "<i>🔄 Đang tính lộ trình...</i>";
+      document.getElementById("route-info").textContent = "";
+
+      const orderedATMs = nearestRoute(startPoint, atms);
+
+      // Marker ATM
+      orderedATMs.forEach((atm,i)=>{
+        const order=i+1;
+        let icon;
+        if(order<=completedCount){
+          icon=L.divIcon({
+            className:"tick-icon",
+            html:`<div>✔</div><div class="badge">${order}</div>`,
+            iconSize:[34,34],iconAnchor:[17,17]
+          });
+        } else {
+          icon=L.divIcon({
+            className:"number-icon",
+            html:order,
+            iconSize:[30,30],iconAnchor:[15,15]
+          });
+        }
+        L.marker([atm.lat,atm.lon],{icon})
+          .addTo(map)
+          .bindPopup("ATMID: "+atm.id+"<br>Bước: "+order);
+      });
+
+      // Start/End marker
+      L.marker([startPoint.lat,startPoint.lon],{icon:L.icon({
+        iconUrl:"https://cdn-icons-png.flaticon.com/512/190/190411.png",
+        iconSize:[32,32],iconAnchor:[16,32]
+      })}).addTo(map).bindPopup("VCB Hải Phòng");
+
+      // OSRM
+      const coords=[[startPoint.lon,startPoint.lat]]
+        .concat(orderedATMs.map(p=>[p.lon,p.lat]))
+        .concat([[startPoint.lon,startPoint.lat]]);
+      const coordStr=coords.map(c=>c.join(",")).join(";");
+      const url=`https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=full&geometries=geojson&steps=true`;
+
+      try{
+        const res=await fetch(url);
+        const data=await res.json();
+        if(data.routes&&data.routes.length>0){
+          const route=data.routes[0];
+          routeCoords=route.geometry.coordinates.map(c=>[c[1],c[0]]);
+
+          // Vẽ từng leg: xanh mờ to, đỏ nhỏ nổi bật
+          route.legs.forEach((leg,i)=>{
+            if(leg.steps && leg.steps.length>0){
+              let segCoords=[];
+              leg.steps.forEach(step=>{
+                segCoords=segCoords.concat(step.geometry.coordinates.map(c=>[c[1],c[0]]));
+              });
+              if(i % 2 === 0){
+                L.polyline(segCoords,{color:"blue", weight:10, opacity:0.3}).addTo(map);
+              } else {
+                L.polyline(segCoords,{color:"red", weight:4, opacity:1}).addTo(map);
+              }
+            }
+          });
+
+          // Cập nhật status bar
+          document.getElementById("status-text").innerHTML =
+            `✅ Hoàn tất! Tổng quãng đường <b>${(route.distance/1000).toFixed(1)} km</b>`;
+
+          // Thanh ngang
+          renderHorizontalBar(orderedATMs, route.legs);
+
+          animateCar();
+        }
+      }catch(err){
+        console.error("OSRM error",err);
+        document.getElementById("status-text").textContent = "❌ Lỗi khi gọi OSRM.";
+      }
+    }
+
+    function renderHorizontalBar(atms, legs){
+      const bar = document.getElementById("route-bar");
+      bar.innerHTML = "";
+      atms.forEach((atm,i)=>{
+        const dist = legs[i] ? (legs[i].distance/1000).toFixed(1) : "0";
+        const isDone = (i+1)<=completedCount;
+        const card = document.createElement("div");
+        card.className = "atm-card " + (isDone ? "done" : "pending");
+        card.innerHTML = `
+          <div class="order">${i+1}</div>
+          <div>ID ${atm.id}</div>
+          <div class="dist">${dist} km</div>
+        `;
+        bar.appendChild(card);
+      });
+    }
+
+    function animateCar(){
+      if(!routeCoords||routeCoords.length===0)return;
+      let i=0;
+      carMarker=L.marker(routeCoords[0],{
+        icon:L.divIcon({html:"🚗",className:"",iconSize:[30,30],iconAnchor:[15,15]})
+      }).addTo(map);
+      setInterval(()=>{
+        i=(i+1)%routeCoords.length;
+        carMarker.setLatLng(routeCoords[i]);
+      },200);
+    }
+
+    buildRoute();
+  </script>
+</body>
+</html>

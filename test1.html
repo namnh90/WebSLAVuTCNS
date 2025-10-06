@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quy trình 1</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --nav: #f4ebdd;
+      --text: #222;
+      --card: #ffffff;
+      --muted: #555;
+      --accent: #a87d48;
+      --accent-2: #d27d2d;
+      --radius: 12px;
+      --shadow: 0 4px 18px rgba(0, 0, 0, .08);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .navbar {
+      background: linear-gradient(180deg, var(--nav) 0%, #ffffff 100%);
+      color: var(--text);
+      height: 80px;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .logo img {
+      height: 80px;
+      object-fit: contain;
+    }
+
+    .dept {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      margin: 20px 0;
+      font-size: 22px;
+    }
+
+    select {
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 20px;
+      table-layout: fixed;
+    }
+
+    th,
+    td {
+      border: 1px solid #eee;
+      padding: 10px;
+      font-size: 14px;
+      vertical-align: top;
+      word-wrap: break-word;
+    }
+
+    th {
+      background: #f9f6f0;
+      color: var(--text);
+    }
+
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 18%;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 15%;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 10%;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 10%;
+    }
+
+    th:nth-child(5),
+    td:nth-child(5) {
+      width: 12%;
+    }
+
+    th:nth-child(6),
+    td:nth-child(6) {
+      width: 20%;
+    }
+
+    th:nth-child(7),
+    td:nth-child(7) {
+      width: 12%;
+    }
+
+    th:nth-child(8),
+    td:nth-child(8) {
+      width: 12%;
+    }
+
+    textarea.result-input {
+      width: 100%;
+      min-height: 80px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 6px;
+      resize: vertical;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    .btn {
+      margin-top: 6px;
+      padding: 6px 12px;
+      border: 0;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .btn-next {
+      background: var(--accent);
+    }
+
+    .btn-edit {
+      background: var(--accent-2);
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    tr.hidden {
+      display: none;
+    }
+
+    .step-title {
+      background: #f2eee7;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .actions {
+      margin: 20px 0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .actions button {
+      background: #2196f3;
+      color: #fff;
+      border: 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .actions button:hover {
+      opacity: 0.9;
+    }
+
+    #summaryTable {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 100%;
+      background: #fafafa;
+    }
+
+    #summaryTable th,
+    #summaryTable td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    #summaryTable th {
+      background: #eee;
+    }
+
+    input[type="datetime-local"] {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 14px;
+      background: #fff;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="datetime-local"]:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 3px var(--accent);
+    }
+
+    .time-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .time-input {
+      position: absolute;
+      left: -9999px;
+      /* đẩy ra khỏi màn hình */
+      width: 0;
+      height: 0;
+      opacity: 0;
+      /* tàng hình */
+      pointer-events: none;
+      /* không cho bấm vào */
+    }
+
+    .time-icon {
+      cursor: pointer;
+      font-size: 18px;
+      color: goldenrod;
+      /* vàng */
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .time-icon:hover {
+      opacity: 0.8;
+    }
+
+    #processTable td span {
+      display: block;
+      font-size: 13px;
+      color: #555;
+      margin-top: 2px;
+    }
+
+    .actions {
+      margin: 20px 0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .actions button,
+    .actions label.icon-btn {
+      background: #2196f3;
+      color: #fff;
+      border: 0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 18px;
+      /* icon to rõ */
+      line-height: 1;
+      text-align: center;
+    }
+
+    .actions button:hover,
+    .actions label.icon-btn:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="logo"><img src="photo/logo-nhnnvn-3-1129x800.webp" alt="Logo"></div>
+    <div class="dept" id="deptName">Phòng: ĐÀO TẠO VÀ PHÁT TRIỂN NGUỒN NHÂN LỰC</div>
+    <div class="dept" id="refDisplay"></div>
+  </div>
+
+  <div class="container">
+    <h1>Cử cán bộ đi công tác nước ngoài</h1>
+
+    <!-- Dropdown chọn trang -->
+    <label for="processSelect"><b>Chọn quy trình:</b></label>
+    <select id="processSelect">
+      <option value="test.html" >Kế hoạch tuyển dụng công chức loại D tại các NHNN chi nhánh Khu vực</option>
+      <option value="test1.html"selected>Cử cán bộ đi công tác nước ngoài</option>
+      <option value="test2.html">Tổ chức đón nhận các danh hiệu thi đua, hình thức khen thưởng cấp Nhà Nước, cấp Ngành
+      </option>
+      <option value="test3.html">Triển khai quy hoạch Lãnh Đạo cấp Phòng tại NHTW</option>
+      <option value="test4.html">Quy Trình Phê Duyệt Đối Với Nâng Lương Thường Xuyên, Phụ Cấp Thâm Niên Vượt Khung
+        Thuộc Thẩm Quyền Vụ TCCB Duyệt Ký</option>
+      <option value="test5.html">Quy trình xây dựng báo cáo định kỳ/đột xuất/tham gia ý kiến/trả lời kiến nghị gửi các
+        đơn vị thuộc NHNN do lãnh đạo Vụ TCCB duyệt ký</option>
+    </select>
+
+    <!-- Export / Import CSV -->
+    <div class="actions">
+      <button onclick="exportRawJson()" style="display: none;">📥 Export Local File</button>
+      <button onclick="sendToSharePoint()">☁️ Save Dữ Liệu</button>
+      <button onclick="importFromCloud()"style="display: none;">☁️ Import Cloud</button>
+      <!-- Import Token Key -->
+      <label for="importToken" title="Import Token Key" class="icon-btn"style="display: none;">🔑 Import Token Key File</label>
+      <input type="file" id="importToken" accept=".csv,.txt" onchange="importToken(event)" hidden>
+
+      <!-- Import Encoded TXT -->
+      <label for="importEncoded" title="Import Encoded TXT" class="icon-btn"style="display: none;">📂 Import Data Local File</label>
+      <input type="file" id="importEncoded" accept=".txt" onchange="importEncoded(event)" hidden>
+    </div>
+
+    <div id="processTable"></div>
+    <div id="summary"></div>
+  </div>
+
+  <script>
+    document.getElementById("processSelect")
+      .addEventListener("change", e => window.location.href = e.target.value);
+
+    const processData = [
+      {
+        title: "Bước 1: Tiếp nhận Tờ trình của đơn vị", sub: [
+          { noidung: "Tiếp nhận Tờ trình", nguoi: "Văn thư", cho: "0,5 ngày" },
+          { noidung: "Tiếp nhận Tờ trình", nguoi: "Lãnh đạo Vụ", cho: "01 ngày" },
+          { noidung: "Tiếp nhận Tờ trình", nguoi: "Lãnh đạo Phòng", xuly: "0,5 ngày" },
+          { noidung: "Tiếp nhận Tờ trình", nguoi: "Công chức phụ trách", xuly: "0,5 ngày" }
+        ]
+      },
+
+      {
+        title: "Bước 2: Rà soát báo cáo, kiến nghị", sub: [
+          {
+            noidung: "Rà soát hồ sơ đề cử", nguoi: "Công chức phụ trách", xuly: "0,5 ngày",
+            type: "decision2"
+          },
+          { noidung: "→ Công chức trao đổi với NHNN", nguoi: "Công chức phụ trách", xuly: "0,5 ngày" },
+          { noidung: "→ NHNN chi nhánh bổ sung hồ sơ", nguoi: "NHNN chi nhánh", cho: "02 ngày" }
+        ]
+      },
+
+      {
+        title: "Bước 3: Trình lãnh đạo Phòng phương án xử lý", sub: [
+          { noidung: "Trình phương án xử lý", nguoi: "Công chức phụ trách", xuly: "0,5 ngày" },
+          {
+            noidung: "Lãnh đạo Phòng xem xét", nguoi: "Lãnh đạo Phòng", xuly: "0,5 ngày",
+            type: "decision3"
+          },
+          { noidung: "→ Công chức chỉnh sửa", nguoi: "Công chức phụ trách", xuly: "0,5 ngày" },
+          { noidung: "→ Trình lại Lãnh đạo Phòng", nguoi: "Lãnh đạo Phòng", xuly: "0,5 ngày" }
+        ]
+      },
+
+      {
+        title: "Bước 4: Trình Vụ trưởng", sub: [
+          { noidung: "Trình phương án xử lý", nguoi: "Lãnh đạo Vụ", cho: "01 ngày" }
+        ]
+      },
+
+      {
+        title: "Bước 5: Phát hành văn bản", sub: [
+          { noidung: "Phát hành văn bản", nguoi: "Văn thư", cho: "0,5 ngày" }
+        ]
+      }
+    ];
+
+    function renderProcess() {
+      let html = `<table>
+    <thead><tr>
+      <th>Nội dung thực hiện</th>
+      <th>Người thực hiện/Phê duyệt</th>
+      <th>Thời gian xử lý</th>
+      <th>Thời gian chờ</th>
+      <th>Danh mục văn bản dự thảo</th>
+      <th>Kết quả</th>
+      <th>Ngày hoàn thành</th>
+      <th>Quyết định</th>
+    </tr></thead><tbody>`;
+
+      processData.forEach((step, s) => {
+        html += `<tr class="step-title"><td colspan="8">${step.title}</td></tr>`;
+        step.sub.forEach((row, r) => {
+          const id = `s${s}r${r}`;
+          html += `<tr class="${(s === 0 && r === 0) ? '' : 'hidden'}" id="${id}">
+        <td>${row.noidung}</td>
+        <td>${row.nguoi || ""}</td>
+        <td>${row.xuly || ""}</td>
+        <td>${row.cho || ""}</td>
+        <td>${row.vanban || ""}</td>
+        <td>
+          <textarea class="result-input" id="res-${id}" placeholder="Nhập kết quả"></textarea>`;
+
+          if (row.type === "decision2") {
+            // Quyết định loại 2
+            html += `
+          <div id="decision-choices-${id}">
+            <button class="btn btn-next" onclick="chooseDecision('${id}',${s},${r},true)">Phù hợp</button>
+            <button class="btn btn-next" onclick="chooseDecision('${id}',${s},${r},false)">Chưa phù hợp</button>
+          </div>
+          <div id="decision-time-${id}" class="hidden">
+            <button class="btn btn-next" onclick="decisionStepNow('${id}',${s},${r})">⏱</button>
+            <button class="btn btn-next" onclick="decisionStepManual('${id}',${s},${r})">📅</button>
+          </div>`;
+          } else if (row.type === "decision3") {
+            // Quyết định loại 3
+            html += `
+          <div id="decision-choices-${id}">
+            <button class="btn btn-next" onclick="chooseDecision('${id}',${s},${r},true)">Thống nhất</button>
+            <button class="btn btn-next" onclick="chooseDecision('${id}',${s},${r},false)">Chưa thống nhất</button>
+          </div>
+          <div id="decision-time-${id}" class="hidden">
+            <button class="btn btn-next" onclick="decisionStepNow('${id}',${s},${r})">⏱</button>
+            <button class="btn btn-next" onclick="decisionStepManual('${id}',${s},${r})">📅</button>
+          </div>`;
+          } else {
+            // Bước thường
+            html += `
+          <button class="btn btn-next" onclick="completeStepNow('${id}',${s},${r})">⏱</button>
+          <button class="btn btn-next" onclick="completeStepManual('${id}',${s},${r})">📅</button>`;
+          }
+
+          html += `
+          <button class="btn btn-edit hidden" id="btn-edit-${id}" 
+            onclick="editStep('${id}',${s},${r},'${row.nguoi || ""}')">✏️ Chỉnh sửa</button>
+        </td>
+        <td>
+  <div class="time-wrapper">
+    <input type="datetime-local" id="time-${id}" class="time-input" onchange="applyManualTime('${id}')">
+    <span id="time-text-${id}"></span>
+    <span id="time-icon-${id}" class="time-icon hidden" onclick="openTimeInput('${id}')">🗓</span>
+  </div>
+</td>
+        <td id="decision-${id}"></td>
+      </tr>`;
+        });
+      });
+
+      html += `</tbody></table>`;
+      document.getElementById("processTable").innerHTML = html;
+    }
+
+    function chooseDecision(id, s, r, isPositive) {
+      // Lưu lựa chọn tạm
+      document.getElementById(`decision-${id}`).dataset.choice = isPositive ? "Phù hợp" :
+        (processData[s].sub[r].type === "decision3" ? "Thống nhất" : "Chưa phù hợp");
+
+      // Ẩn 2 nút chọn, hiện 2 nút thời gian
+      document.getElementById(`decision-choices-${id}`).classList.add("hidden");
+      document.getElementById(`decision-time-${id}`).classList.remove("hidden");
+    }
+    // === Lấy REF từ URL ===
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+
+
+    // === Import từ Cloud theo REF (Flow phải hỗ trợ query REF) ===
+    async function importFromCloudByRef(ref) {
+      if (!window.tokenKey || window.tokenKey.trim() === "") {
+        alert("⚠️ Bạn phải import TOKEN_KEY trước!");
+        return;
+      }
+
+      try {
+        // ⚡ Endpoint Flow nhận ref làm query
+        const res = await fetch("https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/835980df6c0a4b5892289dcbc334ef50/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=YJ4F3Gm_-Z5fPBUfteIeNr5YK-Kg_6C3OyKIvqXfj1M&ref=" + encodeURIComponent(ref), {
+          method: "GET"
+        });
+
+        if (!res.ok) throw new Error("HTTP " + res.status);
+
+        const encoded = (await res.text()).trim();
+
+        const data = decodeData(encoded);
+        if (!data) return;
+
+        parseDecodedToTable(data);
+        alert("✅ Đã import dữ liệu cho REF: " + ref);
+      } catch (err) {
+        console.error(err);
+        alert("❌ Lỗi khi import theo REF: " + err.message);
+      }
+    }
+    function formatDate(d) {
+      return d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" }) + " " +
+        d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    }
+    function completeStep(id, s, r) {
+      const choice = confirm("⏱ Dùng thời gian hiện tại (OK) hay tự nhập (Cancel)?");
+      if (choice) {
+        const now = new Date();
+        const last = getLastTimeBefore(s, r);
+        if (last && now <= last) {
+          alert("❌ Thời gian phải lớn hơn các bước trước!");
+          return;
+        }
+        document.getElementById(`time-${id}`).value = now.toISOString().slice(0, 16);
+        document.getElementById(`time-text-${id}`).textContent = formatDate(now);
+        lockStep(id, s, r);
+        showNext(id, s, r);
+      } else {
+        const icon = document.getElementById(`time-icon-${id}`);
+        icon.classList.remove("hidden");
+        document.getElementById(`time-text-${id}`).textContent = "⏳ Vui lòng chọn thời gian...";
+      }
+    }
+    function lockStep(id, s, r) {
+      document.getElementById(`res-${id}`).readOnly = true;
+      document.querySelectorAll(`#${id} .btn-next`).forEach(btn => btn.classList.add("hidden"));
+      document.getElementById(`btn-edit-${id}`).classList.remove("hidden");
+    }
+
+    function showNext(id, s, r) {
+      const nextRow = document.getElementById(`s${s}r${r + 1}`);
+      if (nextRow) { nextRow.classList.remove("hidden"); updateSummary(); return; }
+      const nextStep = document.getElementById(`s${s + 1}r0`);
+      if (nextStep) nextStep.classList.remove("hidden");
+      updateSummary();
+    }
+    function decisionStep(id, s, r, isPositive) {
+      const choice = confirm("⏱ Dùng thời gian hiện tại (OK) hay tự nhập (Cancel)?");
+      if (choice) {
+        const now = new Date();
+        const last = getLastTimeBefore(s, r);
+        if (last && now <= last) {
+          alert("❌ Thời gian phải lớn hơn các bước trước!");
+          return;
+        }
+        const inp = document.getElementById(`time-${id}`);
+        inp.value = now.toISOString().slice(0, 16);
+        document.getElementById(`time-text-${id}`).textContent = formatDate(now);
+        document.getElementById(`time-icon-${id}`).classList.add("hidden");
+
+        // mở tiếp
+        if (isPositive) {
+          const nextStep = document.getElementById(`s${s + 1}r0`);
+          if (nextStep) nextStep.classList.remove("hidden");
+        } else {
+          const nextRow = document.getElementById(`s${s}r${r + 1}`);
+          if (nextRow) nextRow.classList.remove("hidden");
+        }
+      } else {
+        document.getElementById(`time-icon-${id}`).classList.remove("hidden");
+        document.getElementById(`time-text-${id}`).textContent = "⏳ Vui lòng chọn thời gian...";
+      }
+
+      document.getElementById(`res-${id}`).readOnly = true;
+      document.getElementById(`btn-edit-${id}`).classList.remove("hidden");
+      document.querySelectorAll(`#${id} .decision-btn`).forEach(btn => btn.classList.add("hidden"));
+
+      let decisionText = "";
+      if (processData[s].sub[r].type === "decision2") {
+        decisionText = isPositive ? "Phù hợp" : "Chưa phù hợp";
+      } else if (processData[s].sub[r].type === "decision3") {
+        decisionText = isPositive ? "Thống nhất" : "Chưa thống nhất";
+      }
+      document.getElementById(`decision-${id}`).textContent = decisionText;
+
+      updateSummary();
+    }
+
+    function editStep(id, s, r, nguoi) {
+      if (!confirm("⚠️ Sửa bước này? Các bước sau sẽ bị xóa.")) return;
+
+      const pass = prompt(`Nhập passcode (tên người: ${nguoi})`);
+      if (pass !== nguoi) {
+        alert("❌ Sai passcode");
+        return;
+      }
+
+      // reset toàn bộ các bước sau
+      for (let i = s; i < processData.length; i++) {
+        const rows = processData[i].sub;
+        for (let j = (i === s ? r + 1 : 0); j < rows.length; j++) {
+          const rid = `s${i}r${j}`;
+          if (document.getElementById(rid)) {
+            document.getElementById(rid).classList.add("hidden");
+            document.getElementById(`res-${rid}`).value = "";
+            document.getElementById(`time-text-${rid}`).textContent = "";
+            document.getElementById(`decision-${rid}`).textContent = "";
+            document.getElementById(`res-${rid}`).readOnly = false;
+
+            // ✅ Hiện lại nút ⏱ 📅 cho bước sau
+            document.querySelectorAll(`#${rid} .btn-next`).forEach(btn => btn.classList.remove("hidden"));
+            document.querySelectorAll(`#${rid} .decision-btn`).forEach(btn => btn.classList.remove("hidden"));
+
+            // ẩn icon & input ở các bước sau
+            document.getElementById(`time-icon-${rid}`)?.classList.add("hidden");
+            document.getElementById(`time-${rid}`).value = "";
+          }
+        }
+      }
+
+      // 👉 Mở lại bước hiện tại để nhập
+      document.getElementById(`res-${id}`).readOnly = false;
+
+      // ✅ Hiện lại 2 nút thời gian hoặc decision buttons
+      document.querySelectorAll(`#${id} .btn-next`).forEach(btn => btn.classList.remove("hidden"));
+      document.querySelectorAll(`#${id} .decision-btn`).forEach(btn => btn.classList.remove("hidden"));
+
+      // ✅ Ẩn nút chỉnh sửa
+      document.getElementById(`btn-edit-${id}`).classList.add("hidden");
+
+      // ✅ Ẩn input datetime-local, chỉ show icon 🗓
+      const inp = document.getElementById(`time-${id}`);
+      inp.value = "";
+      inp.classList.add("time-input"); // vẫn ẩn như ban đầu
+
+      const icon = document.getElementById(`time-icon-${id}`);
+      if (icon) icon.classList.remove("hidden");
+
+      document.getElementById(`time-text-${id}`).textContent = "";
+      document.getElementById(`decision-${id}`).textContent = "";
+
+      updateSummary();
+    }
+
+    // ===== Parse dd/MM/yyyy HH:mm:ss =====
+    function parseVNDate(str) {
+      if (!str) return null;
+      const [date, time] = str.split(" ");
+      if (!date || !time) return null;
+      const [d, m, y] = date.split("/").map(Number);
+      const [hh, mm, ss] = time.split(":").map(Number);
+      return new Date(y, m - 1, d, hh, mm, ss);
+    }
+
+    function fmt(sec) {
+      const d = Math.floor(sec / 86400); sec %= 86400;
+      const h = Math.floor(sec / 3600); sec %= 3600;
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${d} ngày ${h} giờ ${m} phút ${s} giây`;
+    }
+
+    // ===== Summary =====
+    function updateSummary() {
+      const rows = [];
+      processData.forEach((step, s) => {
+        step.sub.forEach((row, r) => {
+          const t = document.getElementById(`time-text-s${s}r${r}`)?.textContent;
+          if (t) {
+            const dt = parseVNDate(t);
+            if (dt) rows.push({ nguoi: row.nguoi, time: dt });
+          }
+        });
+      });
+      if (rows.length < 2) return;
+
+      const grouped = {};
+      for (let i = 1; i < rows.length; i++) {
+        const prev = rows[i - 1], curr = rows[i];
+        const diff = (curr.time - prev.time) / 1000;
+        if (!grouped[prev.nguoi]) grouped[prev.nguoi] = 0;
+        grouped[prev.nguoi] += diff;
+      }
+      let total = 0; Object.values(grouped).forEach(v => total += v);
+
+      let html = `<h2>⏱ Thống kê thời gian</h2>
+              <table id="summaryTable">
+                <tr><th>Người</th><th>Tổng TG</th></tr>`;
+      for (const [nguoi, sec] of Object.entries(grouped)) {
+        html += `<tr><td>${nguoi}</td><td>${fmt(sec)}</td></tr>`;
+      }
+      html += `<tr><th>Tổng quy trình</th><th>${fmt(total)}</th></tr></table>`;
+      document.getElementById("summary").innerHTML = html;
+    }
+    // ===== Export CSV (chỉ export row đang hiển thị) =====
+
+
+    function openPicker(id) {
+      const inp = document.getElementById(`time-${id}`);
+      if (inp.showPicker) {
+        inp.showPicker(); // Chrome hỗ trợ
+      } else {
+        inp.click();
+      }
+    }
+    // Lấy thời gian cuối cùng đã có trước bước hiện tại
+    function getLastTimeBefore(s, r) {
+      for (let i = s; i >= 0; i--) {
+        const rows = processData[i].sub;
+        for (let j = (i === s ? r - 1 : rows.length - 1); j >= 0; j--) {
+          const txt = document.getElementById(`time-text-s${i}r${j}`);
+          if (txt && txt.textContent) {
+            return parseVNDate(txt.textContent);
+          }
+        }
+      }
+      return null;
+    }
+    function applyManualTime(id) {
+      const inp = document.getElementById(`time-${id}`);
+      const txt = document.getElementById(`time-text-${id}`);
+
+      if (inp.value) {
+        const dt = new Date(inp.value);
+
+        const match = id.match(/s(\d+)r(\d+)/);
+        const s = parseInt(match[1]), r = parseInt(match[2]);
+        const last = getLastTimeBefore(s, r);
+        if (last && dt <= last) {
+          alert("❌ Thời gian phải lớn hơn các bước trước!");
+          inp.value = "";
+          return;
+        }
+
+        txt.textContent = formatDate(dt);
+        document.getElementById(`time-icon-${id}`).classList.add("hidden");
+
+        const choice = document.getElementById(`decision-${id}`).dataset.choice;
+        if (choice) {
+          // Là bước decision
+          const isPositive = (choice === "Phù hợp" || choice === "Thống nhất");
+          finishDecision(id, s, r, isPositive);
+        } else {
+          // Là bước thường
+          document.querySelectorAll(`#${id} .btn-next`).forEach(btn => btn.classList.add("hidden"));
+          document.getElementById(`res-${id}`).readOnly = true;
+          document.getElementById(`btn-edit-${id}`).classList.remove("hidden");
+          showNext(id, s, r);
+          updateSummary();
+        }
+      } else {
+        txt.textContent = "";
+      }
+    }
+
+    function openTimeInput(id) {
+      const inp = document.getElementById(`time-${id}`);
+      if (inp.showPicker) {
+        inp.showPicker();   // Chrome
+      } else {
+        inp.click();        // fallback
+      }
+    }
+    function saveProcess(ref) {
+      const data = {
+        ref: ref,
+        steps: [],
+        summary: document.getElementById("summary").innerHTML
+      };
+
+      processData.forEach((step, s) => {
+        step.sub.forEach((row, r) => {
+          const id = `s${s}r${r}`;
+          const res = document.getElementById(`res-${id}`).value;
+          const time = document.getElementById(`time-text-${id}`).textContent;
+          const decision = document.getElementById(`decision-${id}`).textContent;
+          data.steps.push({
+            step: step.title,
+            noidung: row.noidung,
+            nguoi: row.nguoi,
+            xuly: row.xuly || "",
+            cho: row.cho || "",
+            res, time, decision
+          });
+        });
+      });
+
+      // lưu localStorage
+      let store = JSON.parse(localStorage.getItem("processStore") || "[]");
+      store.push(data);
+      localStorage.setItem("processStore", JSON.stringify(store));
+
+      alert("✅ Đã lưu quy trình với REF: " + ref);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedToken = sessionStorage.getItem("tokenKey");
+      if (savedToken) {
+        window.tokenKey = savedToken;
+      }
+
+      const mode = sessionStorage.getItem("mode");
+      const dataStr = sessionStorage.getItem("selectedRow");
+
+      if (mode === "new") {
+        // 👉 New process → bảng trống, chỉ show bước 1
+        const first = document.getElementById("s0r0");
+        if (first) first.classList.remove("hidden");
+        sessionStorage.removeItem("mode"); // reset flag
+        return;
+      }
+
+      if (dataStr) {
+        const row = JSON.parse(dataStr);
+        document.getElementById("refDisplay").textContent = "REF: " + row.ref;
+        document.getElementById("deptName").textContent = "Phòng: " + row.dept;
+        document.querySelector("h1").textContent = row.quytrinh;
+
+        if (row.decoded) {
+          parseDecodedToTable(row.decoded);
+        }
+      } else {
+        const ref = getQueryParam("ref");
+        if (ref) {
+          document.getElementById("refDisplay").textContent = "REF: " + ref;
+          importFromCloudByRef(ref);
+        }
+      }
+    });
+
+    // ================== TOKEN ==================
+    // Biến toàn cục lưu key
+    window.tokenKey = "";
+
+    // Import Token từ CSV hoặc TXT
+    function importToken(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        const text = evt.target.result.trim();
+
+        const lines = text.split(/\r?\n/);
+        const header = lines[0].split(",");
+
+        const idx = header.findIndex(h => h.toUpperCase().includes("TOKEN_KEY"));
+        if (idx >= 0 && lines.length > 1) {
+          // lấy token từ dòng 2
+          const cols = lines[1].split(",");
+          window.tokenKey = cols[idx].replace(/^"|"$/g, "").trim();
+        } else {
+          // file chỉ chứa token dạng txt
+          window.tokenKey = text.replace(/^"|"$/g, "").trim();
+        }
+
+        document.getElementById("currentToken").textContent = "🔑 Token hiện tại: " + window.tokenKey;
+        alert("✅ Đã nạp TOKEN_KEY: " + window.tokenKey);
+      };
+      reader.readAsText(file, "utf-8");
+    }
+
+    // Encode dữ liệu (xuất)
+    function encodeData(obj) {
+      if (!window.tokenKey || window.tokenKey.trim() === "") {
+        alert("⚠️ Chưa có TOKEN_KEY, vui lòng import trước");
+        return null;
+      }
+      // B1: JSON → base64
+      const base64 = btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+
+      // B2: kết hợp TOKEN_KEY
+      const combined = base64 + "::" + window.tokenKey.trim();
+
+      // B3: encode lại toàn bộ để không lỗi Latin1
+      return btoa(unescape(encodeURIComponent(combined)));
+    }
+
+    // Decode dữ liệu (nhập)
+    function decodeData(encoded) {
+      if (!window.tokenKey || window.tokenKey.trim() === "") {
+        alert("⚠️ Chưa có TOKEN_KEY, vui lòng import trước");
+        return null;
+      }
+      try {
+        // B1: decode base64 ngoài
+        const combined = decodeURIComponent(escape(atob(encoded)));
+
+        // B2: tách base64 + token
+        const [base64, token] = combined.split("::");
+        if (token.trim() !== window.tokenKey.trim()) {
+          throw new Error("❌ TOKEN_KEY không khớp");
+        }
+
+        // B3: giải JSON
+        return JSON.parse(decodeURIComponent(escape(atob(base64))));
+      } catch (e) {
+        console.error(e);
+        alert("⚠️ Giải mã thất bại: " + e.message);
+        return null;
+      }
+    }
+
+    // ================== EXPORT ==================
+    function exportRawJson() {
+      // Thu thập toàn bộ step/sub (kể cả hidden)
+      const rows = [];
+      processData.forEach((step, s) => {
+        step.sub.forEach((row, r) => {
+          const rowId = `s${s}r${r}`;
+          rows.push({
+            step: step.title,
+            noidung: row.noidung,
+            nguoi: row.nguoi || "",
+            xuly: row.xuly || "",
+            cho: row.cho || "",
+            res: document.getElementById(`res-${rowId}`).value || "",
+            time: document.getElementById(`time-text-${rowId}`).textContent || "",
+            decision: document.getElementById(`decision-${rowId}`).textContent || ""
+          });
+        });
+      });
+
+      // Tạo ref dạng BB_ddMMyyyy_hhmmss
+      const now = new Date();
+      const pad = n => n.toString().padStart(2, "0");
+      const ref = `TCTL.001_${pad(now.getDate())}${pad(now.getMonth() + 1)}${now.getFullYear()}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+
+      // Gói JSON {ref, rows}
+      const output = { ref: ref, rows: rows };
+
+      // Xuất file JSON
+      const blob = new Blob([JSON.stringify(output, null, 2)], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = ref + ".json";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+
+    // ================== IMPORT ENCODED ==================
+    function importEncoded(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        const encoded = evt.target.result.trim();
+        const data = decodeData(encoded);
+        if (!data) return;
+        parseDecodedToTable(data);
+      };
+      reader.readAsText(file, "utf-8");
+    }
+
+    // ================== APPLY DECODED DATA ==================
+    function parseDecodedToTable(rows) {
+      let lastVisibleId = null;
+
+      rows.forEach(row => {
+        processData.forEach((st, s) => {
+          st.sub.forEach((sub, r) => {
+            if (sub.noidung === row.noidung && sub.nguoi === row.nguoi) {
+              // chỉ mở nếu row có data
+              if (row.res || row.time || row.decision) {
+                const rowId = `s${s}r${r}`;
+                const rowEl = document.getElementById(rowId);
+                if (!rowEl) return;
+
+                rowEl.classList.remove("hidden");
+                document.getElementById(`res-${rowId}`).value = row.res || "";
+                document.getElementById(`time-text-${rowId}`).textContent = row.time || "";
+                document.getElementById(`decision-${rowId}`).textContent = row.decision || "";
+
+                // lock nếu có data
+                document.getElementById(`res-${rowId}`).readOnly = true;
+                document.getElementById(`btn-next-${rowId}`)?.classList.add("hidden");
+                document.getElementById(`btn-edit-${rowId}`)?.classList.remove("hidden");
+                document.querySelectorAll(`#${rowId} .decision-btn`).forEach(btn => btn.classList.add("hidden"));
+
+                lastVisibleId = rowId; // lưu row cuối có data
+              }
+            }
+          });
+        });
+      });
+
+      // 👉 mở thêm đúng 1 dòng kế tiếp
+      if (lastVisibleId) {
+        const match = lastVisibleId.match(/s(\d+)r(\d+)/);
+        if (match) {
+          const s = parseInt(match[1]);
+          const r = parseInt(match[2]);
+
+          const nextRow = document.getElementById(`s${s}r${r + 1}`);
+          if (nextRow) {
+            nextRow.classList.remove("hidden");
+          } else {
+            const nextStepRow = document.getElementById(`s${s + 1}r0`);
+            if (nextStepRow) nextStepRow.classList.remove("hidden");
+          }
+        }
+      } else {
+        // nếu chưa có data thì chỉ mở bước 1 dòng 0
+        const first = document.getElementById("s0r0");
+        if (first) first.classList.remove("hidden");
+      }
+
+      updateSummary();
+    }
+    //Send to SharePoint via Power Automate
+    // ================== EXPORT CLOUD ==================
+    function sendToSharePoint() {
+      if (!window.tokenKey) {
+        alert("⚠️ Bạn phải import TOKEN_KEY trước khi gửi!");
+        return;
+      }
+
+      // Thu thập dữ liệu step/sub
+      const rows = [];
+      processData.forEach((step, s) => {
+        step.sub.forEach((row, r) => {
+          const rowId = `s${s}r${r}`;
+          rows.push({
+            step: step.title,
+            noidung: row.noidung,
+            nguoi: row.nguoi || "",
+            xuly: row.xuly || "",
+            cho: row.cho || "",
+            res: document.getElementById(`res-${rowId}`).value || "",
+            time: document.getElementById(`time-text-${rowId}`).textContent || "",
+            decision: document.getElementById(`decision-${rowId}`).textContent || ""
+          });
+        });
+      });
+
+      // 🔎 Kiểm tra có ref cũ không
+      let ref = null;
+      const selectedRow = sessionStorage.getItem("selectedRow");
+      if (selectedRow) {
+        const parsed = JSON.parse(selectedRow);
+        if (parsed.ref) ref = parsed.ref; // giữ nguyên ref cũ khi edit
+      }
+
+      // Nếu không có (new) → sinh ref mới
+      if (!ref) {
+        const now = new Date();
+        const pad = n => n.toString().padStart(2, "0");
+        ref = `TCTL.001_${pad(now.getDate())}${pad(now.getMonth() + 1)}${now.getFullYear()}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+      }
+
+      // 👉 Lấy DEPT + QUYTRINH từ giao diện
+      const dept = document.getElementById("deptName")?.textContent.replace("Phòng: ", "").trim() || "";
+      const quytrinh = document.querySelector("h1")?.textContent.trim() || "";
+
+      const encoded = encodeData(rows);
+      if (!encoded) return;
+
+      const payload = {
+        ref,
+        data: encoded,
+        DEPT: dept,
+        QUYTRINH: quytrinh
+      };
+
+      // ⚡ POST sang Flow
+      const flowUrl = "https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/16754f7e54a04f2e9b8fb60caaaf33b4/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=aXhGTYEd9zepjAkPLtbU1nJvzosQwgmJlylq7riqiwA "; // endpoint flow của bạn
+      fetch(flowUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+        .then(res => {
+          if (res.ok) {
+            alert("✅ Đã save dữ liệu!");
+            window.close();   // 🔴 Tắt tab ngay sau khi gửi thành công
+          } else {
+            alert("❌ Lỗi khi gửi: " + res.status);
+          }
+        });
+    }
+    //Import từ Cloud (gọi flow khác)
+    async function importFromCloud() {
+      if (!window.tokenKey || window.tokenKey.trim() === "") {
+        alert("⚠️ Bạn phải import TOKEN_KEY trước!");
+        return;
+      }
+
+      try {
+        // Gọi tới Flow Power Automate (flow trả về 1 string encoded như file txt local)
+        const res = await fetch("https://default460cecfbf0c64dd7a5ec66ef4d75ae.63.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/835980df6c0a4b5892289dcbc334ef50/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=YJ4F3Gm_-Z5fPBUfteIeNr5YK-Kg_6C3OyKIvqXfj1M", { method: "GET" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+
+        const encoded = (await res.text()).trim();
+
+        // dùng lại decodeData + parseDecodedToTable như importEncoded()
+        const data = decodeData(encoded);
+        if (!data) return;
+
+        parseDecodedToTable(data);
+        alert("✅ Đã import dữ liệu từ Cloud");
+      } catch (err) {
+        console.error(err);
+        alert("❌ Lỗi khi import từ Cloud: " + err.message);
+      }
+    }
+    renderProcess();
+    function completeStepNow(id, s, r) {
+      const now = new Date();
+      const last = getLastTimeBefore(s, r);
+      if (last && now <= last) {
+        alert("❌ Thời gian phải lớn hơn các bước trước!");
+        return;
+      }
+      document.getElementById(`time-${id}`).value = now.toISOString().slice(0, 16);
+      document.getElementById(`time-text-${id}`).textContent = formatDate(now);
+      lockStep(id, s, r);
+      showNext(id, s, r);
+    }
+
+    function completeStepManual(id, s, r) {
+  // chỉ hiện icon + nhắc người dùng chọn
+  const icon = document.getElementById(`time-icon-${id}`);
+  icon.classList.remove("hidden");
+  document.getElementById(`time-text-${id}`).textContent = "⏳ Vui lòng chọn thời gian...";
+}
+
+function openTimeInput(id) {
+  const inp = document.getElementById(`time-${id}`);
+  if (inp.showPicker) {
+    inp.showPicker();   // Chrome/Edge
+  } else {
+    inp.click();        // Safari/Firefox
+  }
+}
+
+    function decisionStepNow(id, s, r) {
+      const isPositive = document.getElementById(`decision-${id}`).dataset.choice === "Phù hợp"
+        || document.getElementById(`decision-${id}`).dataset.choice === "Thống nhất";
+
+      const now = new Date();
+      const last = getLastTimeBefore(s, r);
+      if (last && now <= last) {
+        alert("❌ Thời gian phải lớn hơn các bước trước!");
+        return;
+      }
+
+      const inp = document.getElementById(`time-${id}`);
+      inp.value = now.toISOString().slice(0, 16);
+      document.getElementById(`time-text-${id}`).textContent = formatDate(now);
+
+      finishDecision(id, s, r, isPositive);
+    }
+    function finishDecision(id, s, r, isPositive) {
+      // Ẩn 2 nút thời gian
+      document.getElementById(`decision-time-${id}`).classList.add("hidden");
+
+      // Ghi text quyết định
+      const choice = document.getElementById(`decision-${id}`).dataset.choice;
+      document.getElementById(`decision-${id}`).textContent = choice || (isPositive ? "Phù hợp" : "Chưa phù hợp");
+
+      // Lock step
+      document.getElementById(`res-${id}`).readOnly = true;
+      document.getElementById(`btn-edit-${id}`).classList.remove("hidden");
+
+      // Mở bước tiếp
+      if (isPositive) {
+        const nextStep = document.getElementById(`s${s + 1}r0`);
+        if (nextStep) nextStep.classList.remove("hidden");
+      } else {
+        const nextRow = document.getElementById(`s${s}r${r + 1}`);
+        if (nextRow) nextRow.classList.remove("hidden");
+      }
+
+      updateSummary();
+    }
+    function decisionStepManual(id, s, r, isPositive) {
+      const inp = document.getElementById(`time-${id}`);
+      inp.dataset.decision = isPositive;
+      if (inp.showPicker) {
+        inp.showPicker();
+      } else {
+        inp.click();
+      }
+    }
+
+  </script>
+</body>
+
+</html>

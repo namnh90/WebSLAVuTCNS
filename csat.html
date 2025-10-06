@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bảng Khảo sát Khách hàng</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            background: #e6f4ea;
+            color: #222;
+        }
+
+        header {
+            background: #006633;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        header img {
+            height: 40px;
+            margin-right: 12px;
+        }
+
+        header h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 100%;
+            margin: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 4px;
+            font-size: 13px;
+            text-align: left;
+            vertical-align: top;
+            min-width: 190px;
+            /* mặc định */
+            white-space: normal;
+        }
+
+        th {
+            background: #006633;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        tr:nth-child(even) {
+            background: #f5faf7;
+        }
+
+        .scrollable {
+            overflow: auto;
+            max-height: 70vh;
+        }
+
+        textarea.cell-edit {
+            box-sizing: border-box;
+            width: 100%;
+            min-height: 200px;
+            /* mặc định */
+            max-height: 800px;
+            overflow: auto;
+            resize: vertical;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.3;
+            padding: 2px 4px;
+            margin: 0;
+        }
+
+        .reset-btn {
+            background: #ff7f50;
+            border: none;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* popup tham số */
+        #paramBox {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 1px solid #ccc;
+            padding: 15px;
+            max-height: 70vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 700px;
+            z-index: 999;
+        }
+
+        #paramBox h3 {
+            margin-top: 0;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        #paramBox table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        #paramBox th,
+        #paramBox td {
+            border: 1px solid #ddd;
+            padding: 4px;
+        }
+
+        #paramBox input {
+            width: 50px;
+            padding: 2px;
+            text-align: center;
+        }
+
+        .param-toggle {
+            margin: 10px 0;
+            padding: 6px 12px;
+            background: #006633;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="https://seeklogo.com/images/V/vietcombank-logo-2D3DC4938F-seeklogo.com.png" alt="Vietcombank Logo">
+        <h1>Bảng Khảo sát Khách hàng</h1>
+    </header>
+
+    <div class="container">
+        <button class="param-toggle" onclick="toggleParamBox()">⚙️ Điều chỉnh cột & hàng</button>
+        <div class="scrollable">
+            <table id="surveyTable"></table>
+        </div>
+    </div>
+
+    <!-- popup tham số -->
+    <div id="paramBox">
+        <h3>Điều chỉnh chiều rộng & chiều cao</h3>
+        <table id="paramTable"></table>
+        <div style="text-align:center; margin-top:10px;">
+            <button onclick="applyParams()">Áp dụng</button>
+            <button onclick="resetParams()">Reset mặc định</button>
+            <button onclick="closeParamBox()">Đóng</button>
+        </div>
+    </div>
+
+    <script>
+        const baseWidth = 190;  // px mặc định mỗi cột
+        const baseHeight = 200; // px mặc định chiều cao textarea
+
+        const data = [{ "Mã Khảo sát": "Mã Khảo sát", "Event": "Event", "PostCode": "PostCode", "Ngày giao dịch": "Ngày giao dịch", "Description": "Description", "Transcode": "Transcode", "TellerNumber": "TellerNumber", "Sequence": "Sequence", "Branch": "Branch", "Status": "Status", "Ngày đánh giá": "Ngày đánh giá", "User Core": "User Core", "mã CB": "mã CB", "Tên KH": "Tên KH", "Question1Code": "Question1Code", "CSAT": "CSAT", "Answer1OtherValue": "Answer1OtherValue", "Question2Code": "Question2Code", "Quý khách vui lòng cho biết lý do cho điểm đánh giá nêu trên:": "Quý khách vui lòng cho biết lý do cho điểm đánh giá nêu trên:", "Question3Code": "Question3Code", "CES": "CES", "Lý do đánh giá CES": "Lý do đánh giá CES", "Question4Code": "Question4Code", "NPS": "NPS", "Answer4OtherValue": "Answer4OtherValue", "Question5Code": "Question5Code", "Answer5Code - Lý do đánh giá NPS": "Answer5Code - Lý do đánh giá NPS", "Góp ý cải thiện": "Góp ý cải thiện", "SkipQuestion": "SkipQuestion", "Họ và tên CB": "Họ và tên CB", "Mã CN": "Mã CN", "Chi nhánh": "Chi nhánh", "Mã ĐV": "Mã ĐV", "Đơn vị": "Đơn vị", "Ngày giờ gửi VCC": "Ngày giờ gửi VCC", "Ngày giờ gọi/gửi - Mã Agent": "Ngày giờ gọi/gửi - Mã Agent", "Trạng thái cuộc gọi": "Trạng thái cuộc gọi", "Cần CN liên lạc tiếp với KH?": "Cần CN liên lạc tiếp với KH?", "Nội dung KH trao đổi với VCC =": "Nội dung KH trao đổi với VCC =", "Khuyến nghị của QLCL đến CN": "Khuyến nghị của QLCL đến CN", "CODE (ý kiến phản hồi của CN)": "CODE (ý kiến phản hồi của CN)", "Email nhận (BGĐ CN)": "Email nhận (BGĐ CN)", "Email cc (Đầu mối + QLCL)": "Email cc (Đầu mối + QLCL)", "Subject": "Subject", "Bảo vệ": "Bảo vệ", "Lễ tân": "Lễ tân", "Thời gian chờ/Luồng giao dịch": "Thời gian chờ/Luồng giao dịch", "Thời gian phục vụ/Thời gian xử lý giao dịch": "Thời gian phục vụ/Thời gian xử lý giao dịch", "GDV (thái độ, tác phong)": "GDV (thái độ, tác phong)", "GDV (kỹ năng nghiệp vụ)": "GDV (kỹ năng nghiệp vụ)", "SPDV": "SPDV", "Khác/phàn nàn chung về ĐGD": "Khác/phàn nàn chung về ĐGD", "Count phân loại": "Count phân loại" }, { "Mã Khảo sát": "383913", "Event": "", "PostCode": "P", "Ngày giao dịch": "45848.4034722222", "Description": "THAO QUANG NGUYEN PP 545932402 USA ISSUE DD 23.02.2016 WITHDRAW MONEY", "Transcode": "79", "TellerNumber": "5", "Sequence": "48", "Branch": "603", "Status": "2", "Ngày đánh giá": "45849.2895833333", "User Core": "LTHAV     ", "mã CB": "46914", "Tên KH": "THAO QUANG NGUYEN                                                               ", "Question1Code": "Q1", "CSAT": "2", "Answer1OtherValue": "", "Question2Code": "Q2", "Quý khách vui lòng cho biết lý do cho điểm đánh giá nêu trên:": "", "Question3Code": "Q3", "CES": "1", "Lý do đánh giá CES": "", "Question4Code": "Q4", "NPS": "2", "Answer4OtherValue": "", "Question5Code": "Q5", "Answer5Code - Lý do đánh giá NPS": "", "Góp ý cải thiện": "Dùng nhiều giấy tờ, kí tên rồi viết tên! Đó không phải cách từ VN ngân hàng thế giới.", "SkipQuestion": "Q5", "Họ và tên CB": "LÊ THU HÀ", "Mã CN": "006", "Chi nhánh": "VCB Khánh Hòa", "Mã ĐV": "603", "Đơn vị": "PGD Vĩnh Phước", "Ngày giờ gửi VCC": "gửi VCC -1407- gui CN1607 1", "Ngày giờ gọi/gửi - Mã Agent": "A26_15/07/2025", "Trạng thái cuộc gọi": "Not Connected-Liên hệ  lần 1: KH ngắt máy. VCC tiếp tục liên hệ lần 2, lần 3 nhưng thuê bao tút dài, ko liên hệ được", "Cần CN liên lạc tiếp với KH?": "Không gọi cho KH", "Nội dung KH trao đổi với VCC =": "VCC đã liên hệ 3 lần nhưng không trao đổi được với KH .Tại khảo sát, KH cũng đã chia sẻ lý do cho điểm như vậy vì: \"Dùng nhiều giấy tờ, kí tên rồi viết tên! Đó không phải cách từ VN ngân hàng thế giới.\"", "Khuyến nghị của QLCL đến CN": "Từ ý kiến góp ý của KH cho thấy KH không hài lòng về trải nghiệm tại ĐGD, không thấy thuận tiện nên không sẵn sàng giới thiệu cho bạn bè, người thân. Kính đề nghị CN rà soát lại sự việc và tìm hiểu nguyên nhân và phương án phù hợp để tư vấn, chăm sóc KH, rút kinh nghiệm trong các trường hợp tương tự.", "CODE (ý kiến phản hồi của CN)": "2. Loại sau tra soát (loại all)", "Email nhận (BGĐ CN)": "SANGLP.KHH@VIETCOMBANK.COM.VN;DUONGNV.KHH@VIETCOMBANK.COM.VN;HUYHNB.KHH@VIETCOMBANK.COM.VN", "Email cc (Đầu mối + QLCL)": "vyhlt.khh; anhntt.khh; ; ; ; ttthang.ho@vietcombank.com.vn; anhpq.ho@vietcombank.com.vn", "Subject": "OTT_Phàn nàn CLDV tại Chi nhánh_Q3.2025_ID 383913_MCB 46914", "Bảo vệ": "", "Lễ tân": "", "Thời gian chờ/Luồng giao dịch": "", "Thời gian phục vụ/Thời gian xử lý giao dịch": "", "GDV (thái độ, tác phong)": "", "GDV (kỹ năng nghiệp vụ)": "", "SPDV": "", "Khác/phàn nàn chung về ĐGD": "", "Count phân loại": "0" }, { "Mã Khảo sát": "384049", "Event": "", "PostCode": "P", "Ngày giao dịch": "45848.4076388889", "Description": "CK SANG TK TIME NGUYEN THI NGA GUI TK 06M", "Transcode": "74", "TellerNumber": "8", "Sequence": "85", "Branch": "3506", "Status": "2", "Ngày đánh giá": "45849.3666666667", "User Core": "NTTHO2    ", "mã CB": "42337", "Tên KH": "NGUYEN THI NGA                                                                  ", "Question1Code": "Q1", "CSAT": "2", "Answer1OtherValue": "", "Question2Code": "Q2", "Quý khách vui lòng cho biết lý do cho điểm đánh giá nêu trên:": "", "Question3Code": "Q3", "CES": "2", "Lý do đánh giá CES": "", "Question4Code": "Q4", "NPS": "2", "Answer4OtherValue": "Nhân viên tiếp đón khó tính ", "Question5Code": "Q5", "Answer5Code - Lý do đánh giá NPS": "", "Góp ý cải thiện": "Có bầu lên cho nghỉ ngơi sớm ", "SkipQuestion": "Q5", "Họ và tên CB": "NGUYỄN THỊ THƠ", "Mã CN": "035", "Chi nhánh": "VCB Bắc Ninh", "Mã ĐV": "3506", "Đơn vị": "PGD Phố Mới", "Ngày giờ gửi VCC": "gửi VCC -1407- gui CN1607 1", "Ngày giờ gọi/gửi - Mã Agent": "A26_15/07/2025", "Trạng thái cuộc gọi": "Connected_Yêu cầu của KH đã được xử lý xong", "Cần CN liên lạc tiếp với KH?": "Không gọi cho KH", "Nội dung KH trao đổi với VCC =": "KH đến CN để gửi tiết kiệm. Tuy nhiên KH không hài lòng vì phải chờ lâu: Từ lúc đến CN cho đến khi được giao dịch xong khoảng hơn 30p đến 1 giờ. Ngoài ra, khi KH hỏi nhân viên thì KH cảm nhận là nhân viên khó tính\n- KH đánh giá CN dễ tìm, thuận tiện giao dịch và cho điểm cao nhất\n - KH sẵn sàng giới thiệu điểm giao dịch cho người khác đến giao dịch .Tại khảo sát, KH cũng đã chia sẻ lý do cho điểm như vậy vì: \"\"Nhân viên tiếp đón khó tính ; Có bầu nên cho nghỉ ngơi sớm\"\"", "Khuyến nghị của QLCL đến CN": "Từ chia sẻ của KH với VCC cho thấy KH vẫn tin tưởng sử dụng dịch vụ tại ĐGD (CES - 7, NPS-9), tuy nhiên mức độ hài lòng với cán bộ giao dịch rất thấp. \nCN chủ động rà soát, rút kinh nghiệm tránh trường hợp tương tự. Bên cạnh đó, đặc biệt lưu ý CBGD khi tiếp nhận yêu cầu của KH cần chủ động tìm hiểu, nắm bắt đầy đủ thông tin để tư vấn phù hợp; khi giải thích cho KH cần nhẫn nại, thể hiện sự tôn trọng, tránh dùng những từ ngữ chuyên ngành gây khó hiểu cho KH, thể hiện sự cầu thị và đồng cảm với những bất tiện của KH trong quá trình sử dụng dịch vụ.\nKhuyến nghị CN vào những khung thời gian cao điểm:\n- Chủ động bố trí nhân sự, điều chỉnh/phân luồng giao dịch phù hợp, giảm áp lực lên các quầy đang ùn tắc nhằm khống chế thời gian chờ từ dưới 10 phút;\n- Ưu tiên, tập trung xử lý giao dịch của KH hiện hữu tại quầy;\n- Chủ động xin lỗi/cảm ơn KH đã phải chờ đợi và đưa thêm khuyến nghị thời điểm vắng KH hơn;\n- CBNV tác phong nhanh nhẹn, tích cực, biểu và chuyên nghiệp;\n- Tăng cường chuyển dịch số, khuyến nghị và hướng dẫn KH giao dịch trên kênh số (ATM/R-ATM, Digibank…đối với các SPDV như nộp/rút/chuyển tiên; thay đổi email…) ", "CODE (ý kiến phản hồi của CN)": "không phản hồi", "Email nhận (BGĐ CN)": "VUONGNV.BNI@VIETCOMBANK.COM.VN;HUONGNTT.BNI@VIETCOMBANK.COM.VN;THANHLT2.BNI@VIETCOMBANK.COM.VN", "Email cc (Đầu mối + QLCL)": "Huyenbtm.bni; Linhntm.bni; hiendtt.bni; ; ; ttthang.ho@vietcombank.com.vn; anhpq.ho@vietcombank.com.vn", "Subject": "OTT_Phàn nàn CLDV tại Chi nhánh_Q3.2025_ID 384049_MCB 42337", "Bảo vệ": "", "Lễ tân": "", "Thời gian chờ/Luồng giao dịch": "x", "Thời gian phục vụ/Thời gian xử lý giao dịch": "", "GDV (thái độ, tác phong)": "x", "GDV (kỹ năng nghiệp vụ)": "", "SPDV": "", "Khác/phàn nàn chung về ĐGD": "", "Count phân loại": "2" }, { "Mã Khảo sát": "384094", "Event": "", "PostCode": "P", "Ngày giao dịch": "45849.3479166667", "Description": "PHAM THI HONG THAM NOP TIEN", "Transcode": "10", "TellerNumber": "5", "Sequence": "8", "Branch": "4505", "Status": "2", "Ngày đánh giá": "45849.3736111111", "User Core": "LKOANH    ", "mã CB": "10046", "Tên KH": "PHAM THI HONG NHAM                                                              ", "Question1Code": "Q1", "CSAT": "1", "Answer1OtherValue": "", "Question2Code": "Q2", "Quý khách vui lòng cho biết lý do cho điểm đánh giá nêu trên:": "", "Question3Code": "Q3", "CES": "1", "Lý do đánh giá CES": "Không vui vẻ", "Question4Code": "Q4", "NPS": "1", "Answer4OtherValue": "Nhân viên quầy số 3 không thiện chí hướng dẫn kh", "Question5Code": "Q5", "Answer5Code - Lý do đánh giá NPS": "", "Góp ý cải thiện": "Cải thiện quy trình giao dịch nộp tiền để đảm bảo người nộp và ngân hàng thực hiện vẫn đúng quy định", "SkipQuestion": "Q5", "Họ và tên CB": "LÊ KIM OANH", "Mã CN": "045", "Chi nhánh": "VCB Thành Công", "Mã ĐV": "4505", "Đơn vị": "PGD Duy Tân", "Ngày giờ gửi VCC": "gửi VCC -1407- gui CN1607 1", "Ngày giờ gọi/gửi - Mã Agent": "A26_15/07/2025", "Trạng thái cuộc gọi": "Connected_Yêu cầu của KH đã được xử lý xong", "Cần CN liên lạc tiếp với KH?": "Không gọi cho KH", "Nội dung KH trao đổi với VCC =": "KH bức xúc vì thái độ, giọng nói của nhân viên: KH đến CN để nộp tiền vào tài khoản nhưng ko mang theo CCCD. Tuy nhiên nhân viên tỏ thái độ với khách hàng và nói là: Lần sau chị phải rút kinh nghiệm mang đi. Sau đó KH có đưa Vneid, nhân viên không nhìn mà nói là để đi tìm quy định nội bộ đã, để KH chờ mà không nói gì. Sau đó nhân viên cũng không tìm thấy quy định nội bộ. KH khiếu nại nhân viên về việc giọng khó chịu, ko có sự linh động, ko tìm ra quy định nội bộ cũng ko nói lại với KH và KH phàn nàn là KH đã gặp thái độ của nhân viên này khoảng 2-3 lần rồi\nKhi được hỏi về đánh giá mức độ dễ dàng tìm kiếm PGD...KH không muốn chia sẻ gì thêm. Tại khảo sát, KH cũng đã chia sẻ lý do cho điểm như vậy vì: \"\"Không vui vẻ; Nhân viên quầy số 3 không thiện chí hướng dẫn kh; Cải thiện quy trình giao dịch nộp tiền để đảm bảo người nộp và ngân hàng thực hiện vẫn đúng quy định\"\"", "Khuyến nghị của QLCL đến CN": "KH không hài lòng về trải nghiệm tại ĐGD nên các chỉ tiêu CES, NPS cũng đánh giá ở mức thấp.\nKính đề nghị CN rà soát rút kinh nghiệm và lưu ý CBNV  về thái độ phục vụ để được các KH tin yêu và đánh giá tốt hơn: \n(i) Đảm bảo combo Mở đầu - Kết thúc giao dịch. Ví dụ: \"\"Chào- mời ngồi (cười) - Hỏi/Xác nhận nhu cầu\"\", \"\"thông báo giao dịch hoàn tất- hỏi thêm nhu cầu- cảm ơn\"\"; \n(ii) Linh hoạt gọi tên trong quá trình phục vụ (tối thiểu 1 lần);\n(iii) Thái độ đúng mực khi giao tiếp, biểu cảm thân thiện; Không nói \"\"trống không\"\", lên giọng cuối câu, dùng các từ ngữ \"\"ừ, ờ...\"\" các câu thiêu chủ vị.\n(iv) Đưa/nhận chứng từ bằng 2 tay hoặc có động tác đỡ tay;\n(v) Rời quầy/gián đoạn giao dịch của KH cần thông báo/xin phép. Ví dụ: \"\"cảm phiền Anh/Chị chờ em 1 xíu, em...(nêu lý do).\"\"", "CODE (ý kiến phản hồi của CN)": "x_ giữ nguyên", "Email nhận (BGĐ CN)": "GIANGCH.TCO@VIETCOMBANK.COM.VN;VANDTT.TCO@VIETCOMBANK.COM.VN;THANGNN.TCO@VIETCOMBANK.COM.VN;HUYENNTT2.TCO@VIETCOMBANK.COM.VN;VANCT.TCO@VIETCOMBANK.COM.VN", "Email cc (Đầu mối + QLCL)": "huethc.tco@vietcombank.com.vn; hiennt.tco@vietcombank.com.vn; ; ; ; ttthang.ho@vietcombank.com.vn; anhpq.ho@vietcombank.com.vn", "Subject": "OTT_Phàn nàn CLDV tại Chi nhánh_Q3.2025_ID 384094_MCB 10046", "Bảo vệ": "", "Lễ tân": "", "Thời gian chờ/Luồng giao dịch": "", "Thời gian phục vụ/Thời gian xử lý giao dịch": "", "GDV (thái độ, tác phong)": "x", "GDV (kỹ năng nghiệp vụ)": "", "SPDV": "", "Khác/phàn nàn chung về ĐGD": "", "Count phân loại": "1" }, { "Mã Khảo sát": "384100", "Event": "", "PostCode": "P", "Ngày giao dịch": "45848.6625", "Description": "TRINH NGUYEN HOAI AN NOP", "Transcode": "10", "TellerNumber": "1", "Sequence": "173", "Branch": "1606", "Status": "2", "Ngày đánh giá": "45849.3743055556", "User Core": "LPTLINH   ", "mã CB": "22684", "Tên KH": "TRINH NGUYEN HOAI AN                                                            ", "Question1Code": "Q1", "CSAT": "1", "Answer1OtherValue": "", "Question2Code": "Q2", "Quý khách vui lòng cho biết lý do cho điểm đánh giá nêu trên:": "", "Question3Code": "Q3", "CES": "1", "Lý do đánh giá CES": "Đến giao dịch lấy số thứ tự nhưng lễ tân lại ko cho lấy số rồi bắt ngồi đợi mãi", "Question4Code": "Q4", "NPS": "1", "Answer4OtherValue": "Không hài lòng thì giới thiệu cho người khác để rước bực vào mình à?", "Question5Code": "Q5", "Answer5Code - Lý do đánh giá NPS": "", "Góp ý cải thiện": "Bực mình nên chẳng muốn nói gì thêm, không giao dịch với phòng giao dịch này nữa", "SkipQuestion": "Q5", "Họ và tên CB": "LÊ PHƯỚC THỤC LINH", "Mã CN": "016", "Chi nhánh": "VCB Huế", "Mã ĐV": "1606", "Đơn vị": "PGD Phú Vang", "Ngày giờ gửi VCC": "gửi VCC -1407- gui CN1607 1", "Ngày giờ gọi/gửi - Mã Agent": "15/07/2025 11:24:13", "Trạng thái cuộc gọi": "Liên lạc được- Yêu cầu của KH \nđã được xử lý xong", "Cần CN liên lạc tiếp với KH?": "Không gọi cho KH", "Nội dung KH trao đổi với VCC =": "KH ko hài lòng với nhận viên lễ tân, không cho KH lấy số, yêu cầu chờ để vào nộp tiền, KH chờ 30 phút sau đó sang Ngân hàng khác nộp. Tuy nhiên, KH sửa lại hài lòng với địa điểm giao dịch (CES -6) và sẵn sàng giới thiệu VCB tới bạn bè người thân (NPS-9) .Tại khảo sát, KH cũng đã chia sẻ lý do cho điểm như vậy vì: \"Đến giao dịch lấy số thứ tự nhưng lễ tân lại ko cho lấy số rồi bắt ngồi đợi mãi; Không hài lòng thì giới thiệu cho người khác để rước bực vào mình à?; Bực mình nên chẳng muốn nói gì thêm, không giao dịch với phòng giao dịch này nữa\"", "Khuyến nghị của QLCL đến CN": "P.QLCL sẽ điều chỉnh lại kết quả CES, NPS theo ý kiến của KH (CES-6, NPS-9). Tuy nhiên, thực tế KH không hài lòng về trải nghiệm tại ĐGD nên P.QLCL kính đề nghị CN rà soát rút kinh nghiệm và lưu ý CBNV về thái độ phục vụ của CBNV để được các KH tin yêu và đánh giá tốt hơn. Đồng thời cung cấp thông tin của CBNV liên quan để TSC ghi nhận chính xác nhân sự được đánh giá.\nKhuyến nghị CN vào những khung thời gian cao điểm:\n- Chủ động bố trí nhân sự, điều chỉnh/phân luồng giao dịch phù hợp, giảm áp lực lên các quầy đang ùn tắc nhằm khống chế thời gian chờ từ dưới 10 phút;\n- Ưu tiên, tập trung xử lý giao dịch của KH hiện hữu tại quầy;\n- Chủ động xin lỗi/cảm ơn KH đã phải chờ đợi và đưa thêm khuyến nghị thời điểm vắng KH hơn;\n- CBNV tác phong nhanh nhẹn, tích cực, biểu và chuyên nghiệp;\n- Tăng cường chuyển dịch số, khuyến nghị và hướng dẫn KH giao dịch trên kênh số (ATM/R-ATM, Digibank…đối với các SPDV như nộp/rút/chuyển tiên; thay đổi email…) ", "CODE (ý kiến phản hồi của CN)": "2. Loại sau tra soát (loại all)", "Email nhận (BGĐ CN)": "CAMPTD.HUE@VIETCOMBANK.COM.VN;HIENNTT.HUE@VIETCOMBANK.COM.VN;HOAVV.HUE@VIETCOMBANK.COM.VN", "Email cc (Đầu mối + QLCL)": "Diepntn.hue; Tuanna.hue; ; ; ; ttthang.ho@vietcombank.com.vn; anhpq.ho@vietcombank.com.vn", "Subject": "OTT_Phàn nàn CLDV tại Chi nhánh_Q3.2025_ID 384100_MCB 22684", "Bảo vệ": "", "Lễ tân": "", "Thời gian chờ/Luồng giao dịch": "", "Thời gian phục vụ/Thời gian xử lý giao dịch": "", "GDV (thái độ, tác phong)": "", "GDV (kỹ năng nghiệp vụ)": "", "SPDV": "", "Khác/phàn nàn chung về ĐGD": "", "Count phân loại": "0" }, { "Mã Khảo sát": "384164", "Event": "", "PostCode": "P", "Ngày giao dịch": "45849.3416666667", "Description": "PHAM PHUNG HONG ANH RRT", "Transcode": "79", "TellerNumber": "2", "Sequence": "9", "Branch": "4301", "Status": "2", "Ngày đánh giá": "45849.3847222222", "User Core": "HTTHIEN8  ", "mã CB": "20149", "Tên KH": "PHAM PHUNG HONG ANH                                                             ", "Question1Code": "Q1", "CSAT": "1", "Answer1OtherValue": "", "Question2Code": "Q2", "Quý khách vui lòng cho biết lý do cho điểm đánh giá nêu trên:": "", "Question3Code": "Q3", "CES": "1", "Lý do đánh giá CES": "Muốn đổi tiền nhật sang việt nhưng ngân hàng không hỗ trợ", "Question4Code": "Q4", "NPS": "1", "Answer4OtherValue": "Dịch vụ và thái độ nhân viên tệ", "Question5Code": "Q5", "Answer5Code - Lý do đánh giá NPS": "", "Góp ý cải thiện": "Có thể cho thêm dịch vụ đổi các loại tiền tệ. Hướng dẫn lại thái độ nhân viên giao dịch khi giao tiếp với khách hàng", "SkipQuestion": "Q5", "Họ và tên CB": "HÀ THỊ THU HIỀN", "Mã CN": "043", "Chi nhánh": "VCB Quy Nhơn", "Mã ĐV": "4301", "Đơn vị": "PGD Diêu Trì", "Ngày giờ gửi VCC": "gửi VCC -1407- gui CN1607 1", "Ngày giờ gọi/gửi - Mã Agent": "15/07/2025 13:15:13", "Trạng thái cuộc gọi": "Ko liên hệ được KH", "Cần CN liên lạc tiếp với KH?": "Không gọi cho KH", "Nội dung KH trao đổi với VCC =": "VCC đã liên hệ 3 lần nhưng không trao đổi được với KH .Tại khảo sát, KH cũng đã chia sẻ lý do cho điểm như vậy vì: \"Muốn đổi tiền nhật sang việt nhưng ngân hàng không hỗ trợ; Dịch vụ và thái độ nhân viên tệ; Có thể cho thêm dịch vụ đổi các loại tiền tệ. Hướng dẫn lại thái độ nhân viên giao dịch khi giao tiếp với khách hàng\"", "Khuyến nghị của QLCL đến CN": "Từ ý kiến góp ý của KH cho thấy KH không hài lòng về trải nghiệm tại ĐGD, không thấy thuận tiện nên không sẵn sàng giới thiệu cho bạn bè, người thân. Kính đề nghị CN rà soát lại sự việc và tìm hiểu nguyên nhân và phương án phù hợp để tư vấn, chăm sóc KH, rút kinh nghiệm trong các trường hợp tương tự. Đồng thời chấn chỉnh CBNV về:\n(i) Tác phong:  tác phong phục vụ nhanh nhẹn, đúng mực khi giao tiếp với KH, đặc biệt là trong những khung giờ cao điểm.\n(ii)  Thái độ đúng mực khi giao tiếp, biểu cảm thân thiện, lễ độ và trân trọng, chu đáo với KH (xin phép/thông báo khi rời quầy…). Đảm bảo các tiêu chuẩn phục vụ: Combo Mở đầu – Kết thúc;\n(iii) Nắm vững kỹ năng, nghiệp vụ và chủ động tìm phương án tối ưu để hỗ trợ KH", "CODE (ý kiến phản hồi của CN)": "x_ giữ nguyên", "Email nhận (BGĐ CN)": "LONGNH.QNH@VIETCOMBANK.COM.VN;VIETNQ.QNH@VIETCOMBANK.COM.VN;BINHLX.QNH@VIETCOMBANK.COM.VN", "Email cc (Đầu mối + QLCL)": "Chidtk.qnh; ; ; ; ; ttthang.ho@vietcombank.com.vn; anhpq.ho@vietcombank.com.vn", "Subject": "OTT_Phàn nàn CLDV tại Chi nhánh_Q3.2025_ID 384164_MCB 20149", "Bảo vệ": "", "Lễ tân": "", "Thời gian chờ/Luồng giao dịch": "", "Thời gian phục vụ/Thời gian xử lý giao dịch": "", "GDV (thái độ, tác phong)": "x", "GDV (kỹ năng nghiệp vụ)": "", "SPDV": "x", "Khác/phàn nàn chung về ĐGD": "", "Count phân loại": "2" }, { "Mã Khảo sát": "384168", "Event": "", "PostCode": "P", "Ngày giao dịch": "45849.3659722222", "Description": "THU PHI XAC NHAN SO DU DO TIET KIEM CIF 3063133", "Transcode": "74", "TellerNumber": "1", "Sequence": "22", "Branch": "1803", "Status": "2", "Ngày đánh giá": "45849.3861111111", "User Core": "NTNANH10  ", "mã CB": "34728", "Tên KH": "NGUYEN THI NGOC TRANG                                                           ", "Question1Code": "Q1", "CSAT": "1", "Answer1OtherValue": "", "Question2Code": "Q2", "Quý khách vui lòng cho biết lý do cho điểm đánh giá nêu trên:": "", "Question3Code": "Q3", "CES": "1", "Lý do đánh giá CES": "Nhân viên tư vấn thái độ rất tệ", "Question4Code": "Q4", "NPS": "1", "Answer4OtherValue": "", "Question5Code": "Q5", "Answer5Code - Lý do đánh giá NPS": "", "Góp ý cải thiện": "1. Form xác nhận số dư bank đang thể hiện địa chỉ liên hệ không phải thường trú. Rất bất cập vì không trùng với các giấy tờ khác 2. Nhân viên ở quầy 6 8h sáng nay không giải quyết nhanh như yêu cầu mà ngồi đôi co để xem ai đúng ai sai và bảo về chi nhánh cũ để bắt đền. Dù khách đã nhắc làm nhanh cho kịp vẫn tiếp tục xéo sắc đến phút cuối cùng chỉ để nói mình đúng.", "SkipQuestion": "Q5", "Họ và tên CB": "NGUYỄN TRẦN NHẬT ÁNH", "Mã CN": "018", "Chi nhánh": "VCB Nam Sài Gòn", "Mã ĐV": "1803", "Đơn vị": "PGD Bình Minh", "Ngày giờ gửi VCC": "gửi VCC -1407- gui CN1607 1", "Ngày giờ gọi/gửi - Mã Agent": "15/07/2025 10:30:10", "Trạng thái cuộc gọi": "Liên lạc được- Yêu cầu của KH \nđã được xử lý xong", "Cần CN liên lạc tiếp với KH?": "Không gọi cho KH", "Nội dung KH trao đổi với VCC =": "KH giữ nguyên quan điểm ko hài lòng với GDV và PGD, cán bộ  không tập trung làm xác nhận, đôi co với KH xem ai đúng ai sai và yêu cầu KH về nơi mở Tài khoản thay đổi thông tin địa chỉ, KH sẽ tiếp tục sử dụng dịch vụ và giới thiệu VCB đến bạn bè người thân .Tại khảo sát, KH cũng đã chia sẻ lý do cho điểm như vậy vì: \"Nhân viên tư vấn thái độ rất tệ; 1. Form xác nhận số dư bank đang thể hiện địa chỉ liên hệ không phải thường trú. Rất bất cập vì không trùng với các giấy tờ khác 2. Nhân viên ở quầy 6 8h sáng nay không giải quyết nhanh như yêu cầu mà ngồi đôi co để xem ai đúng ai sai và bảo về chi nhánh cũ để bắt đền. Dù khách đã nhắc làm nhanh cho kịp vẫn tiếp tục xéo sắc đến phút cuối cùng chỉ để nói mình đúng.\"", "Khuyến nghị của QLCL đến CN": "Từ ý kiến góp ý của KH cho thấy KH không hài lòng về trải nghiệm tại ĐGD, không thấy thuận tiện nên không sẵn sàng giới thiệu cho bạn bè, người thân. Kính đề nghị CN rà soát lại sự việc và tìm hiểu nguyên nhân và phương án phù hợp để tư vấn, chăm sóc KH, rút kinh nghiệm trong các trường hợp tương tự. Đồng thời chấn chỉnh CBNV về:\n(i) Tác phong:  tác phong phục vụ nhanh nhẹn, đúng mực khi giao tiếp với KH, đặc biệt là trong những khung giờ cao điểm.\n(ii)  Thái độ đúng mực khi giao tiếp, biểu cảm thân thiện, lễ độ và trân trọng, chu đáo với KH (xin phép/thông báo khi rời quầy…) nhẫn nại khi tư vấn, lắng nghe để thấu hiểu và tuyệt đối không tranh cãi/đôi co với KH. Đảm bảo các tiêu chuẩn phục vụ: Combo Mở đầu – Kết thúc;\n(iii) Nắm vững kỹ năng, nghiệp vụ và chủ động tìm phương án tối ưu để hỗ trợ KH", "CODE (ý kiến phản hồi của CN)": "5. Điều chỉnh thông tin CBGD - Phạm Thị Anh Đào - MCB 46681", "Email nhận (BGĐ CN)": "HUONGNTT.NSG@VIETCOMBANK.COM.VN;THACHBTC.NSG@VIETCOMBANK.COM.VN;DUNGHT.NSG@VIETCOMBANK.COM.VN;VANPTT.NSG@VIETCOMBANK.COM.VN;TUONGNN.NSG@VIETCOMBANK.COM.VN", "Email cc (Đầu mối + QLCL)": "tuyentm.nsg@vietcombank.com.vn; thuynt.nsg@vietcombank.com.vn; hanglt.nsg@vietcombank.com.vn; ; ; ttthang.ho@vietcombank.com.vn; anhpq.ho@vietcombank.com.vn", "Subject": "OTT_Phàn nàn CLDV tại Chi nhánh_Q3.2025_ID 384168_MCB 34728", "Bảo vệ": "", "Lễ tân": "", "Thời gian chờ/Luồng giao dịch": "", "Thời gian phục vụ/Thời gian xử lý giao dịch": "", "GDV (thái độ, tác phong)": "x", "GDV (kỹ năng nghiệp vụ)": "", "SPDV": "", "Khác/phàn nàn chung về ĐGD": "", "Count phân loại": "1" }, { "Mã Khảo sát": "384229", "Event": "", "PostCode": "P", "Ngày giao dịch": "45849.3916666667", "Description": "TRAN CHUA CC 095087008327 NC 26.08.2022 NC CCS QLHCVTTXH", "Transcode": "79", "TellerNumber": "25", "Sequence": "50", "Branch": "8900", "Status": "2", "Ngày đánh giá": "45849.3972222222", "User Core": "HTHSUONG  ", "mã CB": "40960", "Tên KH": "TRAN CHUA                                                                       ", "Question1Code": "Q1", "CSAT": "1", "Answer1OtherValue": "", "Question2Code": "Q2", "Quý khách vui lòng cho biết lý do cho điểm đánh giá nêu trên:": "Khach đen sau nhung đuọc uu tiên .", "Question3Code": "Q3", "CES": "7", "Lý do đánh giá CES": "", "Question4Code": "Q4", "NPS": "1", "Answer4OtherValue": "Đọi lâu ", "Question5Code": "Q5", "Answer5Code - Lý do đánh giá NPS": "", "Góp ý cải thiện": "Ko uu tiên .cho rut tiền tại thùng nhieu hon .khach khong phai vao quầy đọi mat thoi gian.di rut it tien mat cả buoi sáng", "SkipQuestion": "Q5", "Họ và tên CB": "HUỲNH THỊ HỒNG SƯƠNG", "Mã CN": "089", "Chi nhánh": "VCB Bạc Liêu", "Mã ĐV": "300", "Đơn vị": "Dịch Vụ Khách Hàng", "Ngày giờ gửi VCC": "gửi VCC -1407- không gửi CN", "Ngày giờ gọi/gửi - Mã Agent": "15/07/2025 10:41:33", "Trạng thái cuộc gọi": "Liên lạc được- Yêu cầu của KH \nđã được xử lý xong", "Cần CN liên lạc tiếp với KH?": "Không gửi CN", "Nội dung KH trao đổi với VCC =": "KH sửa lại các câu hỏi khảo sát là hài lòng và sẵn sàng giới thiệu VCB tới bạn bè người thân", "Khuyến nghị của QLCL đến CN": "không gửi CN, sửa lại 4-7-9", "CODE (ý kiến phản hồi của CN)": "0", "Email nhận (BGĐ CN)": "MINHDD.BLI@VIETCOMBANK.COM.VN;THALV.BLI@VIETCOMBANK.COM.VN;CUONGDT.BLI@VIETCOMBANK.COM.VN", "Email cc (Đầu mối + QLCL)": "baonx.tas; lanntm.bli; chaundn.bli; ; ; ttthang.ho@vietcombank.com.vn; anhpq.ho@vietcombank.com.vn", "Subject": "OTT_Phàn nàn CLDV tại Chi nhánh_Q3.2025_ID 384229_MCB 40960", "Bảo vệ": "", "Lễ tân": "", "Thời gian chờ/Luồng giao dịch": "", "Thời gian phục vụ/Thời gian xử lý giao dịch": "", "GDV (thái độ, tác phong)": "", "GDV (kỹ năng nghiệp vụ)": "", "SPDV": "", "Khác/phàn nàn chung về ĐGD": "", "Count phân loại": "0" }];
+
+        let columnParams = {}; // { colName: hệ số width }
+        let rowParams = {};    // { rowIndex: hệ số height }
+
+        function renderTable() {
+            const table = document.getElementById("surveyTable");
+            if (data.length === 0) return;
+            const headers = Object.keys(data[0]);
+
+            let html = "<thead><tr>";
+            headers.forEach((h, i) => {
+                const width = (columnParams[h] || 1) * baseWidth;
+                html += `<th style="min-width:${width}px">${i + 1}<br>${h}</th>`;
+            });
+            html += `<th>Hành động</th></tr></thead><tbody>`;
+
+            data.slice(1).forEach((row, rowIndex) => {
+                html += "<tr>";
+                headers.forEach(h => {
+                    const value = (row[h] || "").toString().trim();
+                    const width = (columnParams[h] || 1) * baseWidth;
+                    const height = (rowParams[rowIndex] || 1) * baseHeight;
+                    html += `<td style="min-width:${width}px"><textarea class="cell-edit" style="min-height:${height}px" data-row="${rowIndex}" data-col="${h}">${value}</textarea></td>`;
+                });
+                html += `<td><button class="reset-btn" onclick="resetRow(${rowIndex})">Reset</button></td>`;
+                html += "</tr>";
+            });
+            html += "</tbody>";
+            table.innerHTML = html;
+        }
+
+        function resetRow(rowIndex) {
+            const headers = Object.keys(data[0]);
+            const row = data[rowIndex + 1];
+            headers.forEach(h => {
+                const textarea = document.querySelector(`textarea[data-row='${rowIndex}'][data-col='${h}']`);
+                if (textarea) textarea.value = (row[h] || "").toString().trim();
+            });
+        }
+
+        function toggleParamBox() {
+            const box = document.getElementById("paramBox");
+            if (box.style.display === "none") {
+                renderParamTable();
+                box.style.display = "block";
+            } else {
+                box.style.display = "none";
+            }
+        }
+
+        function closeParamBox() {
+            document.getElementById("paramBox").style.display = "none";
+        }
+
+        function renderParamTable() {
+            const headers = Object.keys(data[0]);
+            let html = "<tr><th>#</th><th>Tên cột</th><th>Nhân width</th></tr>";
+            headers.forEach((h, i) => {
+                const val = columnParams[h] || 1;
+                html += `<tr>
+                  <td>${i + 1}</td>
+                  <td>${h}</td>
+                  <td><input type="number" min="1" max="10" value="${val}" data-col="${h}"></td>
+                </tr>`;
+            });
+
+            // thêm phần điều chỉnh height theo row
+            html += "<tr><th colspan='3'>Chiều cao theo dòng</th></tr>";
+            data.slice(1).forEach((_, rowIndex) => {
+                const val = rowParams[rowIndex] || 1;
+                html += `<tr>
+                  <td>Row ${rowIndex + 1}</td>
+                  <td colspan="1">Chiều cao</td>
+                  <td><input type="number" min="1" max="10" value="${val}" data-row="${rowIndex}"></td>
+                </tr>`;
+            });
+
+            document.getElementById("paramTable").innerHTML = html;
+        }
+
+        function applyParams() {
+            document.querySelectorAll("#paramTable input").forEach(inp => {
+                if (inp.dataset.col) {
+                    const col = inp.dataset.col;
+                    columnParams[col] = parseInt(inp.value) || 1;
+                }
+                if (inp.dataset.row) {
+                    const row = inp.dataset.row;
+                    rowParams[row] = parseInt(inp.value) || 1;
+                }
+            });
+            renderTable();
+        }
+
+        function resetParams() {
+            columnParams = {};
+            rowParams = {};
+            renderTable();
+            renderParamTable();
+        }
+
+        renderTable();
+    </script>
+</body>
+
+</html>

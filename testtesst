@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo eDoc Mapping</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    td, th { border: 1px solid #ccc; padding: 6px; text-align: left; }
+    th { background: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <h3>Bước 1: Tiếp nhận Tờ trình của đơn vị</h3>
+  <table id="stepTable">
+    <tr>
+      <th>Công việc</th>
+      <th>Vai trò</th>
+      <th>Thời hạn</th>
+      <th>Kết quả</th>
+      <th>Thời gian</th>
+    </tr>
+    <tr>
+      <td>Tiếp nhận Tờ trình</td>
+      <td>Văn thư</td>
+      <td>0,5 ngày</td>
+      <td class="ketqua"></td>
+      <td class="thoigian"></td>
+    </tr>
+    <tr>
+      <td>Tiếp nhận Tờ trình</td>
+      <td>Lãnh đạo Vụ</td>
+      <td>01 ngày</td>
+      <td class="ketqua"></td>
+      <td class="thoigian"></td>
+    </tr>
+    <tr>
+      <td>Tiếp nhận Tờ trình</td>
+      <td>Lãnh đạo Phòng</td>
+      <td>0,5 ngày</td>
+      <td class="ketqua"></td>
+      <td class="thoigian"></td>
+    </tr>
+    <tr>
+      <td>Tiếp nhận Tờ trình</td>
+      <td>Công chức phụ trách</td>
+      <td>0,5 ngày</td>
+      <td class="ketqua"></td>
+      <td class="thoigian"></td>
+    </tr>
+  </table>
+
+<script>
+  // ==== JSON eDoc mẫu (cắt từ file bạn gửi) ====
+  const edocData = [
+    {
+      "nguoi_gui": "Phan Thị Vân Anh",
+      "don_vi_nhan": "Vụ Tổ chức cán bộ NHNN",
+      "nguoi_nhan": "Lê Thị Kim Oanh - Đầu mối",
+      "thoi_gian_gui": "24/09/2025 09:28 AM",
+      "thoi_gian_nhan": null,
+      "trang_thai": "Đã nhận"
+    },
+    {
+      "nguoi_gui": "Nguyễn Quỳnh Anh",
+      "don_vi_nhan": "Ban Lãnh đạo Vụ",
+      "nguoi_nhan": "Trần Thu Huyền - Phối hợp",
+      "thoi_gian_gui": "24/09/2025 11:06 AM",
+      "thoi_gian_nhan": null,
+      "trang_thai": "Đã gửi"
+    },
+    {
+      "nguoi_gui": "Nguyễn Quỳnh Anh",
+      "don_vi_nhan": "Phòng Tổ chức tiền lương",
+      "nguoi_nhan": "Lê Anh Hảo",
+      "thoi_gian_gui": "24/09/2025 02:24 PM",
+      "thoi_gian_nhan": "24/09/2025 02:28 PM",
+      "trang_thai": "Đã nhận"
+    }
+  ];
+
+  // ==== Danh sách nhân sự Phòng Tổ chức - Tiền lương ====
+  const nhanSuPhong = [
+    { hoTen: "Lê Anh Hảo", chucVu: "Trưởng phòng" },
+    { hoTen: "Nguyễn Thị Bích Thảo", chucVu: "Phó Trưởng phòng" },
+    { hoTen: "Sầm Thị Kim Phương", chucVu: "Phó Trưởng phòng" },
+    { hoTen: "Trương Hoàng Nam", chucVu: "Phó Trưởng phòng" },
+    { hoTen: "Trương Hồng Quang", chucVu: "Chuyên viên" },
+    { hoTen: "Trịnh Thị Phương", chucVu: "Chuyên viên" },
+    { hoTen: "Nguyễn Thu Thủy", chucVu: "Chuyên viên chính" },
+    { hoTen: "Nguyễn Minh Anh", chucVu: "Chuyên viên" },
+    { hoTen: "Trần Thị Hải Yến", chucVu: "Chuyên viên" },
+    { hoTen: "Nguyễn Quỳnh Anh", chucVu: "Chuyên viên" },
+    { hoTen: "Phạm Thu Hoài", chucVu: "Chuyên viên" },
+    { hoTen: "Thân Hoàng Duy", chucVu: "Chuyên viên" },
+    { hoTen: "Hoàng Quỳnh Liên", chucVu: "Chuyên viên" },
+    { hoTen: "Lê Thị Kim Oanh", chucVu: "Văn thư" }
+  ];
+
+  // ==== Hàm map dữ liệu ====
+  function fillStepsFromEdoc(edocData, nhanSuPhong) {
+    let steps = { vanThu: null, lanhDaoVu: null, lanhDaoPhong: null, congChuc: [] };
+
+    edocData.forEach(item => {
+      if (item.nguoi_nhan && item.nguoi_nhan.includes("Lê Thị Kim Oanh")) {
+        steps.vanThu = item.thoi_gian_gui;
+      }
+      if (item.nguoi_gui === "Nguyễn Quỳnh Anh" && !steps.vanThu) {
+        steps.vanThu = item.thoi_gian_gui;
+      }
+
+      if (item.don_vi_nhan && item.don_vi_nhan.includes("Ban Lãnh đạo Vụ")) {
+        steps.lanhDaoVu = item.thoi_gian_gui;
+      }
+
+      if (item.don_vi_nhan && item.don_vi_nhan.includes("Lãnh đạo Phòng")) {
+        steps.lanhDaoPhong = item.thoi_gian_gui;
+      }
+
+      if (item.nguoi_gui && item.nguoi_gui.includes("Phòng Tổ chức tiền lương") &&
+          item.nguoi_nhan === "Lê Anh Hảo") {
+        nhanSuPhong.forEach(ns => {
+          if (["Chuyên viên", "Chuyên viên chính", "Phó Trưởng phòng"].includes(ns.chucVu)) {
+            steps.congChuc.push({
+              nguoi_nhan: ns.hoTen,
+              chuc_vu: ns.chucVu,
+              thoi_gian: item.thoi_gian_gui
+            });
+          }
+        });
+      }
+    });
+    return steps;
+  }
+
+  // ==== Fill vào bảng ====
+  window.onload = function () {
+    const result = fillStepsFromEdoc(edocData, nhanSuPhong);
+    const rows = document.querySelectorAll("#stepTable tr");
+
+    rows.forEach(row => {
+      const role = row.cells[1].innerText.trim();
+      if (role === "Văn thư") {
+        row.querySelector(".thoigian").innerText = result.vanThu || "-";
+      }
+      if (role === "Lãnh đạo Vụ") {
+        row.querySelector(".thoigian").innerText = result.lanhDaoVu || "-";
+      }
+      if (role === "Lãnh đạo Phòng") {
+        row.querySelector(".thoigian").innerText = result.lanhDaoPhong || "-";
+      }
+      if (role === "Công chức phụ trách") {
+        row.querySelector(".thoigian").innerHTML =
+          result.congChuc.length > 0
+            ? result.congChuc.map(c => `${c.nguoi_nhan} (${c.chuc_vu}) - ${c.thoi_gian}`).join("<br>")
+            : "-";
+      }
+    });
+  };
+</script>
+</body>
+</html>

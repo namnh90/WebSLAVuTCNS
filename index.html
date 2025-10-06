@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login OneDrive Personal</title>
+</head>
+<body>
+  <h2>Login Microsoft Graph (OneDrive)</h2>
+  <button id="loginBtn">Login with Microsoft</button>
+  <pre id="output"></pre>
+
+  <script>
+    const clientId = "nam90.nguyenhoang";  // thay bằng Application ID
+    const redirectUri = window.location.origin + window.location.pathname; // chính file này
+    const scopes = "offline_access Files.ReadWrite";
+
+    document.getElementById("loginBtn").onclick = () => {
+      const authUrl =
+        `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?` +
+        `client_id=${clientId}` +
+        `&response_type=code` +
+        `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+        `&response_mode=query` +
+        `&scope=${encodeURIComponent(scopes)}`;
+      window.location.href = authUrl;
+    };
+
+    async function getToken(authCode) {
+      const body = new URLSearchParams({
+        client_id: clientId,
+        scope: scopes,
+        code: authCode,
+        redirect_uri: redirectUri,
+        grant_type: "authorization_code"
+        // Nếu app là confidential, cần thêm client_secret
+      });
+
+      const res = await fetch("https://login.microsoftonline.com/common/oauth2/v2.0/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body
+      });
+
+      const data = await res.json();
+      document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    }
+
+    // parse query string để lấy ?code=...
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("code")) {
+      const authCode = params.get("code");
+      getToken(authCode);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Bước 2: Rà soát hồ sơ",
+    "sub": [
+      {
+        "noidung": "Hồ sơ đầy đủ và phù hợp: tiếp tục Bước 3.",
+        "nguoi": "Công chức phụ trách",
+        "xuly": "0,5 ngày",
+        "type": "decision2",
+        "buttons": ["Phù hợp", "Không phù hợp"]
+      },
+      {
+        "noidung": "Gọi điện đề nghị Đơn vị báo cáo bổ sung thông tin, tài liệu",
+        "nguoi": "Công chức phụ trách",
+        "xuly": "0,5 ngày"
+      },
+      {
+        "noidung": "Đơn vị cung cấp thông tin",
+        "nguoi": "Đơn vị",
+        "cho": "1 ngày"
+      }
+    ]
+  },
+  {
+    "title": "Bước 3: Dự thảo công văn trả lời",
+    "sub": [
+      {
+        "noidung": "Dự thảo công văn trả lời",
+        "nguoi": "Công chức phụ trách",
+        "xuly": "01 ngày",
+        "ghichu": "1. Tờ trình Lãnh đạo Vụ\n2. Dự thảo Quyết định"
+      },
+      {
+        "noidung": "Lãnh đạo Phòng duyệt các văn bản dự thảo",
+        "nguoi": "Lãnh đạo Phòng",
+        "xuly": "01 ngày"
+      }
+    ]
+  },
+  {
+    "title": "Bước 4: Trình lãnh đạo Vụ ký văn bản trả lời hoặc ký trình Lãnh đạo NHNN",
+    "sub": [
+      {
+        "noidung": "Lãnh đạo Vụ ký: Tiếp tục bước 5",
+        "nguoi": "Lãnh đạo Vụ",
+        "xuly": "01 ngày",
+        "type": "decision3",
+        "buttons": ["Phê duyệt", "Không phê duyệt"]
+      },
+      {
+        "noidung": "Trình lãnh đạo Vụ ký trình Lãnh đạo NHNN: Tiếp tục thực hiện Bước 4.1",
+        "nguoi": "Lãnh đạo Vụ",
+        "xuly": "01 ngày",
+        "type": "decision3",
+        "buttons": ["Trình Lãnh đạo Vụ", "Trình NHNN"]
+      },
+      {
+        "noidung": "Lãnh đạo NHNN duyệt ký",
+        "nguoi": "Lãnh đạo NHNN",
+        "cho": "01 ngày"
+      }
+    ]
+  },
+  {
+    "title": "Bước 5: Phát hành văn bản",
+    "sub": [
+      {
+        "noidung": "Phát hành văn bản",
+        "nguoi": "Văn thư",
+        "cho": "01 ngày"
+      }
+    ]
+  }
+]
